@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Example</title>
+    <script type="text/javascript">
+        var ws;
+
+        function connect() {
+            ws = new WebSocket("ws://localhost:8101/ws/default");
+            ws.onopen = function() {
+                console.log("Connected to WebSocket server");
+            };
+            ws.onmessage = function(event) {
+                console.log("Received message: " + event.data);
+                // You can handle the received message here, for example, display it in a div
+                document.getElementById("message").innerText = event.data;
+            };
+            ws.onerror = function(error) {
+                console.error("WebSocket error: " + error);
+            };
+            ws.onclose = function() {
+                console.log("WebSocket connection closed");
+            };
+        }
+
+        function disconnect() {
+            if (ws) {
+                ws.close();
+            }
+        }
+
+        function sendMessage() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                var message = document.getElementById("input").value;
+                ws.send(message);
+                console.log("Sent message: " + message);
+            } else {
+                console.log("WebSocket connection is not open");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>WebSocket Example</h1>
+    <input type="text" id="input" placeholder="Enter message">
+    <button onclick="sendMessage()">Send</button>
+    <button onclick="disconnect()">Disconnect</button>
+    <br><br>
+    <div id="message"></div>
+
+    <script type="text/javascript">
+        connect();
+    </script>
+</body>
+</html>
