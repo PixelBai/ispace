@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>ispace</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        var server = "http://localhost:8101";
+        function getToken() {
+            $.ajax({
+                url: server+'/api/GetToken',
+                method: 'POST',
+                data:{name:"alei",password:"1qaz@WSX"},
+                success: function (response) {
+                    console.log('Token:', response);
+                }, 
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        function validateToken() {
+            var token = prompt('Enter the token:');
+            $.ajax({
+                url: server+'/api/VerifyToken',
+                method: 'GET',
+                data: { token: token },
+                success: function (response) {
+                    console.log('Token is valid:', response);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <button onclick="getToken()">Get Token</button>
+    <button onclick="validateToken()">Validate Token</button>
+</body>
+
+</html>

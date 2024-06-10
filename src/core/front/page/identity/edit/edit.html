@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>修改身份</title>
+    <link href="./../../../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="./../../../lib/jquery/js/jquery-3.7.0.min.js"></script>
+    <script src="./../../../lib/bootstrap/js/bootstrap.bundle.js"></script>
+    <link href="edit.css" rel="stylesheet" />
+    <script src="edit.js"></script>
+</head>
+
+<body>
+
+    <!-- core -->
+    <div class="center">
+        <div class="container-xl" style="text-align: center;">
+            <!-- Page title -->
+            <div class="page-header d-print-none">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h2 class="page-title">
+                            修改身份
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card card-inactive">
+                <div class="card-body">
+                    <p>
+                    <div class="mb-3">
+                        <label class="form-label">名称</label>
+                        <input type="text" class="form-control" name="name" placeholder="不超过64个字">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">编号</label>
+                        <input type="text" class="form-control" name="code" placeholder="不超过128个字">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">描述</label>
+                        <input type="text" class="form-control" name="desc" placeholder="不超过256个字">
+                    </div>
+
+                    <div class="col-6 col-sm-4 col-md-2 col-xl mb-3" style="margin:auto">
+                        <a onclick="createIdentity()" class="btn btn-secondary w-100">
+                            修改
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 组件 -->
+    <!-- 提示框 -->
+    <div id="alert">
+    </div>
+
+</body>
+
+</html>
