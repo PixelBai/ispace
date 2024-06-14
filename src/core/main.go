@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"gitee.com/ispace/core/controller/identityController"
-	filewscontroller "gitee.com/ispace/core/wscontroller/fileWsController"
+	"gitee.com/ispace/core/handler/fileHandler"
 
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
@@ -85,39 +85,32 @@ func main() {
 				fmt.Println("Error unmarshalling message:", err)
 				continue
 			}
-			// step 2: 根据WsRequestDto header中的controller名称和方法，构建对应wscontroller对象和方法，并将body中的参数传入，动态实现调用
-			controllerName := wsRequest.Header.Controller
-			methodName := wsRequest.Header.Method
+			// step 2: 根据WsRequestDto header中的controller名称和方法
 			var result dto.ResultDto
-			switch controllerName {
-			case "file":
-				switch methodName {
-				case "create":
-					fileController := filewscontroller.New()
-					name, ok := wsRequest.Body.Additional["name"].(string)
-					if !ok {
-						fmt.Println("Error: name is not a string")
-						continue
-					}
-
-					dirPath, ok := wsRequest.Body.Additional["dirPath"].(string)
-					if !ok {
-						fmt.Println("Error: dirPath is not a string")
-						continue
-					}
-
-					result = fileController.Create(name, dirPath)
-
-				default:
-					fmt.Println("Unsupported method:", methodName)
+			switch wsRequest.Header.Handler {
+			case "file/create":
+				fileH := fileHandler.New()
+				fileH.SetWsr(wsRequest)
+				body := map[string]string{}
+				bodyBytes, err1 := json.Marshal(wsRequest.Body)
+				if err1 != nil {
+					fmt.Println("Error marshalling message:", err)
+					continue
 				}
+				err3 := json.Unmarshal(bodyBytes, &body)
+				if err3 != nil {
+					fmt.Println("Error unmarshalling message:", err)
+					continue
+				}
+				result = fileH.Create(body["name"], body["dirPath"])
+
 			default:
-				fmt.Println("Unsupported controller:", controllerName)
+				fmt.Println("Unsupported handle:", wsRequest.Header.Handler)
 			}
 
 			var wsRep dto.WsResponseDto
-			wsRep.Header.RequestId = wsRequest.Header.RequestId
-			wsRep.Body.Additional["data"] = result
+			wsRep.Header.Id = wsRequest.Header.Id
+			wsRep.Body = result
 
 			wsRepBytes, err := json.Marshal(wsRep)
 			if err != nil {
@@ -130,6 +123,7 @@ func main() {
 				break
 			}
 		}
+
 	})
 
 	// section 配置信息
