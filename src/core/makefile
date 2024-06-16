@@ -3,4 +3,3 @@ opensu:
 
 autofix:
 	go mod tidy
- 

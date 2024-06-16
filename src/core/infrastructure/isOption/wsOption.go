@@ -27,9 +27,9 @@ func WsOption(host *gin.Engine) {
 		}
 		defer conn.Close()
 
-		wsh := handler.WsHandler{}
-		wsh.SetConn(conn)
-		wsh.Execute()
+		wsh := handler.NewWsHandler(conn)
+		wsh.Run()
+
 	})
 
 }
