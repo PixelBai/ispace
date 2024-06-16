@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	handler "gitee.com/ispace/core/handler/file"
+	"gitee.com/ispace/core/handler/file"
+	"gitee.com/ispace/core/handler/folder"
 	"gitee.com/ispace/core/infrastructure/common/dto"
 	"gitee.com/ispace/core/infrastructure/common/itf"
 	"github.com/gorilla/websocket"
@@ -118,5 +119,13 @@ func (wh *WsHandler) Run() {
 type wshRoute map[string]func() itf.BaseHandler
 
 var route = wshRoute{
-	"file/create": func() itf.BaseHandler { return &handler.FileCreateHandler{} },
+	"file/create":     func() itf.BaseHandler { return &file.FileCreateHandler{} },
+	"file/rename":     func() itf.BaseHandler { return &file.FileRenameHandler{} },
+	"file/remove":     func() itf.BaseHandler { return &file.FileRemoveHandler{} },
+	"file/stat":       func() itf.BaseHandler { return &file.FileStatHandler{} },
+	"folder/create":   func() itf.BaseHandler { return &folder.FolderCreateHandler{} },
+	"folder/rename":   func() itf.BaseHandler { return &folder.FolderRenameHandler{} },
+	"folder/remove":   func() itf.BaseHandler { return &folder.FolderRemoveHandler{} },
+	"folder/stat":     func() itf.BaseHandler { return &folder.FolderStatHandler{} },
+	"folder/children": func() itf.BaseHandler { return &folder.FolderChildrenHandler{} },
 }
