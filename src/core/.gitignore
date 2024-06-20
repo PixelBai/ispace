@@ -1,0 +1,11 @@
+# Ignore node_modules directory
+*/**/node_modules/
+
+# Ignore dist directory
+*/**/dist/
+
+# Other common ignores
+.DS_Store
+*.log
+*.temp
+*.tmp

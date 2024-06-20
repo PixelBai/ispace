@@ -41,7 +41,7 @@ func (h *FileRenameHandler) Execute() dto.WsResponseDto {
 	}
 
 	// step 2:
-	err = h.rename(params["dirPath"], params["oldName"], params["newName"])
+	err = h.rename(params["folderPath"], params["oldName"], params["newName"])
 	if err != nil {
 		result.Header.Stat = 2
 		result.Body = fmt.Sprintf("Error RenameFile message:%s", err)
@@ -52,10 +52,10 @@ func (h *FileRenameHandler) Execute() dto.WsResponseDto {
 	return result
 }
 
-func (ic *FileRenameHandler) rename(dirPath string, oldName string, newName string) error {
+func (ic *FileRenameHandler) rename(folderPath string, oldName string, newName string) error {
 	// step init:
-	oldFilePath := fmt.Sprintf("%s/%s", dirPath, oldName)
-	newFilePath := fmt.Sprintf("%s/%s", dirPath, newName)
+	oldFilePath := fmt.Sprintf("%s/%s", folderPath, oldName)
+	newFilePath := fmt.Sprintf("%s/%s", folderPath, newName)
 
 	// step check:
 	_, err := os.Stat(newFilePath)

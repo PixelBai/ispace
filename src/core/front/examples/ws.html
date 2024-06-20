@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Example</title>
+    <script type="text/javascript"  src="/front/dist/ispace.core.main.js" ></script>
+    <script type="text/javascript">
+        var ws;
+
+        function connect() { 
+            ws = new WebSocket("/ws/default");
+            ws.onopen = function() {
+                console.log("Connected to WebSocket server");
+            };
+            ws.onmessage = function(event) {
+                console.log("Received message: " + event.data);
+                // You can handle the received message here, for example, display it in a div
+                document.getElementById("message").innerText = event.data;
+            };
+            ws.onerror = function(error) {
+                console.error("WebSocket error: " + error);
+            };
+            ws.onclose = function() {
+                console.log("WebSocket connection closed");
+            }; 
+        }
+
+        function disconnect() {
+            if (ws) {
+                ws.close();
+            }
+        }
+
+        function sendMessage() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                var message = document.getElementById("input").value;
+                ws.send(message);
+                console.log("Sent message: " + message);
+            } else {
+                console.log("WebSocket connection is not open");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>WebSocket Example</h1>
+    <textarea type="text" id="input" placeholder="Enter message" style="height: 600px;width: 800px;"></textarea>
+    <button onclick="sendMessage()">Send</button>
+    <button onclick="disconnect()">Disconnect</button>
+    <button onclick="connect()">connect</button>
+    <button onclick="ispace.file.create('/','123.txt').subscribe(s=>{console.log(s)})">create</button>
+    <button onclick="console.log(ispace.gv)">gv</button>
+    <br><br>
+    <div id="message"></div>
+
+    <script type="text/javascript">
+  
+
+        document.getElementById("input").value = `{
+	"header": {
+		"id": "1",
+		"handler": "file/create",
+		"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTg0OTAwNjAsIm5hbWUiOiJhbGVpIn0.7T1fLLbcyPWiHL2xu5mN7xeHp6G-CQWdterQpckb0ZU"
+	},
+	"body": {
+		"name": "新增文件.txt",
+		"dirPath": "~/desktop"
+	}
+}`
+
+
+    </script>
+</body>
+</html>

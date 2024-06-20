@@ -41,7 +41,7 @@ func (h *FileRemoveHandler) Execute() dto.WsResponseDto {
 	}
 
 	// step 2:
-	err = h.remove(params["dirPath"], params["name"])
+	err = h.remove(params["folderPath"], params["name"])
 	if err != nil {
 		result.Header.Stat = 2
 		result.Body = fmt.Sprintf("Error RemoveFile message:%s", err)
@@ -52,9 +52,9 @@ func (h *FileRemoveHandler) Execute() dto.WsResponseDto {
 	return result
 }
 
-func (ic *FileRemoveHandler) remove(dirPath string, name string) error {
+func (ic *FileRemoveHandler) remove(folderPath string, name string) error {
 	// step init:
-	filePath := fmt.Sprintf("%s/%s", dirPath, name)
+	filePath := fmt.Sprintf("%s/%s", folderPath, name)
 
 	// step check:
 	_, err := os.Stat(filePath)

@@ -41,7 +41,7 @@ func (h *FileCreateHandler) Execute() dto.WsResponseDto {
 	}
 
 	// step 2:
-	err = h.create(params["dirPath"], params["name"])
+	err = h.create(params["folderPath"], params["name"])
 	if err != nil {
 		result.Header.Stat = 2
 		result.Body = fmt.Sprintf("Error CreateFile message:%s", err)
@@ -52,8 +52,8 @@ func (h *FileCreateHandler) Execute() dto.WsResponseDto {
 	return result
 }
 
-func (ic *FileCreateHandler) create(dirPath string, name string) error {
-	filePath := fmt.Sprintf("%s/%s", dirPath, name)
+func (ic *FileCreateHandler) create(folderPath string, name string) error {
+	filePath := fmt.Sprintf("%s/%s", folderPath, name)
 	file, err := os.Create(filePath)
 	if err != nil {
 		return err
