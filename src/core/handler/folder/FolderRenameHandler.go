@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 
 	"gitee.com/ispace/core/infrastructure/common/dto"
+	"gitee.com/ispace/core/infrastructure/common/gv"
 )
 
 type FolderRenameHandler struct {
@@ -55,8 +56,8 @@ func (h *FolderRenameHandler) Execute() dto.WsResponseDto {
 
 // 重命名
 func (fh *FolderRenameHandler) rename(folderPath string, oldName string, newName string) error {
-	oldPath := filepath.Join(folderPath, oldName)
-	newPath := filepath.Join(folderPath, newName)
+	oldPath := filepath.Join(gv.BasePath, folderPath, oldName)
+	newPath := filepath.Join(gv.BasePath, folderPath, newName)
 	err := os.Rename(oldPath, newPath)
 	if err != nil {
 		return err

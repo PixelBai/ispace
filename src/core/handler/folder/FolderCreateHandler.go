@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 
 	"gitee.com/ispace/core/infrastructure/common/dto"
+	"gitee.com/ispace/core/infrastructure/common/gv"
 )
 
 type FolderCreateHandler struct {
@@ -55,7 +56,7 @@ func (h *FolderCreateHandler) Execute() dto.WsResponseDto {
 
 // 新增
 func (fh *FolderCreateHandler) create(folderPath string, name string) error {
-	newFolderPath := filepath.Join(folderPath, name)
+	newFolderPath := filepath.Join(gv.BasePath, folderPath, name)
 	err := os.Mkdir(newFolderPath, 0755)
 	if err != nil {
 		return err

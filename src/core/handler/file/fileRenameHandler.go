@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"gitee.com/ispace/core/infrastructure/common/dto"
+	"gitee.com/ispace/core/infrastructure/common/gv"
 )
 
 type FileRenameHandler struct {
@@ -54,8 +56,8 @@ func (h *FileRenameHandler) Execute() dto.WsResponseDto {
 
 func (ic *FileRenameHandler) rename(folderPath string, oldName string, newName string) error {
 	// step init:
-	oldFilePath := fmt.Sprintf("%s/%s", folderPath, oldName)
-	newFilePath := fmt.Sprintf("%s/%s", folderPath, newName)
+	oldFilePath := filepath.Join(gv.BasePath, folderPath, oldName)
+	newFilePath := filepath.Join(gv.BasePath, folderPath, newName)
 
 	// step check:
 	_, err := os.Stat(newFilePath)

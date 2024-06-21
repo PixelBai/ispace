@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"gitee.com/ispace/core/infrastructure/common/dto"
+	"gitee.com/ispace/core/infrastructure/common/gv"
 )
 
 type FolderChildrenHandler struct {
@@ -58,7 +59,7 @@ func (h *FolderChildrenHandler) Execute() dto.WsResponseDto {
 func (fh *FolderChildrenHandler) children(folderPath string) ([]dto.FileInfoBaseDto, error) {
 
 	children := []dto.FileInfoBaseDto{}
-	dir, err := os.Open(folderPath)
+	dir, err := os.Open(fmt.Sprintf("%s/%s", gv.BasePath, folderPath))
 	if err != nil {
 		return children, err
 	}

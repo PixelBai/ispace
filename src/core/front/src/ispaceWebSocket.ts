@@ -1,3 +1,9 @@
+import { Observable } from "rxjs";
+import { gv } from "./core";
+import {  wsResponseDto } from "./dto/wsResponseDto";
+import { wsRequestDto } from "./dto/wsRequestDto";
+import { v4 as uuidv4 } from 'uuid';
+
 export class ispaceWebSocket {
 
     static wsMap: Map<string, ispaceWebSocket> = new Map<string, ispaceWebSocket>()
@@ -33,12 +39,52 @@ export class ispaceWebSocket {
         this.ws.onerror = this.onerror??(()=>{});
     }
 
-    send(data: string | ArrayBufferLike | Blob | ArrayBufferView) {
+    request(req: wsRequestDto) : Observable<wsResponseDto>{
+
+        let ob = new Observable<wsResponseDto>((observer) => {
+
+        // step 1: 补充header，生成string data
+        req.header.id = uuidv4();
+        req.header.token = gv.token;
+        let data = JSON.stringify(req);
+
+        // step 2: send 
         if (this.ws && this.ws.readyState === WebSocket.OPEN) {
             this.ws.send(data);
-        } else {
-            console.error("WebSocket is not open");
         }
+        else {
+            this.connect(gv.cfg.defaultWebSocketUrl);
+            let si = setInterval(() => {
+                if (this.ws && this.ws.readyState === WebSocket.OPEN) 
+                    {
+                    this.ws.send(data);
+                    clearInterval(si);
+                    }
+            }, 10);
+        }
+
+        // step 3: deal response
+        let receive = (e:MessageEvent<any>)=>{
+            try{
+                let response = JSON.parse(e.data);
+                if (response.header.id == req.header.id) {
+                    observer.next(response); 
+                    observer.complete();
+                }
+                }
+                catch(e){
+                    observer.error(e);
+                }
+                finally{
+                    this.ws?.addEventListener('message', receive);
+                }
+        }
+        this.ws?.addEventListener('message', receive);
+
+    });
+
+    return ob;
+
     }
 
     close() {

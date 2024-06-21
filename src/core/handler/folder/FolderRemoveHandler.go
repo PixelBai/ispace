@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"gitee.com/ispace/core/infrastructure/common/dto"
+	"gitee.com/ispace/core/infrastructure/common/gv"
 )
 
 type FolderRemoveHandler struct {
@@ -55,7 +57,7 @@ func (h *FolderRemoveHandler) Execute() dto.WsResponseDto {
 
 // 删除
 func (fh *FolderRemoveHandler) remove(folderPath string) error {
-	err := os.RemoveAll(folderPath)
+	err := os.RemoveAll(filepath.Join(gv.BasePath, folderPath))
 	if err != nil {
 		return err
 	}

@@ -17,42 +17,31 @@ export class fileHandler {
             // step 1: build request
             let req = new wsRequestDto();
             req.header = new wsRequestHeaderDto();
-            req.header.id = uuidv4();
-            req.header.token = gv.token;
             req.header.handler = handler;
             req.body = {
                 name,
                 folderPath
             };
-            // step 2: send ms
+            // step 2: build ws
             let ws = ispaceWebSocket.getSingle();
-            debugger
-            ws.onmessage = (e) => {
-                let a = e.data;
-                let response = JSON.parse(e.data);
-                if (response.header.id == req.header.id) {
-                    if (response.header.stat == 200) {
+
+            // step 3: send ms
+            ws.request(req).subscribe({
+                next: (response) => {
+
+                    if (response.header?.stat == 200) {
                         observer.next(true);
                     }
                     else {
                         observer.error(response.body);
                     }
                     observer.complete();
+                },
+                error: (error) => {
+                    observer.error(error);
+                    observer.complete();
                 }
-                observer.next();
-            }
-            ws.connect(gv.cfg.defaultWebSocketUrl);
-
-            if (ws.ws?.OPEN)
-                ws.send(JSON.stringify(req));
-            else
-                {
-                    let si = setInterval(() => {
-                    if (ws.ws?.OPEN)
-                        ws.send(JSON.stringify(req));
-                        clearInterval(si);
-                }, 10);
-            }
+            });
         });
 
         return ob;

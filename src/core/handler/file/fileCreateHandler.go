@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"gitee.com/ispace/core/infrastructure/common/dto"
+	"gitee.com/ispace/core/infrastructure/common/gv"
 )
 
 type FileCreateHandler struct {
@@ -53,7 +55,7 @@ func (h *FileCreateHandler) Execute() dto.WsResponseDto {
 }
 
 func (ic *FileCreateHandler) create(folderPath string, name string) error {
-	filePath := fmt.Sprintf("%s/%s", folderPath, name)
+	filePath := filepath.Join(gv.BasePath, folderPath, name)
 	file, err := os.Create(filePath)
 	if err != nil {
 		return err

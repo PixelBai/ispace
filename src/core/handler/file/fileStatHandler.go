@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	fp "path/filepath"
 
 	"gitee.com/ispace/core/infrastructure/common/dto"
+	"gitee.com/ispace/core/infrastructure/common/gv"
 )
 
 type FileStatHandler struct {
@@ -57,7 +59,7 @@ func (ic *FileStatHandler) stat(filePath string) (dto.FileInfoDto, error) {
 	// step init:
 	fileInfoDto := dto.FileInfoDto{}
 	// step core:
-	fileInfo, err := os.Stat(filePath)
+	fileInfo, err := os.Stat(fp.Join(gv.BasePath, filePath))
 	if err != nil {
 		return fileInfoDto, err
 	}

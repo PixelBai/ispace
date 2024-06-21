@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"gitee.com/ispace/core/infrastructure/common/dto"
+	"gitee.com/ispace/core/infrastructure/common/gv"
 )
 
 type FolderStatHandler struct {
@@ -57,7 +59,7 @@ func (h *FolderStatHandler) Execute() dto.WsResponseDto {
 func (fh *FolderStatHandler) stat(folderPath string) (dto.FolderInfoDto, error) {
 	folderInfo := dto.FolderInfoDto{}
 
-	info, err := os.Stat(folderPath)
+	info, err := os.Stat(filepath.Join(gv.BasePath, folderPath))
 	if err != nil {
 		return folderInfo, err
 	}
