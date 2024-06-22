@@ -8,26 +8,28 @@ export class ispaceWebSocket {
 
     static wsMap: Map<string, ispaceWebSocket> = new Map<string, ispaceWebSocket>()
 
-    static getSingle(tag: string = "") {
+    static getSingle(tag: string = "", url: string = gv.cfg.defaultWebSocketUrl): ispaceWebSocket {
         let iws = this.wsMap.get(tag)
         if (iws) {
             return iws;
         }
         iws = new ispaceWebSocket();
-        this.wsMap.set(tag, iws);
+        iws.url = url;
+        this.wsMap.set(tag, iws); 
         return iws;
     }
  
     ws?: WebSocket 
+    url!: string
     onopen?: ((this: WebSocket, ev: Event) => any);
     onmessage?: ((this: WebSocket, ev: MessageEvent) => any);
     onclose?: ((this: WebSocket, ev: Event) => any);
     onerror?: ((this: WebSocket, ev: Event) => any);
 
-    connect(url: string) {
+    connect() {
         if ( this.ws?.readyState !== WebSocket.OPEN)
         {
-            this.ws = new WebSocket(url);
+            this.ws = new WebSocket(this.url);
         } 
 
         this.ws.onopen = this.onopen??(()=>{});
@@ -53,7 +55,7 @@ export class ispaceWebSocket {
             this.ws.send(data);
         }
         else {
-            this.connect(gv.cfg.defaultWebSocketUrl);
+            this.connect();
             let si = setInterval(() => {
                 if (this.ws && this.ws.readyState === WebSocket.OPEN) 
                     {
