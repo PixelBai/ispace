@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <title>ispace</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript"  src="/front/dist/ispace.core.main.js" ></script>
     <script>
         var server = window.location.host
         function getToken() {
@@ -39,8 +40,8 @@
 </head>
 
 <body>
-    <button onclick="getToken()">Get Token</button>
-    <button onclick="validateToken()">Validate Token</button>
+    <button onclick="ispace.auth.getToken('alei','1qaz@WSX').subscribe(s=>{console.log(s)})">Get Token</button>
+    <button onclick="ispace.auth.validateToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkyMTAxODEsIm5hbWUiOiJhbGVpIn0.0tFe1RBXvtvLfjI8qsJgeMQt707BWua12OYVHHR5mSg').subscribe(s=>{console.log(s)})">Validate Token</button>
 </body>
 
 </html>

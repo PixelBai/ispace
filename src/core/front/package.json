@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "core sdk",
   "main": "dist/ispace.core.main.js",
-  "scripts": { 
+  "scripts": {
     "build": "webpack --mode production",
     "watch": "webpack --watch --mode development"
   },
   "author": "pix",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.2",
     "rxjs": "^7.8.1",
     "uuid": "^10.0.0"
   },

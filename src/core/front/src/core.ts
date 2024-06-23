@@ -1,4 +1,5 @@
- import { config } from "./config";
+ import { authRequest } from "./authRequest";
+import { config } from "./config";
 import { fileHandler } from "./fileHandler";
 import { folderHandler } from "./folderHandler"; 
  
@@ -7,7 +8,7 @@ let cfg: config = {
 }
 
 export let gv={
-    token : "123asdasd",
+    token : "",
     info:1,
     cfg, 
 }
@@ -15,5 +16,7 @@ export let gv={
 export let file = new fileHandler();
 
 export let folder = new folderHandler();
+
+export let auth = new authRequest();
 
  
