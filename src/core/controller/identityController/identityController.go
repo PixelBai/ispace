@@ -28,9 +28,9 @@ func New() IdentityController {
 // 接口名称：登录
 // 请求：账号、密码
 // 响应：token
-func (ic *IdentityController) GetToken(name string, password string) dto.ResultDto {
+func (ic *IdentityController) GetToken(name string, password string) dto.ResultDto[string] {
 	// step init:
-	var result dto.ResultDto
+	var result dto.ResultDto[string]
 
 	// step 1: 获取数据
 	file, err := os.Open("/etc/shadow")
@@ -105,10 +105,10 @@ func (ic *IdentityController) GetToken(name string, password string) dto.ResultD
 // 接口名称： 验证
 // 请求：token
 // 相应：无
-func (ic *IdentityController) Verify(token string) dto.ResultDto {
+func (ic *IdentityController) Verify(token string) dto.ResultDto[any] {
 
 	// step init:
-	result := dto.ResultDto{}
+	result := dto.ResultDto[any]{}
 	parsedToken, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])

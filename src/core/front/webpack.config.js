@@ -16,7 +16,7 @@ module.exports = {
     extensions: ['.ts', '.js'],
   },
   output: {
-    filename: 'ispace.core.main.js',
+    filename: 'core.js',
     path: path.resolve(__dirname, 'dist'),
     library: 'ispace', // 导出为库
     libraryTarget: 'umd', // 通用模块定义

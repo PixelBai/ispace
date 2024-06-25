@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login Before</title>
+    <script src="/front/dist/core.js"></script>
+    <script>
+        window.onload = function () {
+
+            ispace.auth.isLogin().subscribe(s => {
+                if (s.success) {  
+                    var token = ispace.auth.getLocalToken();
+                    document.getElementById("message").innerHTML = "Token: " + token;
+
+                    // 获取用户信息
+                    let userInfo = ispace.auth.getUserInfo();
+                    document.getElementById("message").innerHTML += "<br>User Info: " + JSON.stringify(userInfo);
+
+                } else { 
+                    window.location.href = "../src/login.html?returnUrl=" + window.location.href;
+                }
+            })
+
+        };
+    </script>
+</head>
+
+<body>
+    <h1>Login Before</h1>
+    <p id="message"></p>
+</body>
+
+</html>

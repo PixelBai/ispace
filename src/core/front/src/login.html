@@ -1,0 +1,84 @@
+ <!DOCTYPE html>
+ <html>
+ <head>
+     <title>Login Page</title>
+     <script src="/front/dist/core.js"></script>
+     <style>
+         body {
+             font-family: Arial, sans-serif;
+         }
+         .container {
+             width: 300px;
+             margin: 0 auto;
+             padding: 20px;
+             border: 1px solid #ccc;
+             border-radius: 5px;
+         }
+         input[type="text"], input[type="password"] {
+             width: 100%;
+             padding: 12px 20px;
+             margin: 8px 0;
+             display: inline-block;
+             border: 1px solid #ccc;
+             box-sizing: border-box;
+         }
+         button {
+             background-color: #4CAF50;
+             color: white;
+             padding: 14px 20px;
+             margin: 8px 0;
+             border: none;
+             cursor: pointer;
+             width: 100%;
+         }
+         button:hover {
+             opacity: 0.8;
+         }
+     </style>
+     
+ </head>
+ <body>
+     <div class="container">
+         <h2>Login</h2>
+         <label for="username">Username:</label>
+         <input type="text" id="username" name="username"><br>
+         <label for="password">Password:</label>
+         <input type="password" id="password" name="password"><br>
+         <button onclick="login()">Login</button>
+     </div>
+ 
+     <script >
+
+function login() {
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+    var returnUrl = getUrlParameter("returnUrl");
+
+    ispace.auth.login(username,password).subscribe(s => {
+        if (s) {  
+
+            if(!s.success){
+                alert(s.message);
+                return;
+            }
+
+            var token = ispace.auth.getLocalToken();
+            if (returnUrl) {
+                window.location.href = returnUrl;
+            } else {
+                window.location.href = "/index.html";
+            }
+        }
+    })
+      
+}
+
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+     </script>
+ </body>
+ </html>
