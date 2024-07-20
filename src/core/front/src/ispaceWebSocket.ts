@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
 import { gv } from "./core";
-import {  wsResponseDto } from "./dto/wsResponseDto";
+import { wsResponseDto } from "./dto/wsResponseDto";
 import { wsRequestDto } from "./dto/wsRequestDto";
 import { v4 as uuidv4 } from 'uuid';
 

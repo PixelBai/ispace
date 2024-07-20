@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es2015", // 或 "es2015", "es2016", "es2017", ... 等，取决于你需要的JavaScript版本。但通常设置为 "esnext" 并结合 "moduleResolution" 和 "module" 选项以使用最新语法。  
+    "module": "esnext", // 对于浏览器，你可能想将其设置为 "es2020" 或 "esnext"（如果浏览器支持），但重要的是要确保它是ES Modules（"es6" 也行，但可能不是最新的）。  
+    "moduleResolution": "node", // 对于大多数项目，这是默认值，它告诉TypeScript如何解析模块。对于浏览器项目，这通常没问题，但如果你有特殊需求（如使用别名），可能需要调整。  
+    // "outDir": "./dist", // 输出的目录  
+    "strict": true, // 启用所有严格类型检查选项  
+    "esModuleInterop": true, // 允许默认导入非ES模块  
+    "skipLibCheck": true, // 跳过声明文件的类型检查  
+    "forceConsistentCasingInFileNames": true, // 强制在文件名中使用一致的大小写  
+    "sourceMap": true, // 生成相应的 `.map` 文件  
+    "lib": ["esnext", "dom"] // 指定要包含在编译中的库文件。这里添加了 "dom" 以获得浏览器环境的DOM类型。  
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}

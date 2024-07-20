@@ -1,5 +1,10 @@
 ## nginx 
 
+
+## 加载
+sh config.sh
+
+
 **step 1: 安装
 sudo apt update
 # 查看当前可用的版本
