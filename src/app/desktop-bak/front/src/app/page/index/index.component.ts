@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { file, folder } from 'ispace.core.main';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-index',
   standalone: true,
-  imports: [],
+  imports: [MatSlideToggleModule,],
   templateUrl: './index.component.html',
   styleUrl: './index.component.scss'
 })
