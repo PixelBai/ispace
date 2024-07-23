@@ -1,9 +1,9 @@
-import { Routes } from '@angular/router';
-import { IndexComponent } from './page/index/index.component';
-import { LoginCanActivate } from './system/login-gurd';
+import { Routes } from '@angular/router'; 
+import { LoginCanActivate } from './system/login-gurd'; 
+import { HomePageComponent } from './page/home-page/home-page.component';
 
 export const routes: Routes = [
 
-    { path:'',redirectTo:"index",pathMatch:'full'},      
-    { path:'index',component:IndexComponent,canActivate: [LoginCanActivate] },
+    { path:'',redirectTo:"home",pathMatch:'full'},      
+    { path:'home',component:HomePageComponent,canActivate: [LoginCanActivate] },
 ];

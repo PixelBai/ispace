@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DesktopComponent } from './desktop.component';
+import { DesktopCmpComponent } from './desktop-cmp.component';
 
-describe('DesktopComponent', () => {
-  let component: DesktopComponent;
-  let fixture: ComponentFixture<DesktopComponent>;
+describe('DesktopCmpComponent', () => {
+  let component: DesktopCmpComponent;
+  let fixture: ComponentFixture<DesktopCmpComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DesktopComponent]
+      imports: [DesktopCmpComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(DesktopComponent);
+
+    fixture = TestBed.createComponent(DesktopCmpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
