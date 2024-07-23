@@ -4,4 +4,5 @@ export class DesktopItemDto {
     path!: string;
     iconUrl!: string; 
     desc?: string;
+    name!: string;
 }
