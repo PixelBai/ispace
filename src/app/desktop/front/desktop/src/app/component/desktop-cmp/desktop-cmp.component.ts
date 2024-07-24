@@ -3,13 +3,13 @@ import { DesktopItemDto } from '../desktop-item-cmp/desktop-item-dto';
 import {file,folder} from 'ispace.core.main';
 import { fileInfoBaseDto } from 'ispace.core.main/dist/dto/fileInfoBaseDto';
 import { DesktopItemCmpComponent } from '../desktop-item-cmp/desktop-item-cmp.component';
-import { CommonModule } from '@angular/common';
-import { resultDto } from 'ispace.core.main/dist/dto/resultDto';
+import { CommonModule } from '@angular/common'; 
+import {CdkDrag} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-desktop-cmp',
   standalone: true,
-  imports: [DesktopItemCmpComponent,CommonModule],
+  imports: [DesktopItemCmpComponent,CommonModule,CdkDrag],
   templateUrl: './desktop-cmp.component.html',
   styleUrl: './desktop-cmp.component.sass'
 })

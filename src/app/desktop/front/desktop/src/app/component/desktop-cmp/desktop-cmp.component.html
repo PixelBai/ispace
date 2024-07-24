@@ -4,5 +4,12 @@
 1.桌面项数据列表 -->
 
 <div class="body" #body>
-    <app-desktop-item-cmp *ngFor="let item of desktopItems" [data]="item"></app-desktop-item-cmp>
+    <app-desktop-item-cmp 
+        *ngFor="let item of desktopItems" 
+        [data]="item" 
+        cdkDrag 
+        cdkDragBoundary=".body"
+        [cdkDragFreeDragPosition]="item.position"
+        >
+    </app-desktop-item-cmp>
 </div>
