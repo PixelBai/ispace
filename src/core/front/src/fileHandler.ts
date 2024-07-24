@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export class fileHandler {
 
-    ws!: ispaceWebSocket;
+    private ws!: ispaceWebSocket;
 
     constructor() { 
          // step 2: build ws
@@ -172,6 +172,44 @@ export class fileHandler {
             });
         });
 
+        return ob;
+    }
+
+    content(filePath: string): Observable<string> {
+        let ob = new Observable<string>((observer) => { 
+                // 获取文件内容文本并返回
+
+                // step init:
+                let handler = "file/content"; 
+
+                // step 1: build request
+                let req = new wsRequestDto();
+                req.header = new wsRequestHeaderDto();
+                req.header.handler = handler;
+                req.body = {
+                    filePath
+                };
+
+                // step 3: send ms
+                this.ws.request(req).subscribe({
+                    next: (response) => {
+                        if (response.header?.stat == 200) {
+                            observer.next(response.body);
+                        }
+                        else {
+                            observer.error(response.body);
+                        }
+                        observer.complete();
+                    },
+                    error: (error) => {
+                        observer.error(error);
+                        observer.complete();
+                    }
+                });
+                
+
+
+        });
         return ob;
     }
 

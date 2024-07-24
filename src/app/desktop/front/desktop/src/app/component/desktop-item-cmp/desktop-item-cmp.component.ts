@@ -32,18 +32,8 @@ export class DesktopItemCmpComponent {
   }
 
   display(tooltip:MatTooltip): void {
-
-    // step 1: 获取当前详细信息 
-    this.getInfo().then( (s) => {
-      if(s[0]){
-        this.data.desc = this.formatInfo(s[1]!);
-        this.displayInfo(tooltip);
-      }
-      else{  
-        this.data.desc = "获取详细信息失败";
-        this.displayInfo(tooltip);
-      }
-    }) 
+    this.data.desc = this.formatInfo(this.data.data);
+    this.displayInfo(tooltip);
     return;
   }
  

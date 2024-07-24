@@ -123,6 +123,7 @@ var route = wshRoute{
 	"file/rename":     func() itf.BaseHandler { return &file.FileRenameHandler{} },
 	"file/remove":     func() itf.BaseHandler { return &file.FileRemoveHandler{} },
 	"file/stat":       func() itf.BaseHandler { return &file.FileStatHandler{} },
+	"file/content":    func() itf.BaseHandler { return &file.FileContentHandler{} },
 	"folder/create":   func() itf.BaseHandler { return &folder.FolderCreateHandler{} },
 	"folder/rename":   func() itf.BaseHandler { return &folder.FolderRenameHandler{} },
 	"folder/remove":   func() itf.BaseHandler { return &folder.FolderRemoveHandler{} },

@@ -1,1 +1,8 @@
- 
+<!-- ui:
+平台，自适应大小，超出隐藏。
+有多个桌面项，可拖动。 
+1.桌面项数据列表 -->
+
+<div class="body" #body>
+    <app-desktop-item-cmp *ngFor="let item of desktopItems" [data]="item"></app-desktop-item-cmp>
+</div>
