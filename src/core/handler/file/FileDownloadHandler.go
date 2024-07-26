@@ -9,20 +9,19 @@ import (
 
 	"gitee.com/ispace/core/infrastructure/common/dto"
 	"gitee.com/ispace/core/infrastructure/common/gv"
-	statuscode "gitee.com/ispace/core/infrastructure/common/statusCode"
 )
 
-type FileContentHandler struct {
+type FileDownloadHandler struct {
 	request dto.WsRequestDto
 }
 
 // Init 方法实现
-func (h *FileContentHandler) Init(request dto.WsRequestDto) {
+func (h *FileDownloadHandler) Init(request dto.WsRequestDto) {
 	h.request = request
 }
 
 // Execute 方法实现
-func (h *FileContentHandler) Execute() dto.WsResponseDto {
+func (h *FileDownloadHandler) Execute() dto.WsResponseDto {
 
 	// step init:
 	result := dto.WsResponseDto{}
@@ -39,39 +38,31 @@ func (h *FileContentHandler) Execute() dto.WsResponseDto {
 	params := map[string]string{}
 	err = json.Unmarshal(bodyBytes, &params)
 	if err != nil {
-		result.Header.Stat = statuscode.FileNotFound
+		result.Header.Stat = 2
 		result.Body = fmt.Sprintf("Error unmarshalling message:%s", err)
 		return result
 	}
 
 	// step 2:
-	content, code, err2 := h.content(params["filePath"])
+	content, err2 := h.content(params["filePath"])
 	if err2 != nil {
-		result.Header.Stat = code
+		result.Header.Stat = 2
 		result.Body = fmt.Sprintf("Error StatFile message:%s", err2)
 		return result
 	}
-
 	// step end:
 	result.Header.Stat = 200
 	result.Body = content
 	return result
 }
 
-func (ic *FileContentHandler) content(filePath string) (string, int, error) {
+func (ic *FileDownloadHandler) content(filePath string) (string, error) {
 	// step core:
-
-	// 判断文件是否存在
-	if _, err := os.Stat(fp.Join(gv.BasePath, filePath)); os.IsNotExist(err) {
-		fmt.Println("文件不存在:", err)
-		return "", -1, err
-	}
-
 	// 打开文件
 	file, err := os.Open(fp.Join(gv.BasePath, filePath))
 	if err != nil {
 		fmt.Println("打开文件失败:", err)
-		return "", -2, err
+		return "", err
 	}
 	defer file.Close()
 
@@ -79,8 +70,8 @@ func (ic *FileContentHandler) content(filePath string) (string, int, error) {
 	content, err := io.ReadAll(file)
 	if err != nil {
 		fmt.Println("读取文件失败:", err)
-		return "", -3, err
+		return "", err
 	}
 
-	return string(content), 0, nil
+	return string(content), nil
 }

@@ -119,11 +119,15 @@ func (wh *WsHandler) Run() {
 type wshRoute map[string]func() itf.BaseHandler
 
 var route = wshRoute{
-	"file/create":     func() itf.BaseHandler { return &file.FileCreateHandler{} },
-	"file/rename":     func() itf.BaseHandler { return &file.FileRenameHandler{} },
-	"file/remove":     func() itf.BaseHandler { return &file.FileRemoveHandler{} },
-	"file/stat":       func() itf.BaseHandler { return &file.FileStatHandler{} },
-	"file/content":    func() itf.BaseHandler { return &file.FileContentHandler{} },
+	"file/create":   func() itf.BaseHandler { return &file.FileCreateHandler{} },
+	"file/rename":   func() itf.BaseHandler { return &file.FileRenameHandler{} },
+	"file/remove":   func() itf.BaseHandler { return &file.FileRemoveHandler{} },
+	"file/stat":     func() itf.BaseHandler { return &file.FileStatHandler{} },
+	"file/content":  func() itf.BaseHandler { return &file.FileContentHandler{} },
+	"file/download": func() itf.BaseHandler { return &file.FileDownloadHandler{} },
+	"file/upload":   func() itf.BaseHandler { return &file.FileUploadHandler{} },
+	"file/write":    func() itf.BaseHandler { return &file.FileWriteHandler{} },
+
 	"folder/create":   func() itf.BaseHandler { return &folder.FolderCreateHandler{} },
 	"folder/rename":   func() itf.BaseHandler { return &folder.FolderRenameHandler{} },
 	"folder/remove":   func() itf.BaseHandler { return &folder.FolderRemoveHandler{} },

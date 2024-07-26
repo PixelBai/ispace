@@ -88,6 +88,53 @@ export class ispaceWebSocket {
     return ob;
 
     }
+ 
+    uploadFile(req: wsRequestDto,file: File) : Observable<wsResponseDto>{
+
+        let ob = new Observable<wsResponseDto>((observer) => {
+            // step 1: 补充header，生成string data
+            req.header.id = uuidv4();
+            req.header.token = gv.token;
+            let data = JSON.stringify(req);
+    
+            // step 2: send 
+            if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+                this.ws.send(data);
+            }
+            else {
+                this.connect();
+                let si = setInterval(() => {
+                    if (this.ws && this.ws.readyState === WebSocket.OPEN) 
+                        {
+                        this.ws.send(data);
+                        clearInterval(si);
+                        }
+                }, 10);
+            }
+    
+            // step 3: deal response
+            let receive = (e:MessageEvent<any>)=>{
+                try{
+                    let response = JSON.parse(e.data);
+                    if (response.header.id == req.header.id) {
+                        observer.next(response); 
+                        observer.complete();
+                    }
+                    }
+                    catch(e){
+                        observer.error(e);
+                    }
+                    finally{
+                        this.ws?.addEventListener('message', receive);
+                    }
+            }
+            this.ws?.addEventListener('message', receive);
+    
+        });
+    
+        return ob; 
+    }
+
 
     close() {
         if (this.ws) {

@@ -3,26 +3,25 @@ package file
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"os"
-	fp "path/filepath"
+	"path/filepath"
 
 	"gitee.com/ispace/core/infrastructure/common/dto"
 	"gitee.com/ispace/core/infrastructure/common/gv"
 	statuscode "gitee.com/ispace/core/infrastructure/common/statusCode"
 )
 
-type FileContentHandler struct {
+type FileWriteHandler struct {
 	request dto.WsRequestDto
 }
 
 // Init 方法实现
-func (h *FileContentHandler) Init(request dto.WsRequestDto) {
+func (h *FileWriteHandler) Init(request dto.WsRequestDto) {
 	h.request = request
 }
 
 // Execute 方法实现
-func (h *FileContentHandler) Execute() dto.WsResponseDto {
+func (h *FileWriteHandler) Execute() dto.WsResponseDto {
 
 	// step init:
 	result := dto.WsResponseDto{}
@@ -39,48 +38,46 @@ func (h *FileContentHandler) Execute() dto.WsResponseDto {
 	params := map[string]string{}
 	err = json.Unmarshal(bodyBytes, &params)
 	if err != nil {
-		result.Header.Stat = statuscode.FileNotFound
+		result.Header.Stat = 2
 		result.Body = fmt.Sprintf("Error unmarshalling message:%s", err)
 		return result
 	}
 
 	// step 2:
-	content, code, err2 := h.content(params["filePath"])
-	if err2 != nil {
+	code := 0
+	code, err = h.write(params["filePath"], params["content"])
+	if err != nil {
 		result.Header.Stat = code
-		result.Body = fmt.Sprintf("Error StatFile message:%s", err2)
+		result.Body = fmt.Sprintf("Error WriteFile message:%s", err)
 		return result
 	}
-
 	// step end:
 	result.Header.Stat = 200
-	result.Body = content
 	return result
 }
 
-func (ic *FileContentHandler) content(filePath string) (string, int, error) {
-	// step core:
+func (ic *FileWriteHandler) write(filePath string, content string) (int, error) {
 
-	// 判断文件是否存在
-	if _, err := os.Stat(fp.Join(gv.BasePath, filePath)); os.IsNotExist(err) {
-		fmt.Println("文件不存在:", err)
-		return "", -1, err
+	filePath = filepath.Join(gv.BasePath, filePath)
+
+	// check: 文件是否存在
+	_, err := os.Stat(filePath)
+	if err != nil {
+		return statuscode.FileNotFound, err
 	}
 
-	// 打开文件
-	file, err := os.Open(fp.Join(gv.BasePath, filePath))
+	// write: 写入文件
+	file, err := os.OpenFile(filePath, os.O_WRONLY, 0)
 	if err != nil {
-		fmt.Println("打开文件失败:", err)
-		return "", -2, err
+		return statuscode.InternalError, err
 	}
 	defer file.Close()
 
-	// 使用io.ReadAll读取文件内容
-	content, err := io.ReadAll(file)
+	_, err = file.WriteString(content)
 	if err != nil {
-		fmt.Println("读取文件失败:", err)
-		return "", -3, err
+		return statuscode.InternalError, err
 	}
 
-	return string(content), 0, nil
+	return 200, nil
+
 }

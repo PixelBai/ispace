@@ -1,4 +1,4 @@
-import { Observable, Subject, of } from 'rxjs';
+import { NotFoundError, Observable, Subject, of } from 'rxjs';
 import { fileInfoDto } from './dto/fileInfoDto';
 import { ispaceWebSocket } from './ispaceWebSocket';
 import { gv } from './core';
@@ -209,6 +209,67 @@ export class fileHandler {
                 
 
 
+        });
+        return ob;
+    }
+
+    upload(filePath: string, file: File): Observable<boolean> {
+        let ob = new Observable<boolean>((observer) => {    
+
+            // step init:
+            let handler = "file/upload";
+            let req = new wsRequestDto();
+            req.header = new wsRequestHeaderDto();
+            req.header.handler = handler;
+            req.body = {
+                filePath,
+                file
+            };
+            this.ws.request(req).subscribe({
+                next: (response) => {
+                    if (response.header?.stat == 200) {
+                        observer.next(true);
+                    }
+                    else {
+                        observer.error(response.body);
+                    }
+                    observer.complete();
+                },
+                error: (error) => {
+                    observer.error(error);
+                    observer.complete();
+                }
+            });
+        }); 
+        return ob;
+    }
+
+    write(filePath: string, content: string): Observable<boolean> {
+        let ob = new Observable<boolean>((observer) => {
+            // step init:
+            let handler = "file/write";
+            let req = new wsRequestDto();
+            req.header = new wsRequestHeaderDto();
+            req.header.handler = handler;
+            req.body = {
+                filePath,
+                content
+            };
+            this.ws.request(req).subscribe({
+                next: (response) => {
+                    if (response.header?.stat == 200) {
+                        observer.next(true);
+                    }
+                    else {
+                        observer.error(response.body);
+                    }
+                    observer.complete();
+                },
+                error: (error) => {
+                    observer.error(error);
+                    observer.complete();
+                }   
+            });
         });
         return ob;
     }
