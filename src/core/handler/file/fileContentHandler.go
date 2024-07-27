@@ -64,7 +64,7 @@ func (ic *FileContentHandler) content(filePath string) (string, int, error) {
 	// 判断文件是否存在
 	if _, err := os.Stat(fp.Join(gv.BasePath, filePath)); os.IsNotExist(err) {
 		fmt.Println("文件不存在:", err)
-		return "", -1, err
+		return "", statuscode.FileNotFound, err
 	}
 
 	// 打开文件

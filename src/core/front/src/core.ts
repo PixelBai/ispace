@@ -35,5 +35,3 @@ export * from "./dto/folderInfoDto";
 export * from "./dto/resultDto";
 export * from "./dto/wsRequestDto";
 export * from "./dto/wsResponseDto";
- 
- 

@@ -4,7 +4,7 @@ import { file, folder } from 'ispace.core.main';
 import { fileInfoBaseDto } from 'ispace.core.main/dist/dto/fileInfoBaseDto';
 import { DesktopItemCmpComponent } from '../desktop-item-cmp/desktop-item-cmp.component';
 import { CommonModule } from '@angular/common';
-import { CdkDrag } from '@angular/cdk/drag-drop'; 
+import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop'; 
 
 @Component({
   selector: 'app-desktop-cmp',
@@ -14,6 +14,11 @@ import { CdkDrag } from '@angular/cdk/drag-drop';
   styleUrl: './desktop-cmp.component.sass'
 })
 export class DesktopCmpComponent {
+onDragEnded(event: CdkDragEnd<any>,item:DesktopItemDto){
+ item.position = event.source.getFreeDragPosition();
+}  
+
+  isDisplay = false;
 
   basePath = "Desktop"
   positionPath = "/.ispace/desktopitem_position.json"
@@ -25,7 +30,7 @@ export class DesktopCmpComponent {
   @ViewChild("body", { static: false }) body!: ElementRef;
   ngOnInit() {
     this.init();
-    setInterval(this.update_position,1000*10);
+    setInterval(()=>{this.update_position();},1000*1);
   }
 
   init() {
@@ -45,7 +50,6 @@ export class DesktopCmpComponent {
     .subscribe(
       s=>{
         console.log(s)
-        this.load();
       },e=>{
         if (e.header?.stat == 404001) {
           this.init_postion_file().then(s => {
@@ -62,9 +66,10 @@ export class DesktopCmpComponent {
 
 
   load() {
+    this.isDisplay = false;
     // 加载桌面文件、文件夹数据；
     this.load_children().then((s) => {
-      if (s) {
+      if (s) { 
         // 加载桌面项位置信息
         return this.load_position();
       }
@@ -80,9 +85,9 @@ export class DesktopCmpComponent {
   load_children(): Promise<boolean> {
     // 加载桌面文件、文件夹数据
     return new Promise<boolean>((resolve) => {
-      folder.children("Desktop")
+      folder.children(this.basePath)
         .subscribe(
-          (s) => {
+          (s) => { 
             s.forEach((info) => {
               this.desktopItems.push(this.convertInfo(info));
             })
@@ -112,7 +117,7 @@ export class DesktopCmpComponent {
           }
           resolve(true);
         }, (e) => {
-          if (e.header?.stat == 404001) {
+          if (e?.header?.stat == 404001) {
             this.init_postion_file().then(s => {
               this.init_position();
               resolve(true);
@@ -129,7 +134,15 @@ export class DesktopCmpComponent {
     })
   }
   init_postion_file(): Promise<boolean> {
-    throw new Error('Method not implemented.');
+    return new Promise<boolean>((resolve) => {
+      file.create(this.basePath + "/.ispace", "desktopitem_position.json").subscribe((s) => {
+        resolve(true);
+      }, (e) => {
+        console.log(e);
+        resolve(false);
+      })
+  });
+
   }
 
   rendering() {
@@ -147,6 +160,7 @@ export class DesktopCmpComponent {
         item.position = this.positions[item.id];
       }
     })
+    this.isDisplay = true;
   }
 
 
@@ -157,7 +171,7 @@ export class DesktopCmpComponent {
     result.name = info.name ?? (info.isDir ? "未命名文件夹" : "未命名文件");
     result.data = info;
     result.type = info.isDir ? "folder" : "file";
-    result.iconUrl = info.isDir ? "./assets/images/folder.png" : "./assets/images/file.png";
+    result.iconUrl = info.isDir ? "images/folder.png" : "images/file.png";
     return result;
   }
 
@@ -175,9 +189,10 @@ export class DesktopCmpComponent {
     let itemWidth = 100;
 
     // core :
+    debugger;
     let indexPosition = { x: 0, y: 0 };
     this.desktopItems.forEach((item) => {
-      this.positions[item.id] = indexPosition;
+      this.positions[item.id] ={ x:indexPosition.x, y:indexPosition.y};
 
       // step : 根据当前项的高度，计算下一个项的位置 
       if (indexPosition.y + itemHeight * 2 > bodyHeight) {

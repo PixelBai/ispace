@@ -9,7 +9,14 @@ import { Component } from '@angular/core';
 })
 export class BackgroundCmpComponent {
 
-  imgUrl: string = "./assets/images/background.png";
+  imgUrl: string = "images/bg.jpg"; 
+
+  constructor() {  
+  }
+
+  ngOnInit(): void { 
+  }
+ 
 
 
 

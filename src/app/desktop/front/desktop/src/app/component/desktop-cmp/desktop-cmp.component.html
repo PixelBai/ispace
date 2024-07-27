@@ -3,13 +3,15 @@
 有多个桌面项，可拖动。 
 1.桌面项数据列表 -->
 
-<div class="body" #body>
-    <app-desktop-item-cmp 
-        *ngFor="let item of desktopItems" 
-        [data]="item" 
+<div class="body" #body  *ngIf="isDisplay">
+   
+        <app-desktop-item-cmp class="item" 
+        *ngFor="let item of desktopItems"  
         cdkDrag 
         cdkDragBoundary=".body"
-        [cdkDragFreeDragPosition]="item.position"
-        >
-    </app-desktop-item-cmp>
+        [cdkDragFreeDragPosition]="item.position" 
+        [data]="item"
+        (cdkDragEnded)="onDragEnded($event,item)"
+        ></app-desktop-item-cmp>
+   
 </div>

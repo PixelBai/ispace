@@ -1,15 +1,23 @@
 import { Component, Input, output, ViewChild } from '@angular/core';
 import { DesktopItemDto } from './desktop-item-dto'; 
-import {MatTooltip, MatTooltipModule} from '@angular/material/tooltip';
-import {file,folder } from 'ispace.core.main';
+import {MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltip, MatTooltipDefaultOptions, MatTooltipModule} from '@angular/material/tooltip';
 import { fileInfoBaseDto } from 'ispace.core.main/dist/dto/fileInfoBaseDto';
-import { Type } from '@angular/compiler';
+
+/** Custom options the configure the tooltip's default show/hide delays. */
+export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
+  showDelay: 1000,
+  hideDelay: 10,
+  touchendHideDelay: 1000,
+};
+
 @Component({
   selector: 'app-desktop-item-cmp',
   standalone: true,
-  imports: [MatTooltipModule],
+  imports: [MatTooltipModule,],
   templateUrl: './desktop-item-cmp.component.html',
-  styleUrl: './desktop-item-cmp.component.sass'
+  styleUrl: './desktop-item-cmp.component.sass',
+
+  providers: [{provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults}],
 })
 export class DesktopItemCmpComponent {
  
@@ -19,52 +27,13 @@ export class DesktopItemCmpComponent {
   @ViewChild('body') tooltip!: any;
 
 
-  constructor() { 
-
+  constructor() {   
   }
 
   ngOnInit() { 
-      
-  }
-
-  hide(tooltip:MatTooltip): void {
-    this.tooltip.disabled = true;
-  }
-
-  display(tooltip:MatTooltip): void {
-    this.data.desc = this.formatInfo(this.data.data);
-    this.displayInfo(tooltip);
-    return;
+    this.data.desc = this.formatInfo(this.data.data); 
   }
  
-  displayInfo(tooltip:MatTooltip):void{ 
-    tooltip.message = this.data.desc!;
-    tooltip.disabled = false;
-    tooltip.show();
-  }
-
-  getInfo():Promise<([boolean,fileInfoBaseDto|null])>{
-    return new Promise<[boolean,fileInfoBaseDto|null]>((resolve) => {
-      if(this.data.type == "folder"){
-        file.statf(this.data.path).subscribe( (s) => {
-          return resolve([true,s])
-        }, (e) => {
-          console.log(e); 
-          resolve([false,null])
-        }) 
-      }
-  
-      if(this.data.type == "file"){
-        file.statf(this.data.path).subscribe( (s) => {
-          return resolve([true,s])
-        }, (e) => {
-          console.log(e); 
-          resolve([false,null])
-        })
-      }  
-    })
-  }
-
   formatInfo(info:fileInfoBaseDto):string{
     let result = "";
     result += "名称：" + info.name;

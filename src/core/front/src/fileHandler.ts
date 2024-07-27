@@ -197,7 +197,7 @@ export class fileHandler {
                             observer.next(response.body);
                         }
                         else {
-                            observer.error(response.body);
+                            observer.error(response);
                         }
                         observer.complete();
                     },
