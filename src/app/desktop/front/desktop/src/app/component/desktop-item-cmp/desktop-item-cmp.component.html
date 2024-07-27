@@ -1,4 +1,4 @@
-<div class="body" [matTooltip]="data.desc!" >
+<div class="body" [matTooltip]="data.desc!" *ngIf="data.position" >
 <img src="{{data.iconUrl}}" class="icon" />
 <div>{{data.name}}</div>
 <mat-tooltip-component >{{data.desc}}</mat-tooltip-component>

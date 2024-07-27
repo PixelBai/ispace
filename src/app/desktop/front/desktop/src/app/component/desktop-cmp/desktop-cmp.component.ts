@@ -29,8 +29,7 @@ onDragEnded(event: CdkDragEnd<any>,item:DesktopItemDto){
 
   @ViewChild("body", { static: false }) body!: ElementRef;
   ngOnInit() {
-    this.init();
-    setInterval(()=>{this.update_position();},1000*1);
+    this.init(); 
   }
 
   init() {
@@ -44,8 +43,12 @@ onDragEnded(event: CdkDragEnd<any>,item:DesktopItemDto){
     this.desktopItems.forEach(s=>{
       ps[s.id] = s.position;
     });
+    if (Object.keys(ps).length <= 0) {
+      return;
+    }
 
     let content = JSON.stringify(ps);
+
     file.write(this.basePath+this.positionPath,content)
     .subscribe(
       s=>{
@@ -111,6 +114,9 @@ onDragEnded(event: CdkDragEnd<any>,item:DesktopItemDto){
           // 保存到当前变量
           if (s?.length > 0) {
             this.positions = JSON.parse(s);
+            if (Object.keys(this.positions).length <= 0) {
+              this.positions = this.init_position();
+            }
           }
           else {
             this.positions = this.init_position();
@@ -161,6 +167,7 @@ onDragEnded(event: CdkDragEnd<any>,item:DesktopItemDto){
       }
     })
     this.isDisplay = true;
+    setInterval(()=>{this.update_position();},1000*1);
   }
 
 

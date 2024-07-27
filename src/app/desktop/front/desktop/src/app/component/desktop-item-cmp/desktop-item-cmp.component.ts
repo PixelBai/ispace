@@ -2,6 +2,7 @@ import { Component, Input, output, ViewChild } from '@angular/core';
 import { DesktopItemDto } from './desktop-item-dto'; 
 import {MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltip, MatTooltipDefaultOptions, MatTooltipModule} from '@angular/material/tooltip';
 import { fileInfoBaseDto } from 'ispace.core.main/dist/dto/fileInfoBaseDto';
+import { CommonModule } from '@angular/common';
 
 /** Custom options the configure the tooltip's default show/hide delays. */
 export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
@@ -13,7 +14,7 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
 @Component({
   selector: 'app-desktop-item-cmp',
   standalone: true,
-  imports: [MatTooltipModule,],
+  imports: [MatTooltipModule,CommonModule],
   templateUrl: './desktop-item-cmp.component.html',
   styleUrl: './desktop-item-cmp.component.sass',
 
