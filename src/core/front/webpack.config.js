@@ -18,7 +18,7 @@ module.exports = {
   output: {
     filename: 'core.js',
     path: path.resolve(__dirname, 'dist'),
-    library: 'ispace', // 导出为库
+    library: 'ispace.core.main', // 导出为库
     libraryTarget: 'umd', // 通用模块定义
     globalObject: 'this',
   },

@@ -68,6 +68,7 @@ export class DesktopCmpComponent {
         // 加载桌面项位置信息
         return this.load_position();
       }
+      return Promise.resolve(false);
     }).then((s) => {
       if (s) {
         // 构建桌面项，生成桌面项列表

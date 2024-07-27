@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { DynamicFlatNode } from "./dynamicFlatNode";
 import { TaskbarMenuItemDto } from "../taskbar-menu-item-cmp/taskbar-menu-item-dto";
 import { folder } from "ispace.core.main";
-import { fileInfoBaseDto } from "ispace.core.main/dist/dto/fileInfoBaseDto";
+import { fileInfoBaseDto } from "ispace.core.main";
 
 /**
  * Database for dynamic data. When expanding a node in the tree, the data source will need to fetch
@@ -10,8 +10,7 @@ import { fileInfoBaseDto } from "ispace.core.main/dist/dto/fileInfoBaseDto";
  */
 @Injectable({providedIn: 'root'})
 export class DynamicDatabase {
-   
- 
+    
  // action : loadChildren(parentNodes)
     loadChildren(parentNode: DynamicFlatNode): Promise<DynamicFlatNode[]> {
         return new Promise<DynamicFlatNode[]>((resolve) => { 
@@ -50,7 +49,7 @@ export class DynamicDatabase {
     });
   } 
 
-convertTaskbarMenuItemDto(parentPath:string,d:fileInfoBaseDto,parentLevel:number):DynamicFlatNode{ 
+convertTaskbarMenuItemDto(parentPath:string,d: (fileInfoBaseDto),parentLevel:number):DynamicFlatNode{ 
     let data = new TaskbarMenuItemDto(); 
     data.type = d.isDir ? "folder" : "file";
     data.path = parentPath + "/"+d.name;
