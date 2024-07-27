@@ -2,8 +2,10 @@ package isoption
 
 import (
 	"net/http"
+	"time"
 
 	"gitee.com/ispace/core/controller/identityController"
+	"gitee.com/ispace/core/infrastructure/common/dto"
 	"github.com/gin-gonic/gin"
 )
 
@@ -37,5 +39,15 @@ func ApiOption(host *gin.Engine) {
 			return
 		}
 		c.JSON(200, identityController.Verify(token))
+	})
+
+	// step 2：
+	api_host.GET("/DateTime", func(c *gin.Context) {
+		result := dto.ResultDto[time.Time]{}
+		result.Code = 200
+		result.Data = time.Now()
+		result.Success = true
+		result.Message = "success"
+		c.JSON(200, result)
 	})
 }

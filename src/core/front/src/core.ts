@@ -1,4 +1,5 @@
  import { authRequest } from "./authRequest";
+import { commonRequest } from "./commonRequest";
 import { config } from "./config";
 import { fileHandler } from "./fileHandler";
 import { folderHandler } from "./folderHandler"; 
@@ -18,5 +19,7 @@ export let file = new fileHandler();
 export let folder = new folderHandler();
 
 export let auth = new authRequest();
+
+export let common = new commonRequest();
 
  
