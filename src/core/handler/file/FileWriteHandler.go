@@ -67,7 +67,7 @@ func (ic *FileWriteHandler) write(filePath string, content string) (int, error) 
 	}
 
 	// write: 写入文件
-	file, err := os.OpenFile(filePath, os.O_WRONLY, 0)
+	file, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0666)
 	if err != nil {
 		return statuscode.InternalError, err
 	}

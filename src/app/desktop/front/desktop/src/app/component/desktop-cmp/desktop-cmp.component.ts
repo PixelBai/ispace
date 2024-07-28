@@ -4,7 +4,8 @@ import { file, folder } from 'ispace.core.main';
 import { fileInfoBaseDto } from 'ispace.core.main/dist/dto/fileInfoBaseDto';
 import { DesktopItemCmpComponent } from '../desktop-item-cmp/desktop-item-cmp.component';
 import { CommonModule } from '@angular/common';
-import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop'; 
+import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
+import { isRangesIntersection } from '../../common/utils/numberUtil'; 
 
 @Component({
   selector: 'app-desktop-cmp',
@@ -14,11 +15,9 @@ import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
   styleUrl: './desktop-cmp.component.sass'
 })
 export class DesktopCmpComponent {
-onDragEnded(event: CdkDragEnd<any>,item:DesktopItemDto){
- item.position = event.source.getFreeDragPosition();
-}  
-
-  isDisplay = false;
+  onDragEnded(event: CdkDragEnd<any>, item: DesktopItemDto) {
+    item.position = event.source.getFreeDragPosition();
+  }
 
   basePath = "Desktop"
   positionPath = "/.ispace/desktopitem_position.json"
@@ -29,7 +28,7 @@ onDragEnded(event: CdkDragEnd<any>,item:DesktopItemDto){
 
   @ViewChild("body", { static: false }) body!: ElementRef;
   ngOnInit() {
-    this.init(); 
+    this.init();
   }
 
   init() {
@@ -37,10 +36,10 @@ onDragEnded(event: CdkDragEnd<any>,item:DesktopItemDto){
   }
 
 
-  update_position(){
-    
-    let ps: { [key: string]: { x: number, y: number } }={};
-    this.desktopItems.forEach(s=>{
+  update_position() {
+
+    let ps: { [key: string]: { x: number, y: number } } = {};
+    this.desktopItems.forEach(s => {
       ps[s.id] = s.position;
     });
     if (Object.keys(ps).length <= 0) {
@@ -49,30 +48,20 @@ onDragEnded(event: CdkDragEnd<any>,item:DesktopItemDto){
 
     let content = JSON.stringify(ps);
 
-    file.write(this.basePath+this.positionPath,content)
-    .subscribe(
-      s=>{
-        console.log(s)
-      },e=>{
-        if (e.header?.stat == 404001) {
-          this.init_postion_file().then(s => {
-            this.init_position(); 
-            return;
-          })
-
-        }  
-        console.log(e)
-      });
+    file.write(this.basePath + this.positionPath, content)
+      .subscribe(
+        s => {
+          console.log(s)
+        }, e => { 
+          console.error(e)
+        });
 
   }
 
-
-
   load() {
-    this.isDisplay = false;
     // 加载桌面文件、文件夹数据；
-    this.load_children().then((s) => {
-      if (s) { 
+    this.load_children().then((s) => { 
+      if (s) {
         // 加载桌面项位置信息
         return this.load_position();
       }
@@ -90,7 +79,7 @@ onDragEnded(event: CdkDragEnd<any>,item:DesktopItemDto){
     return new Promise<boolean>((resolve) => {
       folder.children(this.basePath)
         .subscribe(
-          (s) => { 
+          (s) => {
             s.forEach((info) => {
               this.desktopItems.push(this.convertInfo(info));
             })
@@ -113,7 +102,11 @@ onDragEnded(event: CdkDragEnd<any>,item:DesktopItemDto){
         .subscribe((s) => {
           // 保存到当前变量
           if (s?.length > 0) {
+            try{
             this.positions = JSON.parse(s);
+            }catch(e){
+              console.error(e);
+            }
             if (Object.keys(this.positions).length <= 0) {
               this.positions = this.init_position();
             }
@@ -122,23 +115,23 @@ onDragEnded(event: CdkDragEnd<any>,item:DesktopItemDto){
             this.positions = this.init_position();
           }
           resolve(true);
-        }, (e) => {
+        }, (e) => { 
           if (e?.header?.stat == 404001) {
-            this.init_postion_file().then(s => {
-              this.init_position();
-              resolve(true);
-              return;
-            })
+          this.init_postion_file().then(s => {
+            this.init_position();
+            resolve(true);
+            return;
+          })
 
-          }
-          else {
+        }
+        else {
 
-            console.log(e);
-            resolve(false);
-          }
+          console.log(e);
+            resolve(false); 
+        }
         })
     })
-  }
+  } 
   init_postion_file(): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
       file.create(this.basePath + "/.ispace", "desktopitem_position.json").subscribe((s) => {
@@ -161,19 +154,77 @@ onDragEnded(event: CdkDragEnd<any>,item:DesktopItemDto){
     }
 
     // step core:
+    let waitInitItems: DesktopItemDto[] = [];
     this.desktopItems.forEach((item) => {
       if (this.positions[item.id]) {
         item.position = this.positions[item.id];
       }
+      else {
+        waitInitItems.push(item); 
+      }
     })
-    this.isDisplay = true;
-    setInterval(()=>{this.update_position();},1000*1);
+
+    waitInitItems.forEach((item) => {
+      this.initNewPosition(item);
+    })
+
+    setInterval(() => { this.update_position(); }, 1000 * 1);
+  }
+   initNewPosition(item: DesktopItemDto)  {
+
+    // step init:
+    let bodyHeight = this.body.nativeElement.clientHeight;
+    let itemHeight = 100;
+    let itemWidth = 100;
+    let indexPosition = { x: 0, y: 0 }; 
+
+
+    // step 1: 从position (0,0),顺序位置，并校验，不重合则init当前位置
+    while (true) {
+
+      // step 1.1: check 重合
+      let isOverlap = false;
+      for (let i = 0; i < this.desktopItems.length; i++) {
+        let s = this.desktopItems[i];
+        if(s.position == undefined)
+          {
+            continue;
+          }
+ 
+          // x check
+          let isOverlapX = isRangesIntersection(indexPosition.x, indexPosition.x + itemWidth, s.position.x, s.position.x + itemWidth, false);
+          // y check
+          let isOverlapY = isRangesIntersection(indexPosition.y, indexPosition.y + itemWidth, s.position.y, s.position.y + itemWidth,false);
+
+          isOverlap = isOverlapX! && isOverlapY!;
+          if (isOverlap) { 
+            break;
+          } 
+      }
+      if (isOverlap) {
+        // step : 根据当前项的高度，计算下一个项的位置 
+        if (indexPosition.y + itemHeight * 2 > bodyHeight) {
+          indexPosition.y = 0;
+          indexPosition.x = indexPosition.x + itemWidth;
+        }
+        else {
+          indexPosition.y = indexPosition.y + itemHeight;
+        } 
+        continue;
+      }
+      debugger;
+      item.position = indexPosition;
+      break;
+        
+    }
+
+    return
   }
 
 
   convertInfo(info: fileInfoBaseDto): DesktopItemDto {
     let result = new DesktopItemDto();
-    result.id = (info.isDir ? "folder" : "file") + "-" + info.name;
+    result.id = info.id!;
     result.path = this.basePath + "/" + info.name;
     result.name = info.name ?? (info.isDir ? "未命名文件夹" : "未命名文件");
     result.data = info;
@@ -195,11 +246,10 @@ onDragEnded(event: CdkDragEnd<any>,item:DesktopItemDto){
     let itemHeight = 100;
     let itemWidth = 100;
 
-    // core :
-    debugger;
+    // core : 
     let indexPosition = { x: 0, y: 0 };
     this.desktopItems.forEach((item) => {
-      this.positions[item.id] ={ x:indexPosition.x, y:indexPosition.y};
+      this.positions[item.id] = { x: indexPosition.x, y: indexPosition.y };
 
       // step : 根据当前项的高度，计算下一个项的位置 
       if (indexPosition.y + itemHeight * 2 > bodyHeight) {
@@ -214,4 +264,4 @@ onDragEnded(event: CdkDragEnd<any>,item:DesktopItemDto){
     return this.positions;
   }
 
-}
+} 

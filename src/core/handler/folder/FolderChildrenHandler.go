@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"syscall"
 
 	"gitee.com/ispace/core/infrastructure/common/dto"
 	"gitee.com/ispace/core/infrastructure/common/gv"
@@ -73,6 +74,16 @@ func (fh *FolderChildrenHandler) children(folderPath string) ([]dto.FileInfoBase
 	for _, file := range files {
 		child := dto.FileInfoBaseDto{}
 
+		itemPath := fmt.Sprintf("%s/%s/%s", gv.BasePath, folderPath, file.Name())
+		// 将os.FileInfo转换为*syscall.Stat_t以访问inode号
+		// 注意：这种转换依赖于内部实现，并且不是跨平台的
+		// 在Linux上通常有效，但在其他操作系统上可能不起作用
+		var stat syscall.Stat_t
+		if err := syscall.Stat(itemPath, &stat); err != nil {
+			return children, err
+		}
+
+		child.Id = stat.Ino
 		child.Name = file.Name()
 		child.Size = file.Size()
 		child.Mode = file.Mode()

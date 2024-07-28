@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	fp "path/filepath"
+	"syscall"
 
 	"gitee.com/ispace/core/infrastructure/common/dto"
 	"gitee.com/ispace/core/infrastructure/common/gv"
@@ -64,6 +65,15 @@ func (ic *FileStatHandler) stat(filePath string) (dto.FileInfoDto, error) {
 		return fileInfoDto, err
 	}
 
+	// 将os.FileInfo转换为*syscall.Stat_t以访问inode号
+	// 注意：这种转换依赖于内部实现，并且不是跨平台的
+	// 在Linux上通常有效，但在其他操作系统上可能不起作用
+	var stat syscall.Stat_t
+	if err := syscall.Stat(filePath, &stat); err != nil {
+		return fileInfoDto, err
+	}
+
+	fileInfoDto.Id = stat.Ino
 	fileInfoDto.Name = fileInfo.Name()
 	fileInfoDto.Size = fileInfo.Size()
 	fileInfoDto.Mode = fileInfo.Mode()

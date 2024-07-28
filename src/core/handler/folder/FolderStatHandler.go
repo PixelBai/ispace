@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"syscall"
 
 	"gitee.com/ispace/core/infrastructure/common/dto"
 	"gitee.com/ispace/core/infrastructure/common/gv"
@@ -59,11 +60,22 @@ func (h *FolderStatHandler) Execute() dto.WsResponseDto {
 func (fh *FolderStatHandler) stat(folderPath string) (dto.FolderInfoDto, error) {
 	folderInfo := dto.FolderInfoDto{}
 
-	info, err := os.Stat(filepath.Join(gv.BasePath, folderPath))
+	path := filepath.Join(gv.BasePath, folderPath)
+
+	info, err := os.Stat(path)
 	if err != nil {
 		return folderInfo, err
 	}
 
+	// 将os.FileInfo转换为*syscall.Stat_t以访问inode号
+	// 注意：这种转换依赖于内部实现，并且不是跨平台的
+	// 在Linux上通常有效，但在其他操作系统上可能不起作用
+	var stat syscall.Stat_t
+	if err := syscall.Stat(path, &stat); err != nil {
+		return folderInfo, err
+	}
+
+	folderInfo.Id = stat.Ino
 	folderInfo.Name = info.Name()
 	folderInfo.Size = info.Size()
 	folderInfo.Mode = info.Mode()
