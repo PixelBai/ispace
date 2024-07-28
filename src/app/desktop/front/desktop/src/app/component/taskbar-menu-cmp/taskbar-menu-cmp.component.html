@@ -8,21 +8,25 @@
   [cdkConnectedOverlayOrigin]="trigger"
   [cdkConnectedOverlayOpen]="isOpen"
 > 
-    
+<div class="pannel">
 <!-- 用户区 -->
-<div>
-  <img src="https://material.angular.io/assets/img/examples/shiba1.jpg" />
-  <div>{{userName}}</div>
+<div class="user-area">
+  <span class="spacer"></span>
+  <img [matMenuTriggerFor]="menu" src="images/person.png" height="50px" />
+  <div [matMenuTriggerFor]="menu">{{userName}}</div> 
 </div>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="logout()" >注销</button> 
+</mat-menu>
 
 <!-- 文件列表区 -->
-<div>
+<div class="list-area">
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-    <app-taskbar-menu-item-cmp [data]="node"></app-taskbar-menu-item-cmp>
+    <app-taskbar-menu-item-cmp [data]="node.item"></app-taskbar-menu-item-cmp>
     </mat-tree-node>
     <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-      <app-taskbar-menu-item-cmp [data]="node" [attr.aria-label]="'Toggle ' + node.item" matTreeNodeToggle></app-taskbar-menu-item-cmp>
+      <app-taskbar-menu-item-cmp [data]="node.item" [attr.aria-label]="'Toggle ' + node.item" matTreeNodeToggle></app-taskbar-menu-item-cmp>
       <mat-icon class="mat-icon-rtl-mirror">
         {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
       </mat-icon>
@@ -31,5 +35,6 @@
       }
     </mat-tree-node>
   </mat-tree>
+</div>
 </div>
 </ng-template>

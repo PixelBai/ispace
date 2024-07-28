@@ -11,6 +11,10 @@ import { fileInfoBaseDto } from "ispace.core.main";
 @Injectable({providedIn: 'root'})
 export class DynamicDatabase {
     
+
+  basePath = "Desktop/.ispace"
+  menuPath = "/.ispace/menu"
+
  // action : loadChildren(parentNodes)
     loadChildren(parentNode: DynamicFlatNode): Promise<DynamicFlatNode[]> {
         return new Promise<DynamicFlatNode[]>((resolve) => { 
@@ -38,23 +42,24 @@ export class DynamicDatabase {
     return new Promise<DynamicFlatNode[]>((resolve) => {
           // step init:
     let data = new fileInfoBaseDto();
+    data.id = '0';
     data.isDir = true;
     data.name = "menu";  
-    let topNode = this.convertTaskbarMenuItemDto(".desktop",data,0);
+    let topNode = this.convertTaskbarMenuItemDto(this.basePath,data,0);
 
     // step 1: 获取根节点下的子项
-    this.loadChildren(topNode).then((s) => {
-      resolve([topNode]);
+    this.loadChildren(topNode).then((s) => { 
+      resolve(s);
     });
     });
   } 
 
-convertTaskbarMenuItemDto(parentPath:string,d: (fileInfoBaseDto),parentLevel:number):DynamicFlatNode{ 
+convertTaskbarMenuItemDto(parentPath:string,d: fileInfoBaseDto,parentLevel:number):DynamicFlatNode{ 
     let data = new TaskbarMenuItemDto(); 
     data.type = d.isDir ? "folder" : "file";
     data.path = parentPath + "/"+d.name;
-    data.id = data.type +"-" + data.path;
-    data.iconUrl = d.isDir ? "./assets/images/folder.png" : "./assets/images/file.png";
+    data.id = d.id!;
+    data.iconUrl = d.isDir ? "images/folder.png" : "images/file.png";
     data.desc = this.formatInfo(d);
     data.name = d.name?? (d.isDir ? "未命名文件夹" : "未命名文件");
     data.data = d;

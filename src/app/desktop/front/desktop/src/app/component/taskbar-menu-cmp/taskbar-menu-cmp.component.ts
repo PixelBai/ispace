@@ -12,14 +12,19 @@ import { DynamicDataSource } from './dynamicDataSource';
 import { DynamicFlatNode } from './dynamicFlatNode';
 import { DynamicDatabase } from './dynamicDatabase';
  
+import {MatMenuModule} from '@angular/material/menu';
 @Component({
   selector: 'app-taskbar-menu-cmp',
   standalone: true,
-  imports: [MatIconModule, OverlayModule, MatCardModule, MatTreeModule, MatButtonModule, MatProgressBarModule, TaskbarMenuItemCmpComponent],
+  imports: [MatIconModule, OverlayModule, MatCardModule, MatTreeModule, MatButtonModule, MatProgressBarModule, TaskbarMenuItemCmpComponent,MatMenuModule],
   templateUrl: './taskbar-menu-cmp.component.html',
   styleUrl: './taskbar-menu-cmp.component.sass'
 })
 export class TaskbarMenuCmpComponent {
+logout() {
+  auth.logout();
+  window.location.reload();
+}
  
   // all
   isOpen = false;
@@ -42,7 +47,7 @@ export class TaskbarMenuCmpComponent {
     // 列表区
     this.treeControl = new FlatTreeControl<DynamicFlatNode>(this.getLevel, this.isExpandable);
     this.dataSource = new DynamicDataSource(this.treeControl, database);
-    database.initialData().then((s) => {
+    database.initialData().then((s) => { 
       this.dataSource.data = s;
     });
   }

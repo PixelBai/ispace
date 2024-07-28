@@ -67,4 +67,8 @@ export class authRequest{
         return userInfo;
    }
 
+   public logout() {
+        localStorage.removeItem("token");
+   }
+
 }
