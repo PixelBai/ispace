@@ -1,0 +1,22 @@
+{
+  "name": "ispace.de",
+  "version": "1.0.0",
+  "description": "driver engine lib",
+  "main": "dist/index.js", 
+  "scripts": {
+    "build": "webpack --mode production",
+    "watch": "webpack --watch --mode development"
+  },
+  "author": "pix",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/webpack": "^5.28.5",
+    "@types/webpack-env": "^1.18.5",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.5.4",
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
+  }
+}
