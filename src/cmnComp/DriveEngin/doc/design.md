@@ -59,7 +59,13 @@
             name："窗口"，
             main: (url)=>{ ispace.window.open(url); }
         }
+    4.操作对象
+        {
+           id，name，operations：[{name,address},...] 
+        }
 
     
  **//** 补充说明
     1.打开方式：当前固定为 窗口 打开方式，不做其他打开实现。
+
+
