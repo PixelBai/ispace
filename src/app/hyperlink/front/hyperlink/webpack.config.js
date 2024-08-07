@@ -1,8 +1,9 @@
 const path = require('path');  
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-  
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 module.exports = {  
-  entry: './src/index.ts',  
+  entry: './src/main.ts',    
   module: {  
     rules: [  
       {  
@@ -21,15 +22,19 @@ module.exports = {
     filename: 'index.html', // 输出文件的名称  
     // 其他配置...  
   }),  
+  new CopyWebpackPlugin({  
+    patterns: [  
+      { from: './src/assets', to: 'assets' },  
+    ],  
+  }),  
   // 其他插件...  
 ],  
-  output: {
-    filename: 'index.js',
-    path: path.resolve(__dirname, 'dist'),
-    library: 'ispace_de', // 导出为库
-    libraryTarget: 'umd', // 通用模块定义
-    globalObject: 'this',
-  },
-  mode: 'production', // 或 'development' 根据需要
+  // 输出配置  
+  output: {  
+    filename: 'main.js', // 打包后的JS文件名  
+    path: path.resolve(__dirname, 'dist'), // 打包后的文件存放的目录  
+    clean: true, // 清理/dist目录，确保不会有旧文件残留（Webpack 5+）  
+  },  
+  mode: 'development', // 或 'production' 根据需要 
   watch: true, 
 };

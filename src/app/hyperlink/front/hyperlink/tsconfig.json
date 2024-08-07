@@ -9,8 +9,7 @@
     "outDir": "./dist",                // 指定输出目录
     "rootDir": "./src",                // 指定输入文件的根目录
     "lib": ["es2015", "dom"],           // 指定目标库，添加 es2015 和 dom
-    "declaration": true,
-    "declarationDir": "./dist",
+    "sourceMap": true, // 确保这是开启的 
   }, 
   "include": [
     "src/**/*.ts",                      // 包含 src 目录下的所有 TypeScript 文件
