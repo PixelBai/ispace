@@ -1,3 +1,8 @@
 <div class="body"> 
-    qwe
+    <!-- 工具栏 -->
+     <app-toolbar-cmp [editorApi]="editor"></app-toolbar-cmp>
+    <!-- 编辑器 -->
+     <app-editor-cmp #editor></app-editor-cmp>
+    <!-- 状态栏 -->
+     <app-statusbar-cmp  [editorApi]="editor"></app-statusbar-cmp>
 </div>
