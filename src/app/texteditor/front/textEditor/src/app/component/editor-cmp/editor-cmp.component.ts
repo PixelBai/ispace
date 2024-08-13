@@ -18,12 +18,13 @@ export class EditorCmpComponent {
   }
 
   initEditor(): void {
+    ace.require("ace/ext/language_tools");
     // Create Ace Editor instance
     this.editor = ace.edit(this.editorContainer.nativeElement);
     
     // Set editor options
-    this.editor.setTheme('ace/theme/monokai');
-    this.editor.session.setMode('ace/mode/javascript');
+    // this.editor.setTheme('ace/theme/monokai');
+    // this.editor.session.setMode('ace/mode/javascript');
     
     // Optional: Set default content
     this.editor.setValue('// Write your code here...');
