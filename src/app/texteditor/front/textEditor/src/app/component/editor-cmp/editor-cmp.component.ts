@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild, viewChild } from '@angular/core';   
+import * as ace from 'ace-builds'; 
 
 @Component({
   selector: 'app-editor-cmp',
@@ -8,5 +9,24 @@ import { Component } from '@angular/core';
   styleUrl: './editor-cmp.component.sass'
 })
 export class EditorCmpComponent {
+  @ViewChild('editorContainer', { static: true }) editorContainer!: ElementRef;
 
-}
+  editor?: ace.Ace.Editor;
+
+  ngAfterViewInit(): void {
+    this.initEditor();
+  }
+
+  initEditor(): void {
+    // Create Ace Editor instance
+    this.editor = ace.edit(this.editorContainer.nativeElement);
+    
+    // Set editor options
+    this.editor.setTheme('ace/theme/monokai');
+    this.editor.session.setMode('ace/mode/javascript');
+    
+    // Optional: Set default content
+    this.editor.setValue('// Write your code here...');
+  }
+
+} 
