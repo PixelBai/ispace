@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, viewChild } from '@angular/core';   
-import * as ace from 'ace-builds'; 
+import * as ace from 'ace-builds';   
 
 @Component({
   selector: 'app-editor-cmp',
@@ -17,17 +17,25 @@ export class EditorCmpComponent {
     this.initEditor();
   }
 
-  initEditor(): void {
-    ace.require("ace/ext/language_tools");
+  initEditor(): void { 
+ 
+    this.loadModule();
+    
     // Create Ace Editor instance
     this.editor = ace.edit(this.editorContainer.nativeElement);
     
     // Set editor options
-    // this.editor.setTheme('ace/theme/monokai');
-    // this.editor.session.setMode('ace/mode/javascript');
+     this.editor.setTheme('ace/theme/chrome'); 
     
     // Optional: Set default content
-    this.editor.setValue('// Write your code here...');
+    this.editor.setValue('');
   }
+
+
+  loadModule() {  
+    ace.config.setModuleUrl('ace/theme/chrome', ace.require('file-loader?esModule=false!./src-noconflict/theme-chrome.js'));
+    ace.config.setModuleUrl('ace/theme/monokai', ace.require('file-loader?esModule=false!./src-noconflict/theme-monokai.js'));
+  }
+
 
 } 

@@ -1,7 +1,7 @@
 <div class="body" >
 
-    <label>{{editorApi.getCursorPosition()}}行，{{editorApi.getCursorColumn()}}列</label>
+    <label>{{editorApi?.getCursorPosition()?.row??0}}行，{{editorApi?.getCursorPosition()?.column??0}}列</label>
 
-    <label>{{editorApi.getcount()}}字符</label>
+    <label>{{editorApi?.getValue()?.length??0}}字符</label>
  
 </div>

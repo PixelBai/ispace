@@ -3,8 +3,7 @@
 <mat-toolbar>
     <button mat-icon-button [matMenuTriggerFor]="file_menu">文件</button> 
     <mat-menu #file_menu="matMenu">
-        <button mat-menu-item>保存</button>
-        <button mat-menu-item>退出</button>
+        <button mat-menu-item (click)="save()">保存</button>
     </mat-menu>
     <button mat-icon-button [matMenuTriggerFor]="edit_menu">编辑</button> 
     <mat-menu #edit_menu="matMenu">
