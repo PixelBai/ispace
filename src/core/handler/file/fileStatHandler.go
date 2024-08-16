@@ -59,8 +59,9 @@ func (h *FileStatHandler) Execute() dto.WsResponseDto {
 func (ic *FileStatHandler) stat(filePath string) (dto.FileInfoDto, error) {
 	// step init:
 	fileInfoDto := dto.FileInfoDto{}
+	filePath = fp.Join(gv.BasePath, filePath)
 	// step core:
-	fileInfo, err := os.Stat(fp.Join(gv.BasePath, filePath))
+	fileInfo, err := os.Stat(filePath)
 	if err != nil {
 		return fileInfoDto, err
 	}

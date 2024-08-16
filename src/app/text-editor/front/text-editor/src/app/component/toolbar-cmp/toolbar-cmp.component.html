@@ -1,16 +1,16 @@
 <div class="body" >
 <!-- 左侧 -->
 <mat-toolbar>
-    <button mat-icon-button [matMenuTriggerFor]="file_menu">文件</button> 
+    <button mat-button [matMenuTriggerFor]="file_menu">文件</button> 
     <mat-menu #file_menu="matMenu">
         <button mat-menu-item (click)="save()">保存</button>
     </mat-menu>
-    <button mat-icon-button [matMenuTriggerFor]="edit_menu">编辑</button> 
+    <button mat-button [matMenuTriggerFor]="edit_menu">编辑</button> 
     <mat-menu #edit_menu="matMenu">
         <button mat-menu-item>查找</button>
         <button mat-menu-item>替换</button>
     </mat-menu>
-    <button mat-icon-button [matMenuTriggerFor]="view_menu">查看</button>
+    <button mat-button [matMenuTriggerFor]="view_menu">查看</button>
     <mat-menu #view_menu="matMenu">
         <button mat-menu-item>放大</button>
         <button mat-menu-item>缩小</button>
@@ -19,14 +19,7 @@
     <span class="spacer"></span> 
     <button mat-icon-button (click)="openDialog()" >
       <mat-icon>settings</mat-icon>
-    </button> 
-  </mat-toolbar> 
-<!-- 右侧 -->
- <div>
-    <button type="button">设置</button>
-    <!-- 头像 -->
-    <img src="touxiang" />
-    <!-- 用户名 -->
-    <label>{{userInfo.name}}</label>
- </div>
+    </button>   
+    <button mat-button><img width="24px" src="images/person.png" />{{userInfo?.name}}</button>
+  </mat-toolbar>  
 </div>

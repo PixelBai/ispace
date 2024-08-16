@@ -28,6 +28,10 @@
             "assets": [
               {
                 "glob": "**/*",
+                "input": "node_modules/ace-builds/src-noconflict"
+              },
+              {
+                "glob": "**/*",
                 "input": "public"
               }
             ],
@@ -43,7 +47,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumError": "10MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -85,7 +89,11 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "sass",
-            "assets": [
+            "assets": [ 
+              {
+                "glob": "**/*",
+                "input": "ace-builds/src-noconflict"
+              },
               {
                 "glob": "**/*",
                 "input": "public"

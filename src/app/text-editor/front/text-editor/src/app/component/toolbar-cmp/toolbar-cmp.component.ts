@@ -4,9 +4,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
-// import { auth } from 'ispace.core.main';
+import { auth } from 'ispace.core.main';
 import { SettingsDialogComponent } from '../settings-dialog/settings-dialog.component';
-import * as ace from 'ace-builds';  
+import * as ace from 'ace-builds';   
+import { EditorCmpComponent } from '../editor-cmp/editor-cmp.component';
+
 @Component({
   selector: 'app-toolbar-cmp',
   standalone: true,
@@ -17,16 +19,16 @@ import * as ace from 'ace-builds';
 export class ToolbarCmpComponent {
  
  
-  @Input() editorApi?: ace.Ace.Editor;
+  @Input() editorApi!: EditorCmpComponent;
 
   constructor(public dialog: Dialog) { 
-   // this.initUserInfo();
+   this.initUserInfo();
    } 
  
   // section user info:
-  userInfo: any;
+  userInfo:any;
   initUserInfo() {
-    // this.userInfo = auth.getUserInfo();
+    this.userInfo = auth.getUserInfo();
   }
  
   openDialog() {
@@ -36,12 +38,8 @@ export class ToolbarCmpComponent {
     });
   }  
 
-  save() {
-     // step 1: 获取当前内容
-     let content = this.editorApi?.getValue();
-
-     // step 2: 保存当前内容到文件
-    
+  save() { 
+   this.editorApi.save(); 
 
   }
 

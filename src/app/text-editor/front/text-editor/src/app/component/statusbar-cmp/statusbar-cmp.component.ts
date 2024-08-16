@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import * as ace from 'ace-builds';   
+import { EditorCmpComponent } from '../editor-cmp/editor-cmp.component';
 
 @Component({
   selector: 'app-statusbar-cmp',
@@ -10,7 +11,7 @@ import * as ace from 'ace-builds';
 })
 export class StatusbarCmpComponent {
 
-  @Input() editorApi?: ace.Ace.Editor;
+  @Input() editorApi!: EditorCmpComponent;
 
   constructor() { }
 
