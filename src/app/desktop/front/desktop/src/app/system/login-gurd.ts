@@ -1,6 +1,6 @@
 
 import { ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateFn } from "@angular/router";
-import { auth } from "ispace.core.main";
+import { auth } from "ispace.core.main"; 
 
 export const LoginCanActivate: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   return new Promise<boolean>((resolve) => {
