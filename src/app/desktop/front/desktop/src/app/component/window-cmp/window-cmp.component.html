@@ -1,0 +1,25 @@
+<div class="body" #body [class.hidden]="sizeStatus=='min'" [style.width]="width" [style.height]="height">
+
+    <!-- 头部 -->
+    <div class="header" >
+            <label>{{title}}</label>
+            <span class="spacer"></span>
+            <button mat-icon-button (click)="sizeMin()">-</button>
+            <button mat-icon-button *ngIf="sizeStatus=='common'" (click)="sizeMax()" >o</button>
+            <button mat-icon-button *ngIf="sizeStatus=='max'" (click)="sizeCommon()">oo</button>
+            <button mat-icon-button (click)="close.emit(id)" >x</button>
+    </div> 
+    <!-- 工具栏 -->
+    <div class="tool-bar">
+        <button mat-icon-button (click)="back()">后退</button>
+        <button mat-icon-button (click)="forward()" >前进</button>
+        <button mat-icon-button (click)="refresh()" >刷新</button>
+        <span class="spacer" ></span>
+        <button mat-icon-button  *ngIf="false" >配置</button> 
+    </div>
+    <!-- 内容展示 -->
+    <div class="content">
+        <iframe #page [src]="url" frameborder="0" width="100%" height="100%"></iframe>
+    </div>
+
+</div>
