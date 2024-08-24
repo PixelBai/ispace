@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { WindowContainerComponent } from '../window-container/window-container.component';
+import { WindowContainerCmpComponent } from '../window-container-cmp/window-container-cmp.component';
 import { WindowsManagerService } from '../../service/windows-manager.service';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-window-cmp',
@@ -18,7 +19,7 @@ export class WindowCmpComponent {
   // 标题
   @Input("title") title = "测试窗口"
   // 地址
-  @Input("url") url = "http://www.baidu.com";
+  @Input("url") url= "http://www.baidu.com";
   // 大小状态
   sizeStatus:'common'|'max'|'min' = 'common';
 
@@ -30,7 +31,7 @@ export class WindowCmpComponent {
   // page
   @ViewChild('page') page!: HTMLIFrameElement;
   
-  constructor() { 
+  constructor(private sanitizer: DomSanitizer) { 
   }
 
   ngOnInit(): void {
@@ -76,5 +77,11 @@ export class WindowCmpComponent {
   public refresh() {
     this.page.contentWindow?.location.reload();
   }
+
+
+  safeUrl() {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
+  }
+ 
 
 }

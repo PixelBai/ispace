@@ -11,6 +11,9 @@
         [style.top.px]="item.top"
         [id]="item.id"
         (close)="wsm.close(item.id)"
+
+        cdkDrag 
+        cdkDragBoundary=".body"
     > 
     </app-window-cmp>
 </div>

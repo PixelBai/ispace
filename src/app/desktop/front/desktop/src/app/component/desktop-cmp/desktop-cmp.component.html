@@ -5,6 +5,8 @@
 
 <div class="body" #body >
         
+<!-- 桌面项列表 -->
+<div class="items"> 
         <app-desktop-item-cmp class="item" 
         *ngFor="let item of desktopItems"  
         cdkDrag 
@@ -13,5 +15,8 @@
         [data]="item"
         (cdkDragEnded)="onDragEnded($event,item)"
         ></app-desktop-item-cmp>
-   
+</div>
+
+<!-- 窗口区域 -->
+<app-window-container-cmp></app-window-container-cmp>
 </div>

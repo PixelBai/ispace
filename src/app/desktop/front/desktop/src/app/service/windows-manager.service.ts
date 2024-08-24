@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WindowDto } from '../dto/windowDto';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +18,13 @@ export class WindowsManagerService {
       windowDto.id = this.generateId();
       windowDto.title = "新窗口";
       windowDto.width = "400px";
-      windowDto.height = "300";
+      windowDto.height = "300px";
       windowDto.left = 0;
       windowDto.top = 0;
       windowDto.zIndex = 0; 
+      windowDto.url =  url;
 
+      debugger
       // step 2: 添加到windowDtos
       this.windowDtos.push(windowDto);
 
@@ -39,7 +42,7 @@ export class WindowsManagerService {
      return ++this.maxId
   }
 
-  constructor() { }
+  constructor(private sanitizer: DomSanitizer) { }
 
 
 

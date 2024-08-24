@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WindowContainerComponent } from './window-container.component';
+import { WindowContainerCmpComponent } from './window-container-cmp.component';
 
 describe('WindowContainerComponent', () => {
-  let component: WindowContainerComponent;
-  let fixture: ComponentFixture<WindowContainerComponent>;
+  let component: WindowContainerCmpComponent;
+  let fixture: ComponentFixture<WindowContainerCmpComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WindowContainerComponent]
+      imports: [WindowContainerCmpComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(WindowContainerComponent);
+    fixture = TestBed.createComponent(WindowContainerCmpComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

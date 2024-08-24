@@ -5,12 +5,13 @@ import { fileInfoBaseDto } from 'ispace.core.main/dist/dto/fileInfoBaseDto';
 import { DesktopItemCmpComponent } from '../desktop-item-cmp/desktop-item-cmp.component';
 import { CommonModule } from '@angular/common';
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
-import { isRangesIntersection } from '../../common/utils/numberUtil'; 
+import { isRangesIntersection } from '../../common/utils/numberUtil';
+import { WindowContainerCmpComponent } from "../window-container-cmp/window-container-cmp.component"; 
 
 @Component({
   selector: 'app-desktop-cmp',
   standalone: true,
-  imports: [DesktopItemCmpComponent, CommonModule, CdkDrag],
+  imports: [DesktopItemCmpComponent, CommonModule, CdkDrag, WindowContainerCmpComponent],
   templateUrl: './desktop-cmp.component.html',
   styleUrl: './desktop-cmp.component.sass'
 })
