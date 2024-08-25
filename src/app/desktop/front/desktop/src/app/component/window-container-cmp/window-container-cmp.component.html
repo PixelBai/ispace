@@ -1,8 +1,9 @@
 <div class="body" #body>
  
-    <div *ngFor="let item of wsm.windowDtos"  
+    <div class="window-cmp" *ngFor="let item of wsm.windowDtos"  
     [style.width]="item.isSizeMax ? '100%' : item.width"
     [style.height]="item.isSizeMax ? '100%' : item.height" 
+    [style.display]="item.isHide ? 'none' : 'block'"
     cdkDrag 
     [cdkDragFreeDragPosition]=" item.isSizeMax ? {x: 0, y: 0} :item.position"  
     (cdkDragEnded)="onDragEnded($event,item)"> 
@@ -15,8 +16,7 @@
         (close)="wsm.close(item.id)"
         (sizeMin)="wsm.hide(item.id)"
         (sizeMax)="wsm.sizeMax(item.id)"
-        (sizeCommon)="wsm.sizeCommon(item.id)" 
-        *ngIf="!item.isHide"
+        (sizeCommon)="wsm.sizeCommon(item.id)"  
         [style.width]="true? '100%' : item.width"
         [style.height]="true ? '100%' : item.height" 
     > 

@@ -18,6 +18,8 @@ export class WindowContainerCmpComponent {
   constructor(public wsm: WindowsManagerService,public sanitizer: DomSanitizer) {
  
       this.wsm.open("新窗口", "http://127.0.0.1/app/text-editor/#/home?path=Desktop%2F123.txt");
+      this.wsm.open("新窗口", "http://127.0.0.1/app/text-editor/#/home?path=Desktop%2F123.txt");
+      this.wsm.open("新窗口", "http://127.0.0.1/app/text-editor/#/home?path=Desktop%2F123.txt");
 
    }
 
