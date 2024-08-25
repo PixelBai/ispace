@@ -3,10 +3,17 @@
     <!-- 头部 -->
     <mat-toolbar class="header">
             <span cdkDragHandle class="spacer">{{title}}</span> 
-            <button mat-icon-button (click)="sizeMin.emit(id)">-</button>
-            <button mat-icon-button *ngIf="!isSizeMax" (click)="_sizeMax()" >o</button>
-            <button mat-icon-button  *ngIf="isSizeMax" (click)="_sizeCommon()">oo</button>
-            <button mat-icon-button (click)="close.emit(id)" >x</button>
+            <button mat-icon-button (click)="sizeMin.emit(id)">
+                <mat-icon aria-hidden="false" aria-label="" fontIcon="minimize"></mat-icon>
+            </button>
+            <button mat-icon-button *ngIf="!isSizeMax" (click)="_sizeMax()" >
+                <mat-icon aria-hidden="false" aria-label="" fontIcon="fullscreen"></mat-icon>
+            </button>
+            <button mat-icon-button  *ngIf="isSizeMax" (click)="_sizeCommon()">
+                <mat-icon aria-hidden="false" aria-label="" fontIcon="fullscreen_exit"></mat-icon></button>
+            <button mat-icon-button (click)="close.emit(id)" >
+                <mat-icon aria-hidden="false" aria-label="" fontIcon="close"></mat-icon>
+            </button>
     </mat-toolbar> 
     <!-- 工具栏 -->
     <mat-toolbar class="tool-bar">
