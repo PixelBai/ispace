@@ -1,11 +1,11 @@
-<div class="body" #body [class.hidden]="sizeStatus=='min'" [style.width]="'100%'" [style.height]="'100%'">
+<div class="body" #body>
 
     <!-- 头部 -->
     <mat-toolbar class="header">
             <span cdkDragHandle class="spacer">{{title}}</span> 
-            <button mat-icon-button (click)="sizeMin()">-</button>
-            <button mat-icon-button *ngIf="sizeStatus=='common'" (click)="sizeMax()" >o</button>
-            <button mat-icon-button *ngIf="sizeStatus=='max'" (click)="sizeCommon()">oo</button>
+            <button mat-icon-button (click)="_sizeMin()">-</button>
+            <button mat-icon-button  (click)="_sizeMax()" >o</button>
+            <button mat-icon-button   (click)="_sizeCommon()">oo</button>
             <button mat-icon-button (click)="close.emit(id)" >x</button>
     </mat-toolbar> 
     <!-- 工具栏 -->

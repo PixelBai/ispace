@@ -23,10 +23,17 @@ export class WindowCmpComponent {
   // 标题
   @Input("title") title = "测试窗口"
   // 地址
-  @Input("url") url= "http://www.baidu.com";
-  // 大小状态
-  sizeStatus:'common'|'max'|'min' = 'common';
-
+  @Input("url") url= "http://www.baidu.com"; 
+ 
+ 
+  // 最小化
+  isSizeMax = false;
+  @Output() sizeMin = new EventEmitter<number>();  
+  _sizeMin() {
+    this.isSizeMax = true;
+    this.sizeMin.emit(this.id);
+  }
+  
   // page
   @ViewChild('page') page!: HTMLIFrameElement;
   
@@ -36,17 +43,16 @@ export class WindowCmpComponent {
   ngOnInit(): void {
   }
   
-  //* 头部 */
-  public sizeMin() {
-    this.sizeStatus = 'min';
+  //* 头部 */ 
+
+  @Output() sizeMax = new EventEmitter<number>(); 
+  public _sizeMax() {  
+    this.isSizeMax = true;
   }
 
-  public sizeMax() {  
-    this.sizeStatus = 'max';
-  }
- 
-  public sizeCommon() {
-    this.sizeStatus = 'common';
+  @Output() sizeCommon = new EventEmitter<number>(); 
+  public _sizeCommon() {
+    this.isSizeMax = false;
   }
 
   @Output() close = new EventEmitter<number>(); 
