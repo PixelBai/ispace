@@ -17,14 +17,13 @@ export class WindowsManagerService {
       let windowDto = new WindowDto();
       windowDto.id = this.generateId();
       windowDto.title = "新窗口";
-      windowDto.width = "400px";
-      windowDto.height = "300px";
+      windowDto.width = "1200px";
+      windowDto.height = "900px";
       windowDto.left = 0;
       windowDto.top = 0;
       windowDto.zIndex = 0; 
       windowDto.url =  url;
-
-      debugger
+ 
       // step 2: 添加到windowDtos
       this.windowDtos.push(windowDto);
 

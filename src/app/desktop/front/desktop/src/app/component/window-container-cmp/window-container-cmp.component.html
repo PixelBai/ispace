@@ -1,19 +1,15 @@
-<div class="body">
+<div class="body" #body>
  
     <app-window-cmp 
         *ngFor="let item of wsm.windowDtos"
         [title]="item.title"
-        [url]="item.url"
-        [width]="item.width"
-        [height]="item.height" 
-        [style.zIndex]="item.zIndex" 
-        [style.left.px]="item.left"
-        [style.top.px]="item.top"
+        [url]="item.url" 
+        [style.zIndex]="item.zIndex"
         [id]="item.id"
         (close)="wsm.close(item.id)"
-
         cdkDrag 
-        cdkDragBoundary=".body"
+        [cdkDragFreeDragPosition]="item.position"  
+        (cdkDragEnded)="onDragEnded($event,item)"
     > 
     </app-window-cmp>
 </div>

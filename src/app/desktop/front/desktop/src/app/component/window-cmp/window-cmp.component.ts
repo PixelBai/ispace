@@ -3,11 +3,15 @@ import { WindowContainerCmpComponent } from '../window-container-cmp/window-cont
 import { WindowsManagerService } from '../../service/windows-manager.service';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CdkDragHandle, CdkDrag } from '@angular/cdk/drag-drop';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-window-cmp',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,CdkDragHandle,CdkDrag,MatToolbarModule,MatButtonModule, MatIconModule],
   templateUrl: './window-cmp.component.html',
   styleUrl: './window-cmp.component.sass'
 })
@@ -22,11 +26,6 @@ export class WindowCmpComponent {
   @Input("url") url= "http://www.baidu.com";
   // 大小状态
   sizeStatus:'common'|'max'|'min' = 'common';
-
-  // 宽 高
-  @Input("width") width = '300px'; 
-  @Input("height") height = '200px'; 
-  commonSize = {width:this.width, height:this.height};
 
   // page
   @ViewChild('page') page!: HTMLIFrameElement;
@@ -44,21 +43,10 @@ export class WindowCmpComponent {
 
   public sizeMax() {  
     this.sizeStatus = 'max';
-
-    // 存储常规大小
-    this.commonSize = {width:this.width, height:this.height};
-
-    // 调整到最大 
-    this.width = '100%';
-    this.height = '100%'; 
   }
  
   public sizeCommon() {
     this.sizeStatus = 'common';
-
-    // 恢复常规大小
-    this.width = this.commonSize.width;
-    this.height = this.commonSize.height;
   }
 
   @Output() close = new EventEmitter<number>(); 

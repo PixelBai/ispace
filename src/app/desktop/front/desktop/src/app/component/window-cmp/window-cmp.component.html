@@ -1,25 +1,32 @@
-<div class="body" #body [class.hidden]="sizeStatus=='min'" [style.width]="width" [style.height]="height">
+<div class="body" #body [class.hidden]="sizeStatus=='min'" [style.width]="'100%'" [style.height]="'100%'">
 
     <!-- 头部 -->
-    <div class="header" >
-            <label>{{title}}</label>
-            <span class="spacer"></span>
+    <mat-toolbar class="header">
+            <span cdkDragHandle class="spacer">{{title}}</span> 
             <button mat-icon-button (click)="sizeMin()">-</button>
             <button mat-icon-button *ngIf="sizeStatus=='common'" (click)="sizeMax()" >o</button>
             <button mat-icon-button *ngIf="sizeStatus=='max'" (click)="sizeCommon()">oo</button>
             <button mat-icon-button (click)="close.emit(id)" >x</button>
-    </div> 
+    </mat-toolbar> 
     <!-- 工具栏 -->
-    <div class="tool-bar">
-        <button mat-icon-button (click)="back()">后退</button>
-        <button mat-icon-button (click)="forward()" >前进</button>
-        <button mat-icon-button (click)="refresh()" >刷新</button>
+    <mat-toolbar class="tool-bar">
+        <button mat-icon-button (click)="back()">
+            <mat-icon aria-hidden="false" aria-label="" fontIcon="arrow_back"></mat-icon>
+        </button>
+        <button mat-icon-button (click)="forward()" >
+            <mat-icon aria-hidden="false" aria-label="" fontIcon="arrow_forward"></mat-icon>
+        </button>
+        <button mat-icon-button (click)="refresh()" >            
+            <mat-icon aria-hidden="false" aria-label="" fontIcon="refresh"></mat-icon>
+        </button>
         <span class="spacer" ></span>
-        <button mat-icon-button  *ngIf="false" >配置</button> 
-    </div>
+        <button mat-icon-button  *ngIf="false" >
+            <mat-icon aria-hidden="false" aria-label="" fontIcon="settings"></mat-icon>
+        </button> 
+    </mat-toolbar>
     <!-- 内容展示 -->
     <div class="content">
-        <iframe #page [src]="safeUrl()" frameborder="10px" width="100%" height="100%"></iframe>
+        <iframe #page [src]="safeUrl()" frameborder="0" width="100%" height="100%"></iframe>
     </div>
 
 </div>
