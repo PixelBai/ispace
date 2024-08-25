@@ -23,6 +23,7 @@ export class WindowContainerCmpComponent {
 
    onDragEnded(event: CdkDragEnd<any>, item: WindowDto) {
     item.position = event.source.getFreeDragPosition();
+    item.isSizeMax = false;
   }
 
 }

@@ -3,9 +3,9 @@
     <!-- 头部 -->
     <mat-toolbar class="header">
             <span cdkDragHandle class="spacer">{{title}}</span> 
-            <button mat-icon-button (click)="_sizeMin()">-</button>
-            <button mat-icon-button  (click)="_sizeMax()" >o</button>
-            <button mat-icon-button   (click)="_sizeCommon()">oo</button>
+            <button mat-icon-button (click)="sizeMin.emit(id)">-</button>
+            <button mat-icon-button *ngIf="!isSizeMax" (click)="_sizeMax()" >o</button>
+            <button mat-icon-button  *ngIf="isSizeMax" (click)="_sizeCommon()">oo</button>
             <button mat-icon-button (click)="close.emit(id)" >x</button>
     </mat-toolbar> 
     <!-- 工具栏 -->

@@ -10,4 +10,6 @@ export class WindowDto {
     top: number = 0;
     zIndex: number = 0;
     position: Point = { x: 0, y: 0 };
+    isHide: boolean = false;
+    isSizeMax: boolean = false; 
 }
