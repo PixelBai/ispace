@@ -1,5 +1,13 @@
-<button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="isOpen = !isOpen" cdkOverlayOrigin #trigger="cdkOverlayOrigin" >
-    <mat-icon>menu</mat-icon>
+<button 
+[cdkContextMenuTriggerFor]="taskbar_menu_menu"
+mat-icon-button 
+class="example-icon" 
+aria-label="Example icon-button with menu icon" 
+(click)="isOpen = !isOpen" 
+cdkOverlayOrigin 
+#trigger="cdkOverlayOrigin"  
+>
+    <mat-icon >menu</mat-icon>
 </button> 
  
 <!-- This template displays the overlay content and is connected to the button -->
@@ -8,7 +16,7 @@
   [cdkConnectedOverlayOrigin]="trigger"
   [cdkConnectedOverlayOpen]="isOpen"
 > 
-<div class="pannel">
+<div class="pannel" >
 <!-- 用户区 -->
 <div class="user-area">
   <span class="spacer"></span>
@@ -38,3 +46,10 @@
 </div>
 </div>
 </ng-template>
+
+<ng-template #taskbar_menu_menu>
+  <div class="menu" cdkMenu>
+    <button class="menu-item" cdkMenuItem (click)="logout()">注销</button>
+  </div>
+</ng-template>
+

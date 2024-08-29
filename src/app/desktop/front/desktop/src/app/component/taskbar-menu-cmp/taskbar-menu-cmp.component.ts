@@ -13,10 +13,11 @@ import { DynamicFlatNode } from './dynamicFlatNode';
 import { DynamicDatabase } from './dynamicDatabase';
  
 import {MatMenuModule} from '@angular/material/menu';
+import { CdkMenuModule } from '@angular/cdk/menu';
 @Component({
   selector: 'app-taskbar-menu-cmp',
   standalone: true,
-  imports: [MatIconModule, OverlayModule, MatCardModule, MatTreeModule, MatButtonModule, MatProgressBarModule, TaskbarMenuItemCmpComponent,MatMenuModule],
+  imports: [MatIconModule, OverlayModule, MatCardModule, MatTreeModule, MatButtonModule, MatProgressBarModule, TaskbarMenuItemCmpComponent,MatMenuModule,CdkMenuModule],
   templateUrl: './taskbar-menu-cmp.component.html',
   styleUrl: './taskbar-menu-cmp.component.sass'
 })

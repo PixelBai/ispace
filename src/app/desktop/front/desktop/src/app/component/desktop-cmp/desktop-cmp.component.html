@@ -3,7 +3,7 @@
 有多个桌面项，可拖动。 
 1.桌面项数据列表 -->
 
-<div class="body" #body >
+<div class="body" #body [cdkContextMenuTriggerFor]="desktop_menu">
         
 <!-- 桌面项列表 -->
 <div class="items"> 
@@ -20,3 +20,23 @@
 <!-- 窗口区域 -->
 <app-window-container-cmp></app-window-container-cmp>
 </div>
+
+<ng-template #desktop_menu>
+        <div class="menu" cdkMenu>
+          <button class="menu-item" cdkMenuItem [cdkMenuTriggerFor]="new_doc">新建文件<span>&#10148;</span></button> 
+          <button class="menu-item"  cdkMenuItem>新建文件夹</button>
+          <button class="menu-item"  cdkMenuItem>资源管理器打开</button>
+          <button class="menu-item"  cdkMenuItem>改变背景</button>
+          <button class="menu-item"  cdkMenuItem>属性</button> 
+        </div>
+</ng-template>
+
+<ng-template #new_doc>
+        <div class="menu" cdkMenu>
+          <button class="menu-item"  cdkMenuItem>Document</button>
+          <button class="menu-item"  cdkMenuItem>From template</button>
+          <button class="menu-item"  cdkMenuItem>Spreadsheet</button>
+          <button class="menu-item"  cdkMenuItem>Presentation</button>
+          <button class="menu-item"  cdkMenuItem>Form</button>
+        </div>
+</ng-template>

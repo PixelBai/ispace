@@ -7,11 +7,16 @@ import { CommonModule } from '@angular/common';
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { isRangesIntersection } from '../../common/utils/numberUtil';
 import { WindowContainerCmpComponent } from "../window-container-cmp/window-container-cmp.component"; 
+import { CdkMenuModule } from '@angular/cdk/menu';
 
 @Component({
   selector: 'app-desktop-cmp',
   standalone: true,
-  imports: [DesktopItemCmpComponent, CommonModule, CdkDrag, WindowContainerCmpComponent],
+  imports: [DesktopItemCmpComponent, 
+    CommonModule, 
+    CdkDrag, 
+    WindowContainerCmpComponent,
+    CdkMenuModule],
   templateUrl: './desktop-cmp.component.html',
   styleUrl: './desktop-cmp.component.sass'
 })

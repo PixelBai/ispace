@@ -1,6 +1,27 @@
-<div class="body" [matTooltip]="data.desc!" >
+<div class="body" [matTooltip]="data.desc!" [cdkContextMenuTriggerFor]="item_menu">
     <img src="{{data.iconUrl}}" class="icon" />
     <div>{{data.name}}</div>
     <mat-tooltip-component >{{data.desc}}</mat-tooltip-component>
     </div>
+
+    <ng-template #item_menu>
+        <div class="menu" cdkMenu>
+          <button class="menu-item" cdkMenuItem >新建文件</button> 
+          <button class="menu-item"  cdkMenuItem>打开</button>
+          <button class="menu-item"  cdkMenuItem [cdkMenuTriggerFor]="open_way"> 打开方式 <span>&#10148;</span></button>
+          <button class="menu-item"  cdkMenuItem>重命名</button>
+          <button class="menu-item"  cdkMenuItem>删除</button> 
+          <button class="menu-item"  cdkMenuItem>资源管理器打开</button> 
+          <button class="menu-item"  cdkMenuItem>属性</button>
+        </div>
+    </ng-template>
     
+    <ng-template #open_way>
+        <div class="menu" cdkMenu>
+          <button class="menu-item"  cdkMenuItem>Document</button>
+          <button class="menu-item"  cdkMenuItem>From template</button>
+          <button class="menu-item"  cdkMenuItem>Spreadsheet</button>
+          <button class="menu-item"  cdkMenuItem>Presentation</button>
+          <button class="menu-item"  cdkMenuItem>Form</button>
+        </div>
+    </ng-template>
