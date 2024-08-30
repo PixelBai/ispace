@@ -21,6 +21,24 @@ import { CdkMenuModule } from '@angular/cdk/menu';
   styleUrl: './desktop-cmp.component.sass'
 })
 export class DesktopCmpComponent {
+createFolder() { 
+  let maxIndex = 0;
+  this.desktopItems.filter(s => s.type == "folder" && s.name.startsWith("新建文件夹"))
+    .forEach(s => {
+       let indexStr = s.name.replace("新建文件夹", "").trim();
+       let index = Number(indexStr);
+       if (index > maxIndex) {
+         maxIndex = index;
+       }
+    });
+    maxIndex++;
+  let folderName = "新建文件夹" + maxIndex;
+ folder.create(this.basePath, folderName).subscribe(s=>{
+   this.load();
+ }, e=>{
+   console.error(e);
+ })
+}
   onDragEnded(event: CdkDragEnd<any>, item: DesktopItemDto) {
     item.position = event.source.getFreeDragPosition();
   }
@@ -86,8 +104,24 @@ export class DesktopCmpComponent {
       folder.children(this.basePath)
         .subscribe(
           (s) => {
-            s.forEach((info) => {
-              this.desktopItems.push(this.convertInfo(info));
+
+            // rm item :
+            let rmIds: string[] = [];
+            this.desktopItems.forEach((item) => {
+              if(s.findIndex((s) => s.id == item.id) == -1){
+                 rmIds.push(item.id);
+              }
+            })
+
+            rmIds.forEach((id) => {
+              this.desktopItems.splice(this.desktopItems.findIndex((s) => s.id == id), 1);
+            })
+ 
+            // add item : 
+            s.forEach((info) => { 
+              if(this.desktopItems.findIndex((s) => s.id == info.id)==-1){
+              this.desktopItems.push(this.convertInfo(info));  
+              }
             })
             resolve(true);
           },
@@ -149,7 +183,7 @@ export class DesktopCmpComponent {
   });
 
   }
-
+  renderingSetInterval: any;
   rendering() {
     // check
     if (this.desktopItems.length <= 0) {
@@ -173,8 +207,12 @@ export class DesktopCmpComponent {
     waitInitItems.forEach((item) => {
       this.initNewPosition(item);
     })
-
-    setInterval(() => { this.update_position(); }, 1000 * 1);
+    if(this.renderingSetInterval)
+    {
+      clearInterval(this.renderingSetInterval);
+      this.renderingSetInterval = null;
+    }
+     this.renderingSetInterval = setInterval(() => { this.update_position(); }, 1000 * 1);
   }
    initNewPosition(item: DesktopItemDto)  {
 
@@ -217,8 +255,7 @@ export class DesktopCmpComponent {
           indexPosition.y = indexPosition.y + itemHeight;
         } 
         continue;
-      }
-      debugger;
+      } 
       item.position = indexPosition;
       break;
         

@@ -6,8 +6,11 @@ import { DomSanitizer } from '@angular/platform-browser';
   providedIn: 'root'
 })
 export class WindowsManagerService {
+closeAll() { 
+     this.windowDtos = [];
+}
 
-  hide(id: number) {
+  hide(id: number) { 
     // step 1: 找到对应的windowDto
     let windowDto = this.windowDtos.find(s => s.id == id);
     if (!windowDto) { return; }
@@ -20,7 +23,7 @@ export class WindowsManagerService {
     let windowDto = this.windowDtos.find(s => s.id == id);
     if (!windowDto) { return; }
     // step 2: 设置显示
-    windowDto!.isHide = true;
+    windowDto!.isHide = false;
 
   }
 
@@ -63,7 +66,7 @@ export class WindowsManagerService {
   }
 
   close(id: number) {
-
+    debugger
     // step 1: 从windowDtos中移除
     this.windowDtos = this.windowDtos.filter((s) => {
       return s.id != id

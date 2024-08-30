@@ -23,7 +23,7 @@
 
 <ng-template #desktop_menu>
         <div class="menu" cdkMenu> 
-          <button class="menu-item"  cdkMenuItem>新建文件夹</button>
+          <button class="menu-item"  cdkMenuItem (click)="createFolder()" >新建文件夹</button>
           <button class="menu-item"  cdkMenuItem [cdkMenuTriggerFor]="new_doc">新建文件<span>&#10148;</span></button> 
           <button class="menu-item"  cdkMenuItem>资源管理器打开</button>
           <button class="menu-item"  cdkMenuItem>属性</button> 

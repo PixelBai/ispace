@@ -1,1 +1,23 @@
-<div class="body"></div>
+<div class="body" [cdkContextMenuTriggerFor]="menu" > 
+    <button 
+    mat-button
+    *ngFor="let item of wsm.windowDtos" 
+    [cdkContextMenuTriggerFor]="window_menu"
+    [cdkContextMenuTriggerData]="{$implicit: item}"
+    (click)="wsm.show(item.id)">
+    {{item.title}}
+    </button>
+</div>
+ 
+<ng-template #menu>
+    <div class="menu" cdkMenu> 
+      <button class="menu-item" cdkMenuItem>任务管理器</button>
+      <button class="menu-item" cdkMenuItem (click)="wsm.closeAll()" >关闭所有窗口</button> 
+    </div>
+</ng-template>
+<ng-template #window_menu let-data>
+    <div class="menu" cdkMenu  >  
+      <button class="menu-item"  cdkMenuItem (click)="wsm.hide(data.id)" >最小化</button>
+      <button class="menu-item"  cdkMenuItem  (click)="wsm.close(data.id)" >关闭</button>
+    </div>
+</ng-template>
