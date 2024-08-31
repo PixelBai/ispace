@@ -42,7 +42,7 @@ func ApiOption(host *gin.Engine) {
 	})
 
 	// step 2：
-	api_host.GET("/DateTime", func(c *gin.Context) {
+	api_host.GET("/Datetime", func(c *gin.Context) {
 		result := dto.ResultDto[time.Time]{}
 		result.Code = 200
 		result.Data = time.Now()

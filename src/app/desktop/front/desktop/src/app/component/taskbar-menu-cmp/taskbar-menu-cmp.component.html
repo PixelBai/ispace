@@ -17,7 +17,7 @@ cdkOverlayOrigin
   [cdkConnectedOverlayOpen]="isOpen"
 > 
 <div class="pannel" >
-<!-- 用户区 -->
+<!-- 用户区 --> 
 <div class="user-area">
   <span class="spacer"></span>
   <img [matMenuTriggerFor]="menu" src="images/person.png" height="50px" />
@@ -28,13 +28,13 @@ cdkOverlayOrigin
 </mat-menu>
 
 <!-- 文件列表区 -->
-<div class="list-area">
+<div class="list-area" [cdkContextMenuTriggerFor]="taskbar_menu_files">
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-    <app-taskbar-menu-item-cmp [data]="node.item"></app-taskbar-menu-item-cmp>
+    <app-taskbar-menu-item-cmp [data]="node.item" (onRemove)="removeItem(node.item)" ></app-taskbar-menu-item-cmp>
     </mat-tree-node>
     <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-      <app-taskbar-menu-item-cmp [data]="node.item" [attr.aria-label]="'Toggle ' + node.item" matTreeNodeToggle></app-taskbar-menu-item-cmp>
+      <app-taskbar-menu-item-cmp [data]="node.item"  (onRemove)="removeItem(node.item)" (onCreateFolder)="createFolder(node)" (onCreateFile)="createFile($event,node)"  [attr.aria-label]="'Toggle ' + node.item" matTreeNodeToggle></app-taskbar-menu-item-cmp>
       <mat-icon class="mat-icon-rtl-mirror">
         {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
       </mat-icon>
@@ -53,3 +53,15 @@ cdkOverlayOrigin
   </div>
 </ng-template>
 
+<ng-template #taskbar_menu_files>
+  <div class="menu" cdkMenu> 
+    <button class="menu-item"  cdkMenuItem (click)="createFolder()" >新建文件夹</button>
+    <button class="menu-item"  cdkMenuItem [cdkMenuTriggerFor]="new_doc">新建文件<span>&#10148;</span></button> 
+  </div>
+</ng-template>
+
+<ng-template #new_doc>
+  <div class="menu" cdkMenu>
+    <button class="menu-item"  cdkMenuItem  *ngFor="let item of createFile_templates" (click)="createFile(item)" >{{item.name}}</button> 
+  </div>
+</ng-template>

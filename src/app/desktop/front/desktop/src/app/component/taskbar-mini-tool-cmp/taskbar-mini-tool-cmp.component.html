@@ -1,4 +1,11 @@
-<div class="body">
+<div class="body" [cdkContextMenuTriggerFor]="menu">
 <div> {{data}}</div>
 <div> {{time}}</div> 
 </div>
+
+
+<ng-template #menu>
+    <div class="menu" cdkMenu> 
+      <button class="menu-item"  cdkMenuItem  (click)="syncTime()" >同步时间</button> 
+    </div>
+</ng-template>

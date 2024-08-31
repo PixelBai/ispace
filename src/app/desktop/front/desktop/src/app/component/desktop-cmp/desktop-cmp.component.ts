@@ -75,13 +75,14 @@ removeItem(data: DesktopItemDto) {
     file.write(this.basePath + this.positionPath, content)
       .subscribe(
         s => {
-          console.log(s)
+          //console.log(s)
         }, e => { 
           console.error(e)
         });
 
   }
 
+  load_retryTime = 0;
   load() {
     // 加载桌面文件、文件夹数据；
     this.load_children().then((s) => { 
@@ -94,6 +95,10 @@ removeItem(data: DesktopItemDto) {
       if (s) {
         // 构建桌面项，生成桌面项列表
         return this.rendering();
+      }else{
+        this.load_retryTime++;
+        let time = 1000*(this.load_retryTime>5?5:this.load_retryTime);
+        setInterval(() => { this.load(); }, time); 
       }
     });
   }
