@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output, output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, output, ViewChild } from '@angular/core';
 import { DesktopItemDto } from './desktop-item-dto';
 import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltip, MatTooltipDefaultOptions, MatTooltipModule } from '@angular/material/tooltip';
 import { fileInfoBaseDto } from 'ispace.core.main/dist/dto/fileInfoBaseDto';
@@ -34,7 +34,7 @@ export class DesktopItemCmpComponent {
   basePath: string = "Desktop";
 
 
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -53,20 +53,22 @@ export class DesktopItemCmpComponent {
   open() {
 
   }
-
-
+ 
   @ViewChild('renameInput') renameInput!: ElementRef<HTMLInputElement>;
   renaming = false;
   template_name = "";
   rename() {
     this.renaming = true;
-    this.template_name = this.data.name;
-    this.renameInput.nativeElement.focus();
+    this.template_name = this.data.name; 
     this.renameInput.nativeElement.onblur = () => {
       this.confirm_rename();
-    }
+    }   
+    setTimeout(()=>{
+      this.renameInput.nativeElement.focus();
+      this.renameInput.nativeElement.setSelectionRange(0, this.template_name.length);
+  })
   }
-
+  
   confirm_rename() {
     if (this.data.type == "folder") {
       folder.rename(this.basePath, this.data.name, this.template_name).subscribe(s => {
