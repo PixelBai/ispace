@@ -14,6 +14,7 @@
         [cdkDragFreeDragPosition]="item.position" 
         [data]="item"
         (cdkDragEnded)="onDragEnded($event,item)"
+        (onRemove)="removeItem(item)"
         ></app-desktop-item-cmp>
 </div>
 
@@ -25,17 +26,11 @@
         <div class="menu" cdkMenu> 
           <button class="menu-item"  cdkMenuItem (click)="createFolder()" >新建文件夹</button>
           <button class="menu-item"  cdkMenuItem [cdkMenuTriggerFor]="new_doc">新建文件<span>&#10148;</span></button> 
-          <button class="menu-item"  cdkMenuItem>资源管理器打开</button>
-          <button class="menu-item"  cdkMenuItem>属性</button> 
         </div>
 </ng-template>
 
 <ng-template #new_doc>
         <div class="menu" cdkMenu>
-          <button class="menu-item"  cdkMenuItem>Document</button>
-          <button class="menu-item"  cdkMenuItem>From template</button>
-          <button class="menu-item"  cdkMenuItem>Spreadsheet</button>
-          <button class="menu-item"  cdkMenuItem>Presentation</button>
-          <button class="menu-item"  cdkMenuItem>Form</button>
+          <button class="menu-item"  cdkMenuItem  *ngFor="let item of createFile_templates" (click)="createFile(item)" >{{item.name}}</button> 
         </div>
 </ng-template>

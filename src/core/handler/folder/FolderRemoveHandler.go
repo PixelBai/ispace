@@ -43,7 +43,7 @@ func (h *FolderRemoveHandler) Execute() dto.WsResponseDto {
 	}
 
 	// step 2:
-	err = h.remove(params["folderPath"])
+	err = h.remove(params["folderPath"], params["name"])
 	if err != nil {
 		result.Header.Stat = 2
 		result.Body = fmt.Sprintf("Error CreateFile message:%s", err)
@@ -56,8 +56,8 @@ func (h *FolderRemoveHandler) Execute() dto.WsResponseDto {
 }
 
 // 删除
-func (fh *FolderRemoveHandler) remove(folderPath string) error {
-	err := os.RemoveAll(filepath.Join(gv.BasePath, folderPath))
+func (fh *FolderRemoveHandler) remove(folderPath string, name string) error {
+	err := os.RemoveAll(filepath.Join(gv.BasePath, folderPath, name))
 	if err != nil {
 		return err
 	}

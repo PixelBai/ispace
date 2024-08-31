@@ -58,7 +58,14 @@ func (h *FolderRenameHandler) Execute() dto.WsResponseDto {
 func (fh *FolderRenameHandler) rename(folderPath string, oldName string, newName string) error {
 	oldPath := filepath.Join(gv.BasePath, folderPath, oldName)
 	newPath := filepath.Join(gv.BasePath, folderPath, newName)
-	err := os.Rename(oldPath, newPath)
+
+	// step check:
+	_, err := os.Stat(oldPath)
+	if os.IsNotExist(err) {
+		return err
+	}
+
+	err = os.Rename(oldPath, newPath)
 	if err != nil {
 		return err
 	}

@@ -3,6 +3,7 @@ package file
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 
@@ -10,17 +11,17 @@ import (
 	"gitee.com/ispace/core/infrastructure/common/gv"
 )
 
-type FileRenameHandler struct {
+type FileCopyHandler struct {
 	request dto.WsRequestDto
 }
 
 // Init 方法实现
-func (h *FileRenameHandler) Init(request dto.WsRequestDto) {
+func (h *FileCopyHandler) Init(request dto.WsRequestDto) {
 	h.request = request
 }
 
 // Execute 方法实现
-func (h *FileRenameHandler) Execute() dto.WsResponseDto {
+func (h *FileCopyHandler) Execute() dto.WsResponseDto {
 
 	// step init:
 	result := dto.WsResponseDto{}
@@ -43,10 +44,10 @@ func (h *FileRenameHandler) Execute() dto.WsResponseDto {
 	}
 
 	// step 2:
-	err = h.rename(params["folderPath"], params["oldName"], params["newName"])
+	err = h.copy(params["srcPath"], params["destPath"])
 	if err != nil {
 		result.Header.Stat = 2
-		result.Body = fmt.Sprintf("Error RenameFile message:%s", err)
+		result.Body = fmt.Sprintf("Error copy message:%s", err)
 		return result
 	}
 	// step end:
@@ -54,22 +55,29 @@ func (h *FileRenameHandler) Execute() dto.WsResponseDto {
 	return result
 }
 
-func (ic *FileRenameHandler) rename(folderPath string, oldName string, newName string) error {
-	// step init:
-	oldFilePath := filepath.Join(gv.BasePath, folderPath, oldName)
-	newFilePath := filepath.Join(gv.BasePath, folderPath, newName)
+func (ic *FileCopyHandler) copy(srcPath string, destPath string) error {
+	srcPath = filepath.Join(gv.BasePath, srcPath)
+	destPath = filepath.Join(gv.BasePath, destPath)
 
-	// step check:
-	_, err := os.Stat(oldFilePath)
-	if os.IsNotExist(err) {
+	// 打开源文件以读取
+	sourceFile, err := os.Open(srcPath)
+	if err != nil {
+		return err
+	}
+	defer sourceFile.Close()
+
+	// 创建目标文件
+	destFile, err := os.Create(destPath)
+	if err != nil {
+		return err
+	}
+	defer destFile.Close()
+
+	// 复制文件内容
+	_, err = io.Copy(destFile, sourceFile)
+	if err != nil {
 		return err
 	}
 
-	// Create the new file
-	err2 := os.Rename(oldFilePath, newFilePath)
-	if err2 != nil {
-		return err
-	}
-
-	return err
+	return nil
 }

@@ -274,4 +274,34 @@ export class fileHandler {
         return ob;
     }
 
+    copy(srcPath: string, destPath: string): Observable<boolean> {
+        let ob = new Observable<boolean>((observer) => {
+            // step init:
+            let handler = "file/copy";
+            let req = new wsRequestDto();
+            req.header = new wsRequestHeaderDto();
+            req.header.handler = handler;
+            req.body = {
+                srcPath,
+                destPath
+            };
+            this.ws.request(req).subscribe({
+                next: (response) => {
+                    if (response.header?.stat == 200) {
+                        observer.next(true);
+                    }
+                    else {
+                        observer.error(response.body);
+                    }
+                    observer.complete();
+                },
+                error: (error) => {
+                    observer.error(error);
+                    observer.complete();
+                }   
+            });
+        });
+        return ob;
+    }
+
 }

@@ -1,16 +1,16 @@
 <div class="body" [matTooltip]="data.desc!" *ngIf="data.position" [cdkContextMenuTriggerFor]="desktop_item_menu">
-<img src="{{data.iconUrl}}" class="icon" />
-<div>{{data.name}}</div>
+<img cdkDragHandle src="{{data.iconUrl}}" class="icon" />
+<div cdkDragHandle *ngIf="!renaming">{{data.name}}</div>
+<div [style.display]="!renaming?'none':'block'" [matTooltip]=""><input #renameInput matInput type="text" [(ngModel)]="template_name" /></div>
 <mat-tooltip-component >{{data.desc}}</mat-tooltip-component>
 </div>
 
 <ng-template #desktop_item_menu>
-    <div class="menu" cdkMenu>
-      <button class="menu-item" cdkMenuItem >新建文件</button> 
+    <div class="menu" cdkMenu> 
       <button class="menu-item"  cdkMenuItem>打开</button>
       <button class="menu-item"  cdkMenuItem [cdkMenuTriggerFor]="open_way"> 打开方式 <span>&#10148;</span></button>
-      <button class="menu-item"  cdkMenuItem>重命名</button>
-      <button class="menu-item"  cdkMenuItem>删除</button> 
+      <button class="menu-item"  cdkMenuItem (click)="rename()" >重命名</button>
+      <button class="menu-item"  cdkMenuItem (click)="onRemove.emit(data)" >删除</button> 
       <button class="menu-item"  cdkMenuItem>资源管理器打开</button> 
       <button class="menu-item"  cdkMenuItem>属性</button>
     </div>

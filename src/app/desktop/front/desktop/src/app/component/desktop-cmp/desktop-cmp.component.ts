@@ -21,27 +21,26 @@ import { CdkMenuModule } from '@angular/cdk/menu';
   styleUrl: './desktop-cmp.component.sass'
 })
 export class DesktopCmpComponent {
-createFolder() { 
-  let maxIndex = 0;
-  this.desktopItems.filter(s => s.type == "folder" && s.name.startsWith("新建文件夹"))
-    .forEach(s => {
-       let indexStr = s.name.replace("新建文件夹", "").trim();
-       let index = Number(indexStr);
-       if (index > maxIndex) {
-         maxIndex = index;
-       }
-    });
-    maxIndex++;
-  let folderName = "新建文件夹" + maxIndex;
- folder.create(this.basePath, folderName).subscribe(s=>{
-   this.load();
- }, e=>{
-   console.error(e);
- })
-}
-  onDragEnded(event: CdkDragEnd<any>, item: DesktopItemDto) {
-    item.position = event.source.getFreeDragPosition();
+removeItem(data: DesktopItemDto) {
+  debugger
+  if(data.type == "folder") {
+    folder.remove(this.basePath, data.name).subscribe(s => {
+      this.load();
+    }, e => {
+      console.error(e);
+    })
   }
+  else {
+    file.remove(this.basePath, data.name).subscribe(s => {
+      this.load();
+    }, e => {
+      console.error(e);
+    })
+  }
+
+} 
+ 
+
 
   basePath = "Desktop"
   positionPath = "/.ispace/desktopitem_position.json"
@@ -57,6 +56,7 @@ createFolder() {
 
   init() {
     this.load();
+    this.load_templates();
   }
 
 
@@ -306,5 +306,72 @@ createFolder() {
 
     return this.positions;
   }
+ 
+createFolder() { 
+  let maxIndex = 0;
+  this.desktopItems.filter(s => s.type == "folder" && s.name.startsWith("新建文件夹"))
+    .forEach(s => {
+       let indexStr = s.name.replace("新建文件夹", "").trim();
+       let index = Number(indexStr);
+       if (index > maxIndex) {
+         maxIndex = index;
+       }
+    });
+    maxIndex++;
+  let folderName = "新建文件夹" + maxIndex;
+ folder.create(this.basePath, folderName).subscribe(s=>{
+   this.load();
+ }, e=>{
+   console.error(e);
+ })
+}
+
+
+  onDragEnded(event: CdkDragEnd<any>, item: DesktopItemDto) {
+    item.position = event.source.getFreeDragPosition();
+  }
+
+
+
+  /*** 新建文件 ***/
+  createFile_basePath =  this.basePath + "/.ispace/new_decument_template";
+  createFile_templates:fileInfoBaseDto[] = [];
+
+  load_templates() {
+    if (this.createFile_templates.length > 0) {
+       this.createFile_templates = [];
+    }
+    folder.children(this.createFile_basePath).subscribe(s => {
+      this.createFile_templates = s.filter(s => !s.isDir);
+    })
+  }
+  
+  createFile(template: fileInfoBaseDto) {
+
+    // 名称 和 后缀
+    let data = template.name!.split(".");
+    let name = data[0]; 
+    let ext = data[1];
+
+
+    let maxIndex = 0;
+    this.desktopItems.filter(s => s.type == "file" && s.name.endsWith('.'+ext) && s.name.startsWith(name))
+      .forEach(s => { 
+         let indexStr = s.name.replace(name!, "").replace('.'+ext, "").trim();
+         let index = Number(indexStr);
+         if (index > maxIndex) {
+           maxIndex = index;
+         }
+      });
+      maxIndex++;
+    let createName = name + maxIndex + '.' + ext;  
+     file.copy(this.createFile_basePath + "/" + template.name, this.basePath + "/" + createName).subscribe(s=>{
+      this.load();
+    }, e=>{
+      console.error(e);
+    })
+  }
+
+
 
 } 

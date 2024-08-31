@@ -127,6 +127,7 @@ var route = wshRoute{
 	"file/download": func() itf.BaseHandler { return &file.FileDownloadHandler{} },
 	"file/upload":   func() itf.BaseHandler { return &file.FileUploadHandler{} },
 	"file/write":    func() itf.BaseHandler { return &file.FileWriteHandler{} },
+	"file/copy":     func() itf.BaseHandler { return &file.FileCopyHandler{} },
 
 	"folder/create":   func() itf.BaseHandler { return &folder.FolderCreateHandler{} },
 	"folder/rename":   func() itf.BaseHandler { return &folder.FolderRenameHandler{} },
