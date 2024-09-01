@@ -17,6 +17,8 @@ import { CdkMenuModule } from '@angular/cdk/menu';
 import { TaskbarMenuItemDto } from '../taskbar-menu-item-cmp/taskbar-menu-item-dto';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DriverOperationDto } from 'ispace_de';
+import { DriveEnginService } from '../../service/drive-engin.service';
 @Component({
   selector: 'app-taskbar-menu-cmp',
   standalone: true,
@@ -65,7 +67,7 @@ logout() {
   isExpandable = (node: DynamicFlatNode) => node.expandable;
   hasChild = (_: number, _nodeData: DynamicFlatNode) => _nodeData.expandable;
 
-  constructor(private database: DynamicDatabase) {
+  constructor(private database: DynamicDatabase,private driveEngine: DriveEnginService) {
     this.load_templates();
 
     // 用户区
@@ -81,6 +83,7 @@ logout() {
     this.database.initialData().then((s) => { 
       this.dataSource.data = s;
     });
+    this.init_sourceManagerOpen();
   }
  
 
@@ -155,6 +158,15 @@ logout() {
     }, e=>{
       console.error(e);
     })
+  }
+
+  ext_operations: DriverOperationDto[] = [];
+  init_sourceManagerOpen() { 
+    this.ext_operations=  this.driveEngine.getOperations(this.basePath,true); 
+  }
+  
+  ext_operation_execute(operation: DriverOperationDto) {
+    this.driveEngine.execute(operation.driverId,operation.id,this.basePath);
   }
 
 

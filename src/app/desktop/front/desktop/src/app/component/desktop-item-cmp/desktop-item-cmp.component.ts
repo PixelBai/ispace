@@ -117,10 +117,13 @@ export class DesktopItemCmpComponent {
   init_sourceManagerOpen() { 
     this.ext_operations=  this.driveEngine.getOperations(this.data.name,this.data.type == "folder"); 
     this.ext_operations_current = this.ext_operations.filter(s => s.name !=="打开");
+    if(this.data.type == "folder") {
+      this.ext_operations_current = this.ext_operations_current.filter(s => s.name !=="资源管理器打开");
+    } 
   }
   
   ext_operation_execute(operation: DriverOperationDto) {
-    this.driveEngine.execute(operation.driverId,operation.id,this.data.path);
+       this.driveEngine.execute(operation.driverId,operation.id,this.data.path);
   }
   
   
