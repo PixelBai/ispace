@@ -5,6 +5,7 @@ import { ruleDriverRelationDto } from './dto/ruleDriverRelationDto';
 import { configOptionDto } from './dto/configOptionDto';
 import { ConfigDto } from './dto/configDto';
 import { modeDto } from './dto/modeDto';
+import { DriverOperationDto } from './dto/driverOperationDto';
 
 export class DriverEngine {
     
@@ -44,8 +45,9 @@ export class DriverEngine {
         }
     }
 
-    public getOperation(fileName: string,isDir:boolean) {
+    public getOperations(fileName: string,isDir:boolean) : DriverOperationDto[] {
 
+        let result : DriverOperationDto[] = []; 
         this.maps.getValue().filter((map) => {
             if (map.isDir !== undefined && isDir!==map.isDir)
             {
@@ -68,7 +70,13 @@ export class DriverEngine {
         })
         .map((driver) => {
             return driver.operation
-        })
+        }).forEach((op) => {
+            op.forEach((op) => {
+                result.push(op);
+            })
+        });
+
+        return result;
     }
 
     public execute(driverId: number,operationId: number,path: string):string{
@@ -96,7 +104,8 @@ export class DriverEngine {
             return "mode not found";
         }
         // step 3: execute
-        mode.main(path);
+        let url = op.entry + path;
+        mode.main(url);
         return "";
     }
     

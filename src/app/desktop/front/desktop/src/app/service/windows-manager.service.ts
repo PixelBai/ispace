@@ -52,7 +52,7 @@ closeAll() {
     // step 1: 构建windowDto 
     let windowDto = new WindowDto();
     windowDto.id = this.generateId();
-    windowDto.title = "新窗口";
+    windowDto.title = title;
     windowDto.width = "1200px";
     windowDto.height = "900px";
     windowDto.left = 0;
@@ -65,8 +65,7 @@ closeAll() {
 
   }
 
-  close(id: number) {
-    debugger
+  close(id: number) { 
     // step 1: 从windowDtos中移除
     this.windowDtos = this.windowDtos.filter((s) => {
       return s.id != id

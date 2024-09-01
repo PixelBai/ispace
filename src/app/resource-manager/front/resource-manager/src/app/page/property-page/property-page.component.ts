@@ -1,14 +1,15 @@
-import { Component } from '@angular/core'; 
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-home-page',
+  selector: 'app-property-page',
   standalone: true,
   imports: [],
-  templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.sass'
+  templateUrl: './property-page.component.html',
+  styleUrl: './property-page.component.sass'
 })
-export class HomePageComponent {
+export class PropertyPageComponent {
+
 
   constructor(private route: ActivatedRoute) { }
 
@@ -20,8 +21,8 @@ export class HomePageComponent {
     this.route.queryParams.subscribe(queryParams => {
       this.folderPath = queryParams['path'];  
     }); 
+ 
   
   }
-
 
 }

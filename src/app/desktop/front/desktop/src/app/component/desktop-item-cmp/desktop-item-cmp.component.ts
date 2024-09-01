@@ -7,6 +7,8 @@ import { CdkMenuModule } from '@angular/cdk/menu';
 import { file, folder } from 'ispace.core.main';
 import { FormsModule } from '@angular/forms';
 import { CdkDragHandle } from '@angular/cdk/drag-drop';
+import { DriverOperationDto } from 'ispace_de';
+import { DriveEnginService } from '../../service/drive-engin.service';
 
 /** Custom options the configure the tooltip's default show/hide delays. */
 export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
@@ -34,11 +36,12 @@ export class DesktopItemCmpComponent {
   basePath: string = "Desktop";
 
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(private cdr: ChangeDetectorRef,private driveEngine: DriveEnginService) {
   }
 
   ngOnInit() {
     this.data.desc = this.formatInfo(this.data.data);
+    this.init_sourceManagerOpen();
   }
 
   formatInfo(info: fileInfoBaseDto): string {
@@ -50,8 +53,25 @@ export class DesktopItemCmpComponent {
   }
 @Output() onRemove = new EventEmitter<DesktopItemDto>(); 
 
-  open() {
-
+  open() { 
+    if (this.data.type == "folder") {
+      let op =  this.ext_operations.find(s=>s.driverId==1 && s.id==1);
+      if(!op)
+        {
+          console.error("not found");
+          return;
+        }
+      this.driveEngine.execute(op!.driverId,op!.id,this.data.path);
+    }
+    else { 
+      let op =  this.ext_operations.find(s=>s.name=="打开");
+      if(!op)
+        {
+          console.error("not found");
+          return;
+        }
+      this.driveEngine.execute(op!.driverId,op!.id,this.data.path);
+    }
   }
  
   @ViewChild('renameInput') renameInput!: ElementRef<HTMLInputElement>;
@@ -72,21 +92,38 @@ export class DesktopItemCmpComponent {
   confirm_rename() {
     if (this.data.type == "folder") {
       folder.rename(this.basePath, this.data.name, this.template_name).subscribe(s => {
+        this.data.path = this.data.path.replace("/"+this.data.name,"/"+ this.template_name);
         this.data.name = this.template_name;
+        this.init_sourceManagerOpen();
       }, e => {
         console.error(e);
       })
     }
     else {
       file.rename(this.basePath, this.data.name, this.template_name).subscribe(s => {
+        this.data.path = this.data.path.replace("/"+this.data.name,"/"+ this.template_name);
         this.data.name = this.template_name;
+        this.init_sourceManagerOpen();
       }, e => {
         console.error(e);
       })
-    }
+    } 
     this.renaming = false;
   }
 
+
+  ext_operations: DriverOperationDto[] = [];
+  ext_operations_current: DriverOperationDto[] = [];
+  init_sourceManagerOpen() { 
+    this.ext_operations=  this.driveEngine.getOperations(this.data.name,this.data.type == "folder"); 
+    this.ext_operations_current = this.ext_operations.filter(s => s.name !=="打开");
+  }
+  
+  ext_operation_execute(operation: DriverOperationDto) {
+    this.driveEngine.execute(operation.driverId,operation.id,this.data.path);
+  }
+  
+  
 
 
 }

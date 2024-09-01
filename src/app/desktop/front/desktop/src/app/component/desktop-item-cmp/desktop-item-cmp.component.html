@@ -7,12 +7,11 @@
 
 <ng-template #desktop_item_menu>
     <div class="menu" cdkMenu> 
-      <button class="menu-item"  cdkMenuItem>打开</button>
-      <button class="menu-item"  cdkMenuItem [cdkMenuTriggerFor]="open_way"> 打开方式 <span>&#10148;</span></button>
+      <button class="menu-item"  cdkMenuItem (click)="open()">打开</button>
+      <!-- <button class="menu-item"  cdkMenuItem [cdkMenuTriggerFor]="open_way"> 打开方式 <span>&#10148;</span></button> -->
       <button class="menu-item"  cdkMenuItem (click)="rename()" >重命名</button>
-      <button class="menu-item"  cdkMenuItem (click)="onRemove.emit(data)" >删除</button> 
-      <button class="menu-item"  cdkMenuItem>资源管理器打开</button> 
-      <button class="menu-item"  cdkMenuItem>属性</button>
+      <button class="menu-item"  cdkMenuItem (click)="onRemove.emit(data)" >删除</button>  
+      <button class="menu-item"  cdkMenuItem  *ngFor="let item of ext_operations_current" (click)="ext_operation_execute(item)" >{{item.name}}</button>
     </div>
 </ng-template>
 

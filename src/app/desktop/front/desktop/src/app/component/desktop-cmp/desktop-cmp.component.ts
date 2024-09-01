@@ -8,6 +8,8 @@ import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { isRangesIntersection } from '../../common/utils/numberUtil';
 import { WindowContainerCmpComponent } from "../window-container-cmp/window-container-cmp.component"; 
 import { CdkMenuModule } from '@angular/cdk/menu';
+import { DriveEnginService } from '../../service/drive-engin.service';
+import { DriverOperationDto } from 'ispace_de';
 
 @Component({
   selector: 'app-desktop-cmp',
@@ -21,6 +23,20 @@ import { CdkMenuModule } from '@angular/cdk/menu';
   styleUrl: './desktop-cmp.component.sass'
 })
 export class DesktopCmpComponent {
+
+
+ext_operations: DriverOperationDto[] = [];
+init_sourceManagerOpen() { 
+  this.ext_operations=  this.driveEngine.getOperations(this.basePath,true); 
+}
+
+ext_operation_execute(operation: DriverOperationDto) {
+  this.driveEngine.execute(operation.driverId,operation.id,this.basePath);
+}
+
+
+
+ 
 removeItem(data: DesktopItemDto) {
   debugger
   if(data.type == "folder") {
@@ -50,6 +66,13 @@ removeItem(data: DesktopItemDto) {
   positions: { [key: string]: { x: number, y: number } } = {};
 
   @ViewChild("body", { static: false }) body!: ElementRef;
+
+  constructor(private driveEngine: DriveEnginService) {
+    
+  }  
+
+
+
   ngOnInit() {
     this.init();
   }
@@ -57,6 +80,7 @@ removeItem(data: DesktopItemDto) {
   init() {
     this.load();
     this.load_templates();
+    this.init_sourceManagerOpen();
   }
 
 
