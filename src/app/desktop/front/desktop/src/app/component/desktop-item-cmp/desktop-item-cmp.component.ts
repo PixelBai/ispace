@@ -31,10 +31,8 @@ export class DesktopItemCmpComponent {
 
   @Input()
   public data!: DesktopItemDto;
-
-  @ViewChild('body') tooltip!: any;
-  basePath: string = "Desktop";
-
+ 
+  basePath: string = "Desktop"; 
 
   constructor(private cdr: ChangeDetectorRef,private driveEngine: DriveEnginService) {
   }
