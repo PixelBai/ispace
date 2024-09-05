@@ -1,8 +1,8 @@
-<div class="body" [matTooltip]="data.desc!" [cdkContextMenuTriggerFor]="item_menu">
+<div class="body" [matTooltip]="data.desc!" [cdkContextMenuTriggerFor]="item_menu" #ctx="cdkContextMenuTriggerFor" >
     <img src="{{data.iconUrl}}" class="icon" />
     <div *ngIf="!renaming">{{data.name}}</div>
     <div [style.display]="!renaming?'none':'block'"><input #renameInput cdkMonitorElementFocus type="text" [(ngModel)]="template_name" /></div>
-    <mat-tooltip-component >{{data.desc}}</mat-tooltip-component>
+    <mat-tooltip-component *ngIf=" !ctx.isOpen()" >{{data.desc}}</mat-tooltip-component>
     </div>
 
    
