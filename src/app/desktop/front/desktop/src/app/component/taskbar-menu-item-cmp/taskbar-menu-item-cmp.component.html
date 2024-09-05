@@ -1,4 +1,10 @@
-<div class="body" [matTooltip]="data.desc!"  [matTooltipDisabled]="ctx.isOpen()" #ctx="cdkContextMenuTriggerFor" [cdkContextMenuTriggerFor]="item_menu" >
+<div class="body" 
+[matTooltip]="data.desc!"  
+[matTooltipDisabled]="ctx.isOpen()"
+ #ctx="cdkContextMenuTriggerFor" 
+ [cdkContextMenuTriggerFor]="item_menu" 
+(dblclick)="open()"
+ >
     <img src="{{data.iconUrl}}" class="icon" />
     <div *ngIf="!renaming">{{data.name}}</div>
     <div [style.display]="!renaming?'none':'block'"><input #renameInput cdkMonitorElementFocus type="text" [(ngModel)]="template_name" /></div>

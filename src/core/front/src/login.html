@@ -1,7 +1,7 @@
  <!DOCTYPE html>
  <html>
  <head>
-     <title>Login Page</title>
+     <title>登录</title>
      <script src="/front/dist/core.js"></script>
      <style>
          body {
@@ -34,17 +34,24 @@
          button:hover {
              opacity: 0.8;
          }
+         /* container 上下左右居中显示 */
+         body {
+             display: flex;
+             flex-direction: row;
+             justify-content: center;
+             align-items: center;
+         }
      </style>
      
  </head>
  <body>
      <div class="container">
-         <h2>Login</h2>
-         <label for="username">Username:</label>
+         <h2>登录</h2>
+         <label for="username">账号:</label>
          <input type="text" id="username" name="username"><br>
-         <label for="password">Password:</label>
+         <label for="password">密码:</label>
          <input type="password" id="password" name="password"><br>
-         <button onclick="login()">Login</button>
+         <button onclick="login()">确定登录</button>
      </div>
  
      <script >
