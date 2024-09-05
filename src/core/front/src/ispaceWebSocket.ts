@@ -27,7 +27,7 @@ export class ispaceWebSocket {
     onerror?: ((this: WebSocket, ev: Event) => any);
 
     connect() {
-        if ( this.ws?.readyState !== WebSocket.OPEN)
+        if ( this.ws?.readyState !== WebSocket.OPEN && this.ws?.readyState !== WebSocket.CONNECTING)
         {
             this.ws = new WebSocket(this.url);
         } 
@@ -53,6 +53,15 @@ export class ispaceWebSocket {
         // step 2: send 
         if (this.ws && this.ws.readyState === WebSocket.OPEN) {
             this.ws.send(data);
+        }
+        else if (this.ws && this.ws.readyState === WebSocket.CONNECTING) {
+            let si = setInterval(() => {
+                if (this.ws && this.ws.readyState === WebSocket.OPEN) 
+                    {
+                    this.ws.send(data);
+                    clearInterval(si);
+                    }
+            }, 10);
         }
         else {
             this.connect();
@@ -100,6 +109,15 @@ export class ispaceWebSocket {
             // step 2: send 
             if (this.ws && this.ws.readyState === WebSocket.OPEN) {
                 this.ws.send(data);
+            }
+            else if (this.ws && this.ws.readyState === WebSocket.CONNECTING) {
+                let si = setInterval(() => {
+                    if (this.ws && this.ws.readyState === WebSocket.OPEN) 
+                        {
+                        this.ws.send(data);
+                        clearInterval(si);
+                        }
+                }, 10);
             }
             else {
                 this.connect();
