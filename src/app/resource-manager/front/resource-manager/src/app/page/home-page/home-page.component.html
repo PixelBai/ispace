@@ -1,3 +1,19 @@
 <div class="body">  
-    {{folderPath}}
+
+    <div class="up-part"> 
+        <app-titlebar-cmp class="titlebar"></app-titlebar-cmp>
+        <app-menubar-cmp class="menubar"></app-menubar-cmp>
+        <app-toolbar-cmp class="toolbar"></app-toolbar-cmp>
+    </div>
+
+    <div class="middle-part" >
+        <!-- 侧边栏 -->
+        <app-sidebar-cmp class="sidebar"></app-sidebar-cmp>
+        <!-- 内容区域 -->
+        <app-content-cmp class="content"></app-content-cmp>
+    </div>
+
+    <div class="down-part">
+        <app-infobar-cmp class="infobar"></app-infobar-cmp>
+    </div>
 </div>
