@@ -301,7 +301,7 @@ removeItem(data: DesktopItemDto) {
     result.name = info.name ?? (info.isDir ? "未命名文件夹" : "未命名文件");
     result.data = info;
     result.type = info.isDir ? "folder" : "file";
-    result.iconUrl = info.isDir ? "images/folder.png" : "images/file.png";
+    result.iconUrl = info.isDir ? "images/folder.png" : "images/unknow.png";
     return result;
   }
 

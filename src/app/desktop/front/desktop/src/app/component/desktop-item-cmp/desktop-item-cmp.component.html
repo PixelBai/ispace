@@ -5,7 +5,7 @@
 [cdkContextMenuTriggerFor]="desktop_item_menu" 
 #ctx="cdkContextMenuTriggerFor"  >
 <img cdkDragHandle src="{{data.iconUrl}}" 
-class="icon" 
+class="icon"
 (dblclick)="open()"
 />
 <div cdkDragHandle *ngIf="!renaming">{{data.name}}</div>
@@ -15,7 +15,7 @@ class="icon"
 
 <ng-template #desktop_item_menu>
     <div class="menu" cdkMenu> 
-      <button class="menu-item"  cdkMenuItem (click)="open()">打开</button>
+      <button class="menu-item"  cdkMenuItem *ngIf="open_op" (click)="open()">打开</button>
       <!-- <button class="menu-item"  cdkMenuItem [cdkMenuTriggerFor]="open_way"> 打开方式 <span>&#10148;</span></button> -->
       <button class="menu-item"  cdkMenuItem (click)="rename()" >重命名</button>
       <button class="menu-item"  cdkMenuItem (click)="onRemove.emit(data)" >删除</button>  

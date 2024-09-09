@@ -87,6 +87,7 @@ export class DriveEnginService {
     let driver2 = new DriverDto();
     driver2.id = 3;
     driver2.name = "txt文本编辑器";
+    driver2.fileIconUrl = "images/txt.png";
     driver2.operation = []; 
     // 驱动-操作： txt文本编辑器打开
       let operation2 = new DriverOperationDto();
@@ -120,6 +121,7 @@ export class DriveEnginService {
     let driver3 = new DriverDto();
     driver3.id = 4;
     driver3.name = "hyperlink";
+    driver3.fileIconUrl = "images/link.png";
     driver3.operation = []; 
     // 驱动-操作： hyperlink打开
       let operation3 = new DriverOperationDto();
@@ -136,8 +138,7 @@ export class DriveEnginService {
         map4.isDir = false;
         map4.driverId = 4;
     opt.maps.push(map4);
-
-
+ 
     // 配置
     this.driveEngine.config(opt);  
   }

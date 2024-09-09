@@ -9,7 +9,6 @@ import { FormsModule } from '@angular/forms';
 import { CdkDragHandle } from '@angular/cdk/drag-drop';
 import { DriverOperationDto } from 'ispace_de';
 import { DriveEnginService } from '../../service/drive-engin.service';
-
 /** Custom options the configure the tooltip's default show/hide delays. */
 export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   showDelay: 1000,
@@ -40,6 +39,7 @@ export class DesktopItemCmpComponent {
   ngOnInit() {
     this.data.desc = this.formatInfo(this.data.data);
     this.init_sourceManagerOpen();
+    this.open_init();
   }
 
   formatInfo(info: fileInfoBaseDto): string {
@@ -51,7 +51,9 @@ export class DesktopItemCmpComponent {
   }
 @Output() onRemove = new EventEmitter<DesktopItemDto>(); 
 
-  open() { 
+  open_op?:DriverOperationDto; 
+  open_init() {
+    debugger
     if (this.data.type == "folder") {
       let op =  this.ext_operations.find(s=>s.driverId==1 && s.id==1);
       if(!op)
@@ -59,7 +61,7 @@ export class DesktopItemCmpComponent {
           console.error("not found");
           return;
         }
-      this.driveEngine.execute(op!.driverId,op!.id,this.data.path);
+      this.open_op = op;
     }
     else { 
       let op =  this.ext_operations.find(s=>s.name=="打开");
@@ -68,8 +70,18 @@ export class DesktopItemCmpComponent {
           console.error("not found");
           return;
         }
-      this.driveEngine.execute(op!.driverId,op!.id,this.data.path);
+      
+      // 获取打开的驱动，复制对应文件图标
+      let iconUrl = this.driveEngine.driveEngine.drivers.value.find(s=>s.id==op!.driverId)?.fileIconUrl;
+      if(iconUrl)
+      {
+        this.data.iconUrl = iconUrl;
+      }
+      this.open_op = op;
     }
+  }
+  open() {  
+    this.driveEngine.execute(this.open_op!.driverId,this.open_op!.id,this.data.path); 
   }
  
   @ViewChild('renameInput') renameInput!: ElementRef<HTMLInputElement>;
