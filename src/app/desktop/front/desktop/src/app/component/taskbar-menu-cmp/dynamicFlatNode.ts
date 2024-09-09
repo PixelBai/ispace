@@ -4,7 +4,7 @@ import { TaskbarMenuItemDto } from "../taskbar-menu-item-cmp/taskbar-menu-item-d
 export class DynamicFlatNode {
     constructor(
       public item: TaskbarMenuItemDto,
-      public level = 1,
+      public level = 0,
       public expandable = false,
       public isLoading = false,
     ) {}

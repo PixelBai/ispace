@@ -59,7 +59,7 @@ convertTaskbarMenuItemDto(parentPath:string,d: fileInfoBaseDto,parentLevel:numbe
     data.type = d.isDir ? "folder" : "file";
     data.path = parentPath + "/"+d.name;
     data.id = d.id!;
-    data.iconUrl = d.isDir ? "images/folder.png" : "images/file.png";
+    data.iconUrl = d.isDir ? "images/folder.png" : "images/unknow.png";
     data.desc = this.formatInfo(d);
     data.name = d.name?? (d.isDir ? "未命名文件夹" : "未命名文件");
     data.data = d;

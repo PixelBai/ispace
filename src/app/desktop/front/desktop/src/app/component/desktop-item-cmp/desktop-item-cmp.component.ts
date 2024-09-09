@@ -52,8 +52,7 @@ export class DesktopItemCmpComponent {
 @Output() onRemove = new EventEmitter<DesktopItemDto>(); 
 
   open_op?:DriverOperationDto; 
-  open_init() {
-    debugger
+  open_init() { 
     if (this.data.type == "folder") {
       let op =  this.ext_operations.find(s=>s.driverId==1 && s.id==1);
       if(!op)

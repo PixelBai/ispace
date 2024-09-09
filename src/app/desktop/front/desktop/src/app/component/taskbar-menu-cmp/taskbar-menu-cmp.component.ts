@@ -30,7 +30,6 @@ export class TaskbarMenuCmpComponent {
 
   basePath = "Desktop/.ispace/menu";
   removeItem(data: TaskbarMenuItemDto) {
-    debugger
     let path = data.path.replace("/" + data.name, "");
     if(data.type == "folder") { 
       folder.remove(path, data.name).subscribe(s => {
@@ -81,7 +80,10 @@ logout() {
 
   load() {
     this.database.initialData().then((s) => { 
-      this.dataSource.data = s;
+      s.forEach(s => {
+         s.level = 1;
+      })
+      this.dataSource.data = s; 
     });
     this.init_sourceManagerOpen();
   }

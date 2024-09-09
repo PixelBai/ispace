@@ -14,7 +14,7 @@
    
 <ng-template #item_menu>
   <div class="menu" cdkMenu> 
-    <button class="menu-item"  cdkMenuItem (click)="open()">打开</button>
+    <button class="menu-item"  cdkMenuItem *ngIf="open_op" (click)="open()">打开</button>
     <!-- <button class="menu-item"  cdkMenuItem [cdkMenuTriggerFor]="open_way"> 打开方式 <span>&#10148;</span></button> -->
 
     <button class="menu-item"  cdkMenuItem *ngIf="data.type=='folder'"  (click)="onCreateFolder.emit(data)"  >新建文件夹</button>
