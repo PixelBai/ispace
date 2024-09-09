@@ -18,7 +18,7 @@ cdkOverlayOrigin
 > 
 <div class="pannel" >
 <!-- 用户区 --> 
-<div class="user-area">
+<div class="user-area" (contextmenu)="$event.preventDefault()">
   <span class="spacer"></span>
   <img [matMenuTriggerFor]="menu" src="images/person.png" height="50px" />
   <div [matMenuTriggerFor]="menu">{{userName}}</div> 
@@ -30,10 +30,10 @@ cdkOverlayOrigin
 <!-- 文件列表区 -->
 <div class="list-area" [cdkContextMenuTriggerFor]="taskbar_menu_files">
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding >
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding [matTreeNodePaddingIndent]="16" >
     <app-taskbar-menu-item-cmp [data]="node.item" (onRemove)="removeItem(node.item)" ></app-taskbar-menu-item-cmp>
     </mat-tree-node>
-    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding  >
+    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding [matTreeNodePaddingIndent]="16"  >
       <app-taskbar-menu-item-cmp [data]="node.item"  (onRemove)="removeItem(node.item)" (onCreateFolder)="createFolder(node)" (onCreateFile)="createFile($event,node)"  [attr.aria-label]="'Toggle ' + node.item" matTreeNodeToggle></app-taskbar-menu-item-cmp>
       <mat-icon class="mat-icon-rtl-mirror">
         {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
