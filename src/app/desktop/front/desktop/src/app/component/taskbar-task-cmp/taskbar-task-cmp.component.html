@@ -1,14 +1,13 @@
 <mat-chip-set class="body" [cdkContextMenuTriggerFor]="menu"  cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)"> 
-  @for (item of getData(); track item) { 
   <mat-chip  
+    *ngFor="let item of getData()"
     cdkDrag 
     [cdkDragData]="item"
     [cdkContextMenuTriggerFor]="window_menu"
     [cdkContextMenuTriggerData]="{$implicit: item}"
     (click)="wsm.show(item.id)">
     {{item.title}}
-    </mat-chip>
-  }
+    </mat-chip> 
 </mat-chip-set>
  
 <ng-template #menu>
