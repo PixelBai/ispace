@@ -12,4 +12,6 @@ export class WindowDto {
     position: Point = { x: 0, y: 0 };
     isHide: boolean = false;
     isSizeMax: boolean = false; 
+
+    taskbarSort:number = 0;
 }

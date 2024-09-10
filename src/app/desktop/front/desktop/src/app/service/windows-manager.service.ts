@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WindowDto } from '../dto/windowDto';
 import { DomSanitizer } from '@angular/platform-browser';
+import { W } from '@angular/cdk/keycodes';
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +60,7 @@ closeAll() {
     windowDto.top = 0;
     windowDto.zIndex = 0;
     windowDto.url = url;
+    windowDto.taskbarSort = windowDto.id;
 
     // step 2: 添加到windowDtos
     this.windowDtos.push(windowDto);

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { WindowContainerCmpComponent } from '../window-container-cmp/window-container-cmp.component';
 import { WindowsManagerService } from '../../service/windows-manager.service';
 import { CommonModule } from '@angular/common';
@@ -13,7 +13,8 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
   imports: [CommonModule,CdkDragHandle,CdkDrag,MatToolbarModule,MatButtonModule, MatIconModule],
   templateUrl: './window-cmp.component.html',
-  styleUrl: './window-cmp.component.sass'
+  styleUrl: './window-cmp.component.sass',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WindowCmpComponent { 
 
