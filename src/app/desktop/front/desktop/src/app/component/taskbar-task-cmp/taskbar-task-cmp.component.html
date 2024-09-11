@@ -1,5 +1,6 @@
-<mat-chip-set class="body" [cdkContextMenuTriggerFor]="menu"  cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)"> 
+<mat-chip-set #chipset class="body" [cdkContextMenuTriggerFor]="menu"  cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)"> 
   <mat-chip  
+    [style.width]="rendering_width+'px'" 
     *ngFor="let item of windowDtos"
     cdkDrag 
     [cdkDragData]="item"
