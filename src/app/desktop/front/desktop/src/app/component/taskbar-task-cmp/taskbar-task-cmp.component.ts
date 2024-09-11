@@ -16,23 +16,40 @@ import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/sign
 })
 export class TaskbarTaskCmpComponent {
  
-
+  windowDtos:WindowDto[] = [] 
+  
   constructor(public wsm: WindowsManagerService) { 
+
+    this.wsm.windowDtos.subscribe(s => {
+      this.windowDtos = s.slice().sort((a,b)=>a.taskbarSort-b.taskbarSort);
+    });
 
   }
 
   drop(event: CdkDragDrop<WindowDto[]>) { 
-      let pw =this.data[event.previousIndex];
-      let ci =this.data[event.currentIndex];
-      let pwindex = pw.taskbarSort;
-      pw.taskbarSort = ci.taskbarSort;
-      ci.taskbarSort = pwindex; 
+
+    let diff = event.currentIndex - event.previousIndex;
+
+    if(diff>0){  
+      //previous（不包含） 到 current（包含），位置减一
+      let index = event.previousIndex;
+      while(++index<=event.currentIndex){
+        this.windowDtos[index].taskbarSort = this.windowDtos[index].taskbarSort-1;
+      }
+      // previous 位置处理diff
+      this.windowDtos[event.previousIndex].taskbarSort = this.windowDtos[event.previousIndex].taskbarSort + diff;
+    }
+    else{
+      // previous（包含） 到 current（不包含） 位置加一
+      let index = event.previousIndex;
+      while(--index>=event.currentIndex){
+        this.windowDtos[index].taskbarSort = this.windowDtos[index].taskbarSort+1;
+      }
+      // previous 位置处理diff
+      this.windowDtos[event.previousIndex].taskbarSort = this.windowDtos[event.previousIndex].taskbarSort + diff;
+    }
+    this.windowDtos.sort((a,b)=>a.taskbarSort-b.taskbarSort);
   }
- 
-  data: WindowDto[] = [];
-  getData() {
-    this. data = this.wsm.windowDtos.slice().sort((a, b) => a.taskbarSort - b.taskbarSort);
-    return this.data;
-  }
+  
 
 }

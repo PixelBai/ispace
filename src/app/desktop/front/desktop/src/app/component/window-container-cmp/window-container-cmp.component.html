@@ -1,6 +1,6 @@
 <div class="body" #body>
  
-    <div class="window-cmp" *ngFor="let item of wsm.windowDtos"  
+    <div class="window-cmp" *ngFor="let item of windowDtos"  
     [style.width]="item.isSizeMax ? '100%' : item.width"
     [style.height]="item.isSizeMax ? '100%' : item.height" 
     [style.display]="item.isHide ? 'none' : 'block'"

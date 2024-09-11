@@ -2,18 +2,19 @@ import { Injectable } from '@angular/core';
 import { WindowDto } from '../dto/windowDto';
 import { DomSanitizer } from '@angular/platform-browser';
 import { W } from '@angular/cdk/keycodes';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WindowsManagerService {
 closeAll() { 
-     this.windowDtos = [];
+     this.windowDtos.next([]);
 }
 
   hide(id: number) { 
     // step 1: 找到对应的windowDto
-    let windowDto = this.windowDtos.find(s => s.id == id);
+    let windowDto = this.windowDtos.value.find(s => s.id == id);
     if (!windowDto) { return; }
     // step 2: 设置隐藏
     windowDto!.isHide = true;
@@ -21,7 +22,7 @@ closeAll() {
 
   show(id: number) {
     // step 1: 找到对应的windowDto
-    let windowDto = this.windowDtos.find(s => s.id == id);
+    let windowDto = this.windowDtos.value.find(s => s.id == id);
     if (!windowDto) { return; }
     // step 2: 设置显示
     windowDto!.isHide = false;
@@ -30,21 +31,21 @@ closeAll() {
 
   sizeCommon(id: number) {
     // step 1: 找到对应的windowDto
-    let windowDto = this.windowDtos.find(s => s.id == id);
+    let windowDto = this.windowDtos.value.find(s => s.id == id);
     if (!windowDto) { return; }
     // step 2: 设置最大化
     windowDto!.isSizeMax = false; 
   }
   sizeMax(id: number) {
     // step 1: 找到对应的windowDto
-    let windowDto = this.windowDtos.find(s => s.id == id);
+    let windowDto = this.windowDtos.value.find(s => s.id == id);
     if (!windowDto) { return; }
     // step 2: 设置最大化
     windowDto!.isSizeMax = true; 
 
   }
 
-  windowDtos: WindowDto[] = [];
+  windowDtos = new BehaviorSubject<WindowDto[]>([]);
 
   maxId = 0;
 
@@ -63,16 +64,16 @@ closeAll() {
     windowDto.taskbarSort = windowDto.id;
 
     // step 2: 添加到windowDtos
-    this.windowDtos.push(windowDto);
+    this.windowDtos.next([...this.windowDtos.value, windowDto]);
 
   }
 
   close(id: number) { 
     // step 1: 从windowDtos中移除
-    this.windowDtos = this.windowDtos.filter((s) => {
+    let currentWindowDtos = this.windowDtos.value.filter((s) => {
       return s.id != id
-    })
-
+    }) 
+    this.windowDtos.next(currentWindowDtos); 
   }
   generateId(): any {
     return ++this.maxId
