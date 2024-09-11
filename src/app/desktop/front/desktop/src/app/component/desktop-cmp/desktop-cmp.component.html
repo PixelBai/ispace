@@ -3,10 +3,10 @@
 有多个桌面项，可拖动。 
 1.桌面项数据列表 -->
 
-<div class="body" #body [cdkContextMenuTriggerFor]="desktop_menu">
+<div class="body" #body>
         
 <!-- 桌面项列表 -->
-<div class="items"> 
+<div class="items" [cdkContextMenuTriggerFor]="desktop_menu"> 
         <app-desktop-item-cmp class="item" 
         *ngFor="let item of desktopItems"  
         cdkDrag 
@@ -17,10 +17,11 @@
         (onRemove)="removeItem(item)"
         ></app-desktop-item-cmp>
 </div>
-
+ 
 <!-- 窗口区域 -->
 <app-window-container-cmp></app-window-container-cmp>
 </div>
+
 
 <ng-template #desktop_menu>
         <div class="menu" cdkMenu> 

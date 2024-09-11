@@ -67,8 +67,7 @@ export class TaskbarTaskCmpComponent {
     if (this.windowDtos.length <= 0) {
       return;
     }
-
-    debugger;
+ 
     // step 1: 获取当前最大宽度
     if(this.chipset){
        

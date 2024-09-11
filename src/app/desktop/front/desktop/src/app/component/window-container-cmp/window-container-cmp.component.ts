@@ -19,9 +19,9 @@ export class WindowContainerCmpComponent {
 
   constructor(public wsm: WindowsManagerService,public sanitizer: DomSanitizer) {
  
-    for (let i = 0; i < 5; i++) { 
-      this.wsm.open("新窗口--------"+i, "http://127.0.0.1/app/text-editor/#/home?path=Desktop%2F123.txt"); 
-    }
+    // for (let i = 0; i < 5; i++) { 
+    //   this.wsm.open("新窗口--------"+i, "http://127.0.0.1/app/text-editor/#/home?path=Desktop%2F123.txt"); 
+    // }
 
     this.wsm.windowDtos.subscribe(s => {
       this.windowDtos = s;

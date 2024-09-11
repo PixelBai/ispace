@@ -1,7 +1,7 @@
-<div class="body" #body>
+<div class="wccbody" #body>
 
     <!-- 头部 -->
-    <mat-toolbar class="header">
+    <mat-toolbar class="header" (contextmenu)="$event.preventDefault()">
             <span cdkDragHandle class="spacer">{{title}}</span> 
             <button mat-icon-button (click)="sizeMin.emit(id)">
                 <mat-icon aria-hidden="false" aria-label="" fontIcon="minimize"></mat-icon>
@@ -16,7 +16,7 @@
             </button>
     </mat-toolbar> 
     <!-- 工具栏 -->
-    <mat-toolbar class="tool-bar">
+    <mat-toolbar class="tool-bar" (contextmenu)="$event.preventDefault()">
         <button mat-icon-button (click)="back()">
             <mat-icon aria-hidden="false" aria-label="" fontIcon="arrow_back"></mat-icon>
         </button>
