@@ -17,10 +17,10 @@
     </mat-toolbar> 
     <!-- 工具栏 -->
     <mat-toolbar class="tool-bar" (contextmenu)="$event.preventDefault()">
-        <button mat-icon-button (click)="back()">
+        <button mat-icon-button *ngIf="false" (click)="back()">
             <mat-icon aria-hidden="false" aria-label="" fontIcon="arrow_back"></mat-icon>
         </button>
-        <button mat-icon-button (click)="forward()" >
+        <button mat-icon-button *ngIf="false" (click)="forward()" >
             <mat-icon aria-hidden="false" aria-label="" fontIcon="arrow_forward"></mat-icon>
         </button>
         <button mat-icon-button (click)="refresh()" >            

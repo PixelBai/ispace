@@ -1,6 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { WindowContainerCmpComponent } from '../window-container-cmp/window-container-cmp.component';
-import { WindowsManagerService } from '../../service/windows-manager.service';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core'; 
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CdkDragHandle, CdkDrag } from '@angular/cdk/drag-drop';
@@ -27,7 +25,7 @@ export class WindowCmpComponent {
   @Input("url") url= "http://www.baidu.com"; 
   
   // page
-  @ViewChild('page') page!: HTMLIFrameElement;
+  @ViewChild('page') page!: ElementRef<HTMLIFrameElement>;
   
   constructor(private sanitizer: DomSanitizer) { 
   }
@@ -54,17 +52,17 @@ export class WindowCmpComponent {
 
   // 前进
   public forward() {
-    this.page.contentWindow?.history.forward();
+    this.page.nativeElement.contentWindow?.history.forward();
   }
 
   // 后退
   public back() {
-    this.page.contentWindow?.history.back();
+    this.page.nativeElement.contentWindow?.history.back();
   }
 
   // 刷新
   public refresh() {
-    this.page.contentWindow?.location.reload();
+    this.page.nativeElement.contentWindow?.location.reload();
   }
 
 
