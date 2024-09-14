@@ -1,12 +1,14 @@
 <div class="body" #body>
- 
+
     <div class="window-cmp" *ngFor="let item of windowDtos"  
     [style.width]="item.isSizeMax ? '100%' : item.width"
     [style.height]="item.isSizeMax ? '100%' : item.height" 
     [style.display]="item.isHide ? 'none' : 'block'"
     cdkDrag 
     [cdkDragFreeDragPosition]=" item.isSizeMax ? {x: 0, y: 0} :item.position"  
-    (cdkDragEnded)="onDragEnded($event,item)"> 
+    (cdkDragEnded)="onDragEnded($event,item)"
+    appResizable class="resizable-box"
+    > 
     <app-window-cmp  
         [title]="item.title"
         [url]="item.url" 
@@ -21,5 +23,15 @@
         [style.height]="true ? '100%' : item.height" 
     > 
     </app-window-cmp>
+
+    <div class="resize-handle top-left"></div>
+    <div class="resize-handle top-right"></div>
+    <div class="resize-handle bottom-left"></div>
+    <div class="resize-handle bottom-right"></div>
+    <div class="resize-handle top"></div>
+    <div class="resize-handle bottom"></div>
+    <div class="resize-handle left"></div>
+    <div class="resize-handle right"></div>
+ 
 </div>
 </div>

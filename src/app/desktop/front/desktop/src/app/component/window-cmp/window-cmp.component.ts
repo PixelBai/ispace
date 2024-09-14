@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core'; 
-import { CommonModule } from '@angular/common';
-import { DomSanitizer } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';  
 import { CdkDragHandle, CdkDrag } from '@angular/cdk/drag-drop';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-window-cmp',

@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { WindowDto } from '../../dto/windowDto';
+import { ResizableDirective } from '../resizable-dir/resizable-dir.directive';
 
 @Component({
   selector: 'app-window-container-cmp',
   standalone: true,
-  imports: [CommonModule, WindowCmpComponent,CdkDrag],
+  imports: [CommonModule, WindowCmpComponent,CdkDrag,ResizableDirective],
   templateUrl: './window-container-cmp.component.html',
   styleUrl: './window-container-cmp.component.sass'
 })
