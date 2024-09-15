@@ -9,20 +9,6 @@
     (cdkDragEnded)="onDragEnded($event,item)"
     appResizable class="resizable-box"
     > 
-    <app-window-cmp  
-        [title]="item.title"
-        [url]="item.url" 
-        [style.zIndex]="item.zIndex"
-        [id]="item.id"
-        [isSizeMax]="item.isSizeMax"
-        (close)="wsm.close(item.id)"
-        (sizeMin)="wsm.hide(item.id)"
-        (sizeMax)="wsm.sizeMax(item.id)"
-        (sizeCommon)="wsm.sizeCommon(item.id)"  
-        [style.width]="true? '100%' : item.width"
-        [style.height]="true ? '100%' : item.height" 
-    > 
-    </app-window-cmp>
 
     <div class="resize-handle top-left"></div>
     <div class="resize-handle top-right"></div>
@@ -32,6 +18,21 @@
     <div class="resize-handle bottom"></div>
     <div class="resize-handle left"></div>
     <div class="resize-handle right"></div>
+    <app-window-cmp  
+        [title]="item.title"
+        [url]="item.url"
+        [style.zIndex]="item.zIndex"
+        [id]="item.id"
+        [isSizeMax]="item.isSizeMax"
+        (close)="wsm.close(item.id)"
+        (sizeMin)="wsm.hide(item.id)"
+        (sizeMax)="wsm.sizeMax(item.id)"
+        (sizeCommon)="wsm.sizeCommon(item.id)"
+        [style.width]="true? '100%' : item.width"
+        [style.height]="true ? '100%' : item.height" 
+    > 
+    </app-window-cmp>
+ 
  
 </div>
 </div>

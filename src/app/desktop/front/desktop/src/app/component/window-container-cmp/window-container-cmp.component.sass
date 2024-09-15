@@ -1,3 +1,6 @@
+
+$resize-size: 8px
+    
 .body
     position: relative
     width: 100%
@@ -18,51 +21,51 @@
 
 .resize-handle
     position: absolute
-    width: 16px
-    height: 16px
+    width: $resize-size
+    height: $resize-size
     background-color: #000
     opacity: 0.5
 
 .top-left
-    top: -8px
-    left: -8px
+    top: -$resize-size
+    left: -$resize-size
     cursor: nwse-resize
 
 .top-right
-    top: -8px
-    right: -8px
+    top: -$resize-size
+    right: -$resize-size
     cursor: nesw-resize
 
 .bottom-left
-    bottom: -8px
-    left: -8px
+    bottom: -$resize-size
+    left: -$resize-size
     cursor: nesw-resize
 
 .bottom-right
-    bottom: -8px
-    right: -8px
+    bottom: -$resize-size
+    right: -$resize-size
     cursor: nwse-resize
 
 .top
-    top: -8px
-    left: 50%
-    transform: translateX(-50%)
+    top: -$resize-size
+    left: 0
     cursor: ns-resize
+    width: 100%
 
 .bottom
-    bottom: -8px
-    left: 50%
-    transform: translateX(-50%)
+    bottom: -$resize-size
+    left: 0
     cursor: ns-resize
+    width: 100%
 
 .left
-    top: 50%
-    left: -8px
-    transform: translateY(-50%)
+    top: 0
+    left: -$resize-size
     cursor: ew-resize
+    height: 100%
 
 .right
-    top: 50%
-    right: -8px
-    transform: translateY(-50%)
+    top: 0
+    right: -$resize-size
     cursor: ew-resize
+    height: 100%
