@@ -3,7 +3,7 @@ import { WindowCmpComponent } from '../window-cmp/window-cmp.component';
 import { WindowsManagerService } from '../../service/windows-manager.service';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
-import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragEnd, CdkDragMove, CdkDragSortEvent, CdkDragStart } from '@angular/cdk/drag-drop';
 import { WindowDto } from '../../dto/windowDto';
 import { ResizableDirective } from '../resizable-dir/resizable-dir.directive';
 
@@ -14,7 +14,15 @@ import { ResizableDirective } from '../resizable-dir/resizable-dir.directive';
   templateUrl: './window-container-cmp.component.html',
   styleUrl: './window-container-cmp.component.sass'
 })
-export class WindowContainerCmpComponent {  
+export class WindowContainerCmpComponent {
+onResizableStart($event: any,item: WindowDto) {
+  item.isActive = false;
+  
+}
+onResizableEnd($event: any,item: WindowDto) {
+  item.isActive = true;
+}
+ 
 
   windowDtos:WindowDto[] = []
 
@@ -34,6 +42,11 @@ export class WindowContainerCmpComponent {
    onDragEnded(event: CdkDragEnd<any>, item: WindowDto) {
     item.position = event.source.getFreeDragPosition();
     item.isSizeMax = false;
+    item.isActive = true;
   }
+
+  onDragStarted($event: CdkDragStart<any>,item: WindowDto) {
+    item.isActive = false;
+  }  
 
 }

@@ -33,6 +33,7 @@
     </mat-toolbar>
     <!-- 内容展示 -->
     <div class="content">
+        <div *ngIf="!isActive" class="content-nonActive" ></div>
         <iframe #page [src]="safeUrl()" frameborder="0" width="100%" height="100%"></iframe>
     </div>
 

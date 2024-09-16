@@ -33,6 +33,8 @@ export class WindowCmpComponent {
   ngOnInit(): void {
   }
  
+@Input("isActive") isActive = true;
+
   //* 头部 */ 
   @Output() sizeMin = new EventEmitter<number>();  
   @Output() sizeMax = new EventEmitter<number>(); 

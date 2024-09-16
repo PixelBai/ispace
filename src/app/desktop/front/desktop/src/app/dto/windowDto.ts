@@ -14,4 +14,5 @@ export class WindowDto {
     isSizeMax: boolean = false; 
 
     taskbarSort:number = 0;
+    isActive: boolean = true;
 }
