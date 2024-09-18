@@ -6,7 +6,7 @@ import { MatCardModule } from '@angular/material/card';
   standalone: true,
   imports: [MatCardModule],
   templateUrl: './infobar-cmp.component.html',
-  styleUrl: './infobar-cmp.component.sass'
+  styleUrl: './infobar-cmp.component.scss'
 })
 export class InfobarCmpComponent {
 

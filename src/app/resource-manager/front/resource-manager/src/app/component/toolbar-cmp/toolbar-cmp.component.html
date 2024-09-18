@@ -1,12 +1,19 @@
 <div class="body">
     <mat-toolbar class="toolbar">
-        <button mat-button >后退</button>
-        <button mat-button>前进</button>
-        <button mat-button>向上</button>
-        <button mat-button>刷新</button>
+
+        <button mat-icon-button><mat-icon>arrow_back</mat-icon></button>
+        <button mat-icon-button><mat-icon>arrow_forward</mat-icon></button>
+            <button mat-icon-button><mat-icon>arrow_upward</mat-icon></button>
+                <button mat-icon-button><mat-icon>refresh</mat-icon></button>
+        
+        <mat-divider [vertical] = "true"></mat-divider>
         <div class="address">
-            <input matInput type="text" placeholder="请输入地址">
+            <input matInput type="text">
         </div>
-        <button mat-button>搜索</button>
+
+        <mat-divider [vertical] = "true"></mat-divider>
+        <input matInput type="text">
+        <button mat-icon-button><mat-icon>search</mat-icon></button>
+
     </mat-toolbar>
 </div>

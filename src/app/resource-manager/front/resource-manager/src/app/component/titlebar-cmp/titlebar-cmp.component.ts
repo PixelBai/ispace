@@ -9,7 +9,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
   standalone: true,
   imports: [MatToolbarModule,MatIconModule,MatButtonModule],
   templateUrl: './titlebar-cmp.component.html',
-  styleUrl: './titlebar-cmp.component.sass'
+  styleUrl: './titlebar-cmp.component.scss'
 })
 export class TitlebarCmpComponent {
 

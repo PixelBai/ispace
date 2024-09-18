@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
   standalone: true,
   imports: [],
   templateUrl: './property-page.component.html',
-  styleUrl: './property-page.component.sass'
+  styleUrl: './property-page.component.scss'
 })
 export class PropertyPageComponent {
 

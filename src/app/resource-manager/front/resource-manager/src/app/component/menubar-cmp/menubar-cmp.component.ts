@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
   standalone: true,
   imports: [MatButtonModule],
   templateUrl: './menubar-cmp.component.html',
-  styleUrl: './menubar-cmp.component.sass'
+  styleUrl: './menubar-cmp.component.scss'
 })
 export class MenubarCmpComponent {
 

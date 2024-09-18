@@ -14,7 +14,7 @@ import { folder } from 'ispace.core.main';
   standalone: true,
   imports: [SidebarCmpComponent, ContentCmpComponent, MenubarCmpComponent, ToolbarCmpComponent, TitlebarCmpComponent, InfobarCmpComponent],
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.sass'
+  styleUrl: './home-page.component.scss'
 })
 export class HomePageComponent {
 
