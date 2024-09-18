@@ -1,7 +1,11 @@
 <div class="body" >
-    <button mat-button >文件</button>
+    <button mat-button  [matMenuTriggerFor]="fileMenu">文件</button>
     <!-- 绑定菜单--登出 -->
-    <button  mat-button>选项</button>
-    <button mat-button>详细信息</button>
+    <!-- <button  mat-button>选项</button> -->
+    <!-- <button mat-button>详细信息</button> -->
     
 </div>
+
+<mat-menu #fileMenu="matMenu"> 
+    <button mat-menu-item (click)="logout()">登出</button>
+</mat-menu>
