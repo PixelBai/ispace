@@ -8,6 +8,7 @@ import { TitlebarCmpComponent } from "../../component/titlebar-cmp/titlebar-cmp.
 import { InfobarCmpComponent } from "../../component/infobar-cmp/infobar-cmp.component";
 import { FolderDetailsDto } from '../../dto/folderDetailsDto';
 import { folder } from 'ispace.core.main';
+import { CoreService } from '../../service/core.service';
 
 @Component({
   selector: 'app-home-page',
@@ -18,16 +19,19 @@ import { folder } from 'ispace.core.main';
 })
 export class HomePageComponent {
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,private coreSvc:CoreService) { }
 
   folderData?:FolderDetailsDto; 
   folderPath = "";
-
+ 
   ngOnInit(): void {
 
     // step 1: 获取url参数路径 
     this.route.queryParams.subscribe(queryParams => {
-      this.folderPath = queryParams['path'];  
+      this.folderPath = queryParams['path'];
+      if(this.folderPath == null || this.folderPath == "") {
+        this.folderPath = "/";
+      }
 
       // step 2: 获取文件夹详情 
       this.setCurrentFolder(this.folderPath);
@@ -46,6 +50,8 @@ export class HomePageComponent {
         console.log(e);
       }
     }); 
+
+    this.coreSvc.init(path);
     
   }
 

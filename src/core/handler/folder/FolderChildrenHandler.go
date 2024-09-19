@@ -80,7 +80,7 @@ func (fh *FolderChildrenHandler) children(folderPath string) ([]dto.FileInfoBase
 		// 在Linux上通常有效，但在其他操作系统上可能不起作用
 		var stat syscall.Stat_t
 		if err := syscall.Stat(itemPath, &stat); err != nil {
-			return children, err
+			continue
 		}
 
 		child.Id = stat.Ino

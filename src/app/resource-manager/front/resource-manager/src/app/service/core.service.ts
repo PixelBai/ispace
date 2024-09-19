@@ -10,8 +10,7 @@ import { fileInfoDto, folder, folderInfoDto } from 'ispace.core.main';
 })
 export class CoreService {
 
-  constructor() {
-
+  constructor() { 
   }
 
   /************* 公共模块  **************/
@@ -27,10 +26,13 @@ export class CoreService {
     // step 1: 初始化路径
     if (path !== this.path.value.path) {
       this.path.next({id: 0, path: path, isHistory: false });  
-    } 
+    }
 
     // step 2: 初始化记录
     this.recordsInit();
+
+    // step 3: 
+    this.initDirNav();
   }
 
   setPath(path:string) {
@@ -114,25 +116,24 @@ export class CoreService {
   /************* 侧边模块  **************/
 
   // 快捷访问文件夹列表
-  quickFolders: fileInfoDto[] = [];
+  quickFolders = new BehaviorSubject<fileInfoDto[]>([]);
 
   // 全部文件夹列表
-  allFolders: folderInfoDto[] = [];
-
+  allFolders = new BehaviorSubject<folderInfoDto[]>([]);
 
   initDirNav(){
     // step 1: 快捷访问
     folder.children("quick").subscribe({
       next: (s) => {
-        this.quickFolders = s.filter(f => !f.isDir); 
+        this.quickFolders.next(s.filter(f => !f.isDir)); 
       }, error: (e: any) => {
         console.error(e);
       }
     })
     // step 2: 全部
-    folder.children("").subscribe({
+    folder.children("/").subscribe({
       next: (s) => {
-        this.allFolders = s.filter(f => f.isDir); 
+        this.allFolders.next(s.filter(f => f.isDir));
       }, error: (e: any) => {
         console.error(e);
       }

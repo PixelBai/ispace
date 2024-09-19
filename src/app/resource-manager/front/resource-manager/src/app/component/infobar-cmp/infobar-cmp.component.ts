@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { CoreService } from '../../service/core.service';
 
 @Component({
   selector: 'app-infobar-cmp',
@@ -10,6 +11,13 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class InfobarCmpComponent {
 
-  constructor() { }
+  msg:string = "";
+
+  constructor(private coreSvc:CoreService) 
+  {
+    this.coreSvc.msg.subscribe(s => {
+      this.msg = s
+    })
+  }
 
 }

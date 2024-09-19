@@ -1,38 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { FolderDetailsDto } from '../../dto/folderDetailsDto';
 import { MatTableModule } from '@angular/material/table';
+import { CoreService } from '../../service/core.service';
+import { fileInfoBaseDto, folder } from 'ispace.core.main';
 
-
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 10, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 11, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 12, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 13, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 14, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 15, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 16, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 17, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 18, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 19, name: 'Oxygen', weight: 15.9994, symbol: 'O'}, 
+const ELEMENT_DATA: fileInfoBaseDto[] = [
 ];
-
 
 @Component({
   selector: 'app-content-cmp',
@@ -42,10 +15,59 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrl: './content-cmp.component.scss'
 })
 export class ContentCmpComponent {
-
-  @Input() folder?:FolderDetailsDto 
-
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  // id name size mode modTime isDir sys 
+  displayedColumns: string[] = ['id', 'name', 'size', 'mode'];
   dataSource = ELEMENT_DATA;
+ 
+  address = ""
+  query = ""
+
+  constructor(public coreSvc:CoreService) { 
+    coreSvc.path.subscribe(s => {
+      if(s.path == this.address) {
+        return;
+      }
+
+      this.address = s.path;
+
+      this.load(s.path,this.query);
+    });
+
+    coreSvc.query.subscribe(s => {
+      if(s == this.query) {
+        return;
+      }
+
+      this.query = s;
+
+      this.load(this.address,s);
+    });
+
+    coreSvc.refreshSub.subscribe(s => {
+      this.load(this.address,this.query);
+    });
+
+  }
+
+  load(path: string, query: string) {
+     
+      // 根据路径和查询条件加载数据
+      // --需要core 添加查询条件参数
+      
+    folder.children(path).subscribe({
+      next: (s) => {
+        this.dataSource = s;
+      }, error: (e: any) => {
+        console.error(e);
+      }
+    })
+
+
+
+  }
+  
+
+
+
 
 }
