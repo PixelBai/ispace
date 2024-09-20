@@ -1,10 +1,23 @@
 <div class="body" >
     <button mat-button  [matMenuTriggerFor]="fileMenu">文件</button>
     <!-- 绑定菜单--登出 -->
-    <!-- <button  mat-button>选项</button> -->
+    <button  mat-button [matMenuTriggerFor]="operationMenu" (click)="operateMenu($event)" >操作</button>
     <!-- <button mat-button>详细信息</button> -->
     
 </div>
+ 
+<mat-menu #operationMenu="matMenu"> 
+    <button mat-menu-item (click)="createFolder()">新建文件夹</button>
+    <button mat-menu-item  [matMenuTriggerFor]="creatFileMenu">新建文件</button>
+    <button mat-menu-item (click)="refresh()">刷新</button>
+    <button mat-menu-item [disabled]="!isCanPaste" (click)="paste()">粘贴</button>
+    <button mat-menu-item (click)="properties()">属性</button>
+</mat-menu>
+
+
+<mat-menu #creatFileMenu="matMenu"> 
+    <button class="menu-item"  mat-menu-item   *ngFor="let item of createFile_templates" (click)="createFile(item)" >{{item.name}}</button> 
+</mat-menu>
 
 <mat-menu #fileMenu="matMenu"> 
     <button mat-menu-item (click)="logout()">登出</button>

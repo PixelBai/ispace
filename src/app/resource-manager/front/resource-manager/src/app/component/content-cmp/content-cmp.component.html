@@ -30,8 +30,20 @@
         </ng-container>
       
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [cdkContextMenuTriggerFor]="item_menu" [cdkContextMenuTriggerData]="{$implicit: row}" ></tr>
       </table>
       
       
 </div>
+
+<ng-template #item_menu let-data>
+  <div class="menu" cdkMenu > 
+    <button class="menu-item"  cdkMenuItem (click)="open(data)">打开</button> 
+
+    <button class="menu-item"  cdkMenuItem (click)="copy(data)" >复制</button>
+    <button class="menu-item"  cdkMenuItem (click)="shear(data)" >剪切</button>
+    <button class="menu-item"  cdkMenuItem (click)="rename(data)" >重命名</button>
+    <button class="menu-item"  cdkMenuItem (click)="remove(data)" >删除</button>   
+    <button class="menu-item"  cdkMenuItem (click)="properties(data)">属性</button>   
+  </div>
+</ng-template>

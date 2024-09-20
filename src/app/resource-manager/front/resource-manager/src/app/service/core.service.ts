@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { pathDto } from './pathDto';
 import { S } from '@angular/cdk/keycodes';
 import { Subject } from 'rxjs';
-import { fileInfoDto, folder, folderInfoDto, QueryDto } from 'ispace.core.main';
+import { fileInfoBaseDto, fileInfoDto, folder, folderInfoDto, QueryDto } from 'ispace.core.main';
 
 @Injectable({
   providedIn: 'root'
@@ -148,6 +148,12 @@ export class CoreService {
     })
 
   }
+  /************* 状态模块  **************/
+  currentFiles = new BehaviorSubject<fileInfoBaseDto[]>([]);
+
+
+
+
   /************* 状态模块  **************/
   // 信息
   msg = new BehaviorSubject<string>("");
