@@ -4,6 +4,7 @@ import { folderInfoDto } from "./dto/folderInfoDto"
 import { fileInfoBaseDto } from "./dto/fileInfoBaseDto"
 import { ispaceWebSocket } from "./ispaceWebSocket";
 import { wsRequestDto, wsRequestHeaderDto } from "./dto/wsRequestDto";
+import { QueryDto } from "./dto/QueryDto";
 
 export class folderHandler {
     
@@ -159,7 +160,7 @@ export class folderHandler {
         return ob;
     }
 
-    children(folderPath: string): Observable<fileInfoBaseDto[]>{
+    children(query:QueryDto): Observable<fileInfoBaseDto[]>{
         let ob = new Observable<fileInfoBaseDto[]>((observer) => {
 
             // step init:
@@ -169,9 +170,7 @@ export class folderHandler {
             let req = new wsRequestDto();
             req.header = new wsRequestHeaderDto();
             req.header.handler = handler;
-            req.body = {
-                folderPath
-            }; 
+            req.body = query; 
 
             // step 3: send ms
             this.ws.request(req).subscribe({
@@ -193,5 +192,5 @@ export class folderHandler {
 
         return ob;
     }
-
+    
 }

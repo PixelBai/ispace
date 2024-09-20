@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FolderDetailsDto } from '../../dto/folderDetailsDto';
 import { MatTableModule } from '@angular/material/table';
 import { CoreService } from '../../service/core.service';
-import { fileInfoBaseDto, folder } from 'ispace.core.main';
+import { fileInfoBaseDto, folder, QueryDto } from 'ispace.core.main';
 
 const ELEMENT_DATA: fileInfoBaseDto[] = [
 ];
@@ -49,14 +49,15 @@ export class ContentCmpComponent {
 
   }
 
-  load(path: string, query: string) {
+  load(path: string, name: string) {
      
-      // 根据路径和查询条件加载数据
-      // --需要core 添加查询条件参数
-      
-    folder.children(path).subscribe({
+    let query = new QueryDto(); 
+    query.name = name;
+    query.path = path;
+    folder.children(query).subscribe({
       next: (s) => {
         this.dataSource = s;
+        this.coreSvc.setMsg(`已加载 ${s.length} 个文件`);
       }, error: (e: any) => {
         console.error(e);
       }

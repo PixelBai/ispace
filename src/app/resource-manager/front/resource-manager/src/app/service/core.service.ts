@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { pathDto } from './pathDto';
 import { S } from '@angular/cdk/keycodes';
 import { Subject } from 'rxjs';
-import { fileInfoDto, folder, folderInfoDto } from 'ispace.core.main';
+import { fileInfoDto, folder, folderInfoDto, QueryDto } from 'ispace.core.main';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +33,9 @@ export class CoreService {
 
     // step 3: 
     this.initDirNav();
+
+
+    this.setMsg("就绪");
   }
 
   setPath(path:string) {
@@ -98,6 +101,7 @@ export class CoreService {
       let p = new pathDto();
       p.id = this.path.value.id+1;
       p.path = this.path.value.path.substring(0, this.path.value.path.lastIndexOf("/"));
+      p.path = p.path === "" ? "/" : p.path;
       p.isHistory = false;
       p.backRef = this.path.value;
       p.forwardRef = undefined;
@@ -123,16 +127,20 @@ export class CoreService {
 
   initDirNav(){
     // step 1: 快捷访问
-    folder.children("quick").subscribe({
-      next: (s) => {
+    let query_quick = new QueryDto();
+    query_quick.path = "/quick";
+    folder.children(query_quick).subscribe({
+      next: (s) => { 
         this.quickFolders.next(s.filter(f => !f.isDir)); 
       }, error: (e: any) => {
         console.error(e);
       }
     })
     // step 2: 全部
-    folder.children("/").subscribe({
-      next: (s) => {
+    let query_all = new QueryDto();
+    query_quick.path = "/";
+    folder.children(query_all).subscribe({
+      next: (s) => { 
         this.allFolders.next(s.filter(f => f.isDir));
       }, error: (e: any) => {
         console.error(e);
@@ -143,5 +151,9 @@ export class CoreService {
   /************* 状态模块  **************/
   // 信息
   msg = new BehaviorSubject<string>("");
+
+  setMsg(msg:string) {
+    this.msg.next(msg);
+  }
   
 }

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 	"syscall"
 
 	"gitee.com/ispace/core/infrastructure/common/dto"
@@ -34,7 +35,7 @@ func (h *FolderChildrenHandler) Execute() dto.WsResponseDto {
 		return result
 	}
 
-	params := map[string]string{}
+	params := dto.QueryDto{}
 	err = json.Unmarshal(bodyBytes, &params)
 	if err != nil {
 		result.Header.Stat = 2
@@ -43,7 +44,7 @@ func (h *FolderChildrenHandler) Execute() dto.WsResponseDto {
 	}
 
 	// step 2:
-	cdr, err := h.children(params["folderPath"])
+	cdr, err := h.children(params)
 	if err != nil {
 		result.Header.Stat = 2
 		result.Body = fmt.Sprintf("Error CreateFile message:%s", err)
@@ -57,10 +58,10 @@ func (h *FolderChildrenHandler) Execute() dto.WsResponseDto {
 }
 
 // 查询
-func (fh *FolderChildrenHandler) children(folderPath string) ([]dto.FileInfoBaseDto, error) {
+func (fh *FolderChildrenHandler) children(query dto.QueryDto) ([]dto.FileInfoBaseDto, error) {
 
 	children := []dto.FileInfoBaseDto{}
-	dir, err := os.Open(fmt.Sprintf("%s/%s", gv.BasePath, folderPath))
+	dir, err := os.Open(fmt.Sprintf("%s/%s", gv.BasePath, query.Path))
 	if err != nil {
 		return children, err
 	}
@@ -71,10 +72,30 @@ func (fh *FolderChildrenHandler) children(folderPath string) ([]dto.FileInfoBase
 		return children, err
 	}
 
+	// 分页处理
+	if query.Page > 0 && query.Size > 0 {
+		start := (query.Page - 1) * query.Size
+		end := query.Page * query.Size
+		if start > len(files) {
+			return children, nil
+		}
+
+		if end > len(files) {
+			end = len(files)
+		}
+		files = files[start:end]
+	}
+
 	for _, file := range files {
+
+		// 过滤文件
+		if query.Name != "" && !strings.Contains(file.Name(), query.Name) {
+			continue
+		}
+
 		child := dto.FileInfoBaseDto{}
 
-		itemPath := fmt.Sprintf("%s/%s/%s", gv.BasePath, folderPath, file.Name())
+		itemPath := fmt.Sprintf("%s/%s/%s", gv.BasePath, query.Path, file.Name())
 		// 将os.FileInfo转换为*syscall.Stat_t以访问inode号
 		// 注意：这种转换依赖于内部实现，并且不是跨平台的
 		// 在Linux上通常有效，但在其他操作系统上可能不起作用
