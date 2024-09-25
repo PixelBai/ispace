@@ -8,6 +8,14 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class WindowsManagerService {
+showOrHide(id: number) {
+  // step 1: 找到对应的windowDto
+  let windowDto = this.windowDtos.value.find(s => s.id == id);
+  if (!windowDto) { return; }
+      // step 2: 设置显示
+      windowDto!.isHide = !windowDto!.isHide ;
+ 
+}
 closeAll() { 
      this.windowDtos.next([]);
 }

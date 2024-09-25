@@ -6,7 +6,7 @@
     [cdkDragData]="item"
     [cdkContextMenuTriggerFor]="window_menu"
     [cdkContextMenuTriggerData]="{$implicit: item}"
-    (click)="wsm.show(item.id)">
+    (click)="wsm.showOrHide(item.id)">
     {{item.title}}
     </mat-chip> 
 </mat-chip-set>
