@@ -28,6 +28,9 @@ export class ResizableDirective {
   
   @Input() ResizableDisabled: boolean = false; // 默认值为'yellow' 
 
+  @Input() ResizableMinWidth: number= 0;
+  @Input() ResizableMinHeight: number= 0;
+
 
   @Output() onResizableEnd = new EventEmitter();
 
@@ -162,6 +165,17 @@ export class ResizableDirective {
       {
         height = this.startHeight;
       }
+
+      if(height! < this.ResizableMinHeight ) 
+      {
+        height = this.ResizableMinHeight;
+        point.y = this.ResizableFixedPoint.y;
+      }
+      if(width! < this.ResizableMinWidth ) 
+      {
+        width = this.ResizableMinWidth;
+        point.x = this.ResizableFixedPoint.x;
+      } 
       this.onResizableMove.emit({point, height, width}); 
   }
 }

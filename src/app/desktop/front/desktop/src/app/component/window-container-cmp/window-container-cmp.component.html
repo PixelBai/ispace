@@ -11,6 +11,8 @@
     appResizable
     [ResizableDisabled]="item.isSizeMax"
     [ResizableFixedPoint]="item.position"
+    [ResizableMinHeight]="180"
+    [ResizableMinWidth]="300"
     (onResizableStart)="onResizableStart($event,item)"
     (onResizableEnd)="onResizableEnd($event,item)"
     (onResizableMove)="onResizableMove($event,item)"
