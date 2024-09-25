@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { DesktopItemDto } from '../desktop-item-cmp/desktop-item-dto';
-import { file, folder } from 'ispace.core.main';
+import { file, folder, QueryDto } from 'ispace.core.main';
 import { fileInfoBaseDto } from 'ispace.core.main/dist/dto/fileInfoBaseDto';
 import { DesktopItemCmpComponent } from '../desktop-item-cmp/desktop-item-cmp.component';
 import { CommonModule } from '@angular/common';
@@ -34,11 +34,7 @@ ext_operation_execute(operation: DriverOperationDto) {
   this.driveEngine.execute(operation.driverId,operation.id,this.basePath);
 }
 
-
-
- 
-removeItem(data: DesktopItemDto) {
-  debugger
+removeItem(data: DesktopItemDto) { 
   if(data.type == "folder") {
     folder.remove(this.basePath, data.name).subscribe(s => {
       this.load();
@@ -53,11 +49,8 @@ removeItem(data: DesktopItemDto) {
       console.error(e);
     })
   }
-
 } 
  
-
-
   basePath = "Desktop"
   positionPath = "/.ispace/desktopitem_position.json"
 
@@ -71,8 +64,6 @@ removeItem(data: DesktopItemDto) {
     
   }  
 
-
-
   ngOnInit() {
     this.init();
   }
@@ -82,7 +73,6 @@ removeItem(data: DesktopItemDto) {
     this.load_templates();
     this.init_sourceManagerOpen();
   }
-
 
   update_position() {
 
@@ -103,7 +93,6 @@ removeItem(data: DesktopItemDto) {
         }, e => { 
           console.error(e)
         });
-
   }
 
   load_retryTime = 0;
@@ -130,7 +119,9 @@ removeItem(data: DesktopItemDto) {
   load_children(): Promise<boolean> {
     // 加载桌面文件、文件夹数据
     return new Promise<boolean>((resolve) => {
-      folder.children(this.basePath)
+      let query = new QueryDto();
+      query.path = this.basePath;
+      folder.children(query)
         .subscribe(
           (s) => {
 
@@ -293,7 +284,6 @@ removeItem(data: DesktopItemDto) {
     return
   }
 
-
   convertInfo(info: fileInfoBaseDto): DesktopItemDto {
     let result = new DesktopItemDto();
     result.id = info.id!;
@@ -370,7 +360,9 @@ createFolder() {
     if (this.createFile_templates.length > 0) {
        this.createFile_templates = [];
     }
-    folder.children(this.createFile_basePath).subscribe(s => {
+    let query = new QueryDto();
+    query.path = this.createFile_basePath;
+    folder.children(query).subscribe(s => {
       this.createFile_templates = s.filter(s => !s.isDir);
     })
   }

@@ -6,7 +6,7 @@ import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatProgressBarModule} from '@angular/material/progress-bar'; 
 import {MatButtonModule} from '@angular/material/button';
 import {MatTreeModule} from '@angular/material/tree';
-import { auth, file, fileInfoBaseDto, folder } from 'ispace.core.main';
+import { auth, file, fileInfoBaseDto, folder, QueryDto } from 'ispace.core.main';
 import { TaskbarMenuItemCmpComponent } from "../taskbar-menu-item-cmp/taskbar-menu-item-cmp.component";
 import { DynamicDataSource } from './dynamicDataSource';
 import { DynamicFlatNode } from './dynamicFlatNode';
@@ -124,7 +124,9 @@ logout() {
     if (this.createFile_templates.length > 0) {
        this.createFile_templates = [];
     }
-    folder.children(this.createFile_basePath).subscribe(s => {
+    let query = new QueryDto();
+    query.path = this.createFile_basePath;
+    folder.children(query).subscribe(s => {
       this.createFile_templates = s.filter(s => !s.isDir);
     })
   }

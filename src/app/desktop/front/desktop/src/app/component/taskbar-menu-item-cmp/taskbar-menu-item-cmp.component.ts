@@ -3,7 +3,7 @@ import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltip, MatTooltipDefaultOptions, MatT
 import { fileInfoBaseDto } from 'ispace.core.main/dist/dto/fileInfoBaseDto'; 
 import { TaskbarMenuItemDto } from './taskbar-menu-item-dto';
 import { CdkMenuModule } from '@angular/cdk/menu';
-import { folder, file } from 'ispace.core.main';
+import { folder, file, QueryDto } from 'ispace.core.main';
 import { DesktopItemDto } from '../desktop-item-cmp/desktop-item-dto';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -141,7 +141,9 @@ confirm_rename() {
     if (this.createFile_templates.length > 0) {
        this.createFile_templates = [];
     }
-    folder.children(this.createFile_basePath).subscribe(s => {
+    let query = new QueryDto();
+    query.path = this.createFile_basePath;
+    folder.children(query).subscribe(s => {
       this.createFile_templates = s.filter(s => !s.isDir);
     })
   }

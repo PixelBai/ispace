@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { DynamicFlatNode } from "./dynamicFlatNode";
 import { TaskbarMenuItemDto } from "../taskbar-menu-item-cmp/taskbar-menu-item-dto";
-import { folder } from "ispace.core.main";
+import { folder, QueryDto } from "ispace.core.main";
 import { fileInfoBaseDto } from "ispace.core.main";
 
 /**
@@ -18,7 +18,9 @@ export class DynamicDatabase {
  // action : loadChildren(parentNodes)
     loadChildren(parentNode: DynamicFlatNode): Promise<DynamicFlatNode[]> {
         return new Promise<DynamicFlatNode[]>((resolve) => { 
-            folder.children(parentNode.item.path).subscribe(
+            let query = new QueryDto();
+            query.path = parentNode.item.path;
+            folder.children(query).subscribe(
                 (s) => {
                     let nodes = s.map(
                         d =>{
