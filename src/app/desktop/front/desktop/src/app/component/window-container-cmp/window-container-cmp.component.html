@@ -10,8 +10,10 @@
     (cdkDragEnded)="onDragEnded($event,item)" 
     appResizable
     [ResizableDisabled]="item.isSizeMax"
+    [ResizableFixedPoint]="item.position"
     (onResizableStart)="onResizableStart($event,item)"
     (onResizableEnd)="onResizableEnd($event,item)"
+    (onResizableMove)="onResizableMove($event,item)"
     > 
 
     <div *ngIf="!item.isSizeMax" class="resize-handle top-left"></div>

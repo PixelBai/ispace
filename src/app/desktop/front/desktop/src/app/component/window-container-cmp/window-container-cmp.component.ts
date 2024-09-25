@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CdkDrag, CdkDragEnd, CdkDragMove, CdkDragSortEvent, CdkDragStart } from '@angular/cdk/drag-drop';
 import { WindowDto } from '../../dto/windowDto';
-import { ResizableDirective } from '../resizable-dir/resizable-dir.directive';
+import { ResizableChagedDto, ResizableDirective } from '../resizable-dir/resizable-dir.directive';
 
 @Component({
   selector: 'app-window-container-cmp',
@@ -15,6 +15,11 @@ import { ResizableDirective } from '../resizable-dir/resizable-dir.directive';
   styleUrl: './window-container-cmp.component.sass'
 })
 export class WindowContainerCmpComponent {
+onResizableMove($event: ResizableChagedDto,item: WindowDto) {
+  item.position = $event.point;
+  item.height = $event.height + "px";
+  item.width = $event.width + "px";
+}
 onResizableStart($event: any,item: WindowDto) {
   item.isActive = false;
   

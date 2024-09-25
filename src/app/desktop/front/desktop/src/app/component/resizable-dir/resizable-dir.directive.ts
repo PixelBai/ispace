@@ -1,6 +1,13 @@
 import { Point } from '@angular/cdk/drag-drop';
 import { Directive, ElementRef, EventEmitter, HostListener, Input, input, numberAttribute, Output, Renderer2 } from '@angular/core';
 
+
+export interface ResizableChagedDto {
+  point: Point; 
+  width: number;
+  height: number;
+}
+
 @Directive({
   selector: '[appResizable]',
   standalone: true
@@ -14,14 +21,19 @@ export class ResizableDirective {
   startHeight?: number;
 
   // 固定点位
-  fixedPoint = { x: 0, y: 0 };
+
+  @Input() ResizableFixedPoint = { x: 0, y: 0 };
+  FixedPoint = { x: 0, y: 0 };
   fixedPointType = ''; 
   
   @Input() ResizableDisabled: boolean = false; // 默认值为'yellow' 
 
+
   @Output() onResizableEnd = new EventEmitter();
 
-  @Output() onResizableStart = new EventEmitter();
+  @Output() onResizableMove = new EventEmitter();
+
+  @Output() onResizableStart = new EventEmitter<ResizableChagedDto>();
 
   constructor(private el: ElementRef<HTMLDivElement>, private renderer: Renderer2) { }
 
@@ -44,20 +56,23 @@ export class ResizableDirective {
       for (let i in target.classList) {
         let s = target.classList[i];
         if (s == 'top' || s == 'left' || s == 'top-left') {
-          this.fixedPoint = { x: rect.right, y: rect.bottom };
           this.fixedPointType = s;
           break;
         }
         if (s == 'bottom' || s == 'right' || s == 'bottom-right') {
-          this.fixedPoint = { x: rect.left, y: rect.top };
+          this.fixedPointType = s;
+          break;
+        }
+        if (s == 'top-right') {
+          this.fixedPointType = s;
+          break;
+        }
+        if (s == 'bottom-left') {
           this.fixedPointType = s;
           break;
         }
       }
-
-      this.fixedPoint.y = Number(this.el.nativeElement.style.top.replace('px', ''));
-      this.fixedPoint.x = Number(this.el.nativeElement.style.left.replace('px', '')); 
-  
+      this.FixedPoint = { x: this.ResizableFixedPoint.x, y: this.ResizableFixedPoint.y }; 
       document.addEventListener('mousemove', this.onMouseMove);
       document.addEventListener('mouseup', this.onMouseUp);
     }
@@ -95,14 +110,14 @@ export class ResizableDirective {
     // step core:
     if (this.fixedPointType == 'top') {
       height = this.startHeight! - dy;
-      point.y = this.fixedPoint.y + dy;
+      point.y = this.FixedPoint.y + dy;
     }
     if (this.fixedPointType == 'bottom') {
       height = this.startHeight! + dy;
     }
     if (this.fixedPointType == 'left') {
       width = this.startWidth! - dx;
-      point.x = this.fixedPoint.x + dx;
+      point.x = this.FixedPoint.x + dx;
     }
     if (this.fixedPointType == 'right') {
       width = this.startWidth! + dx;
@@ -111,8 +126,8 @@ export class ResizableDirective {
     if (this.fixedPointType == 'top-left') {
       height = this.startHeight! - dy;
       width = this.startWidth! - dx;
-      point.x = this.fixedPoint.x + dx;
-      point.y = this.fixedPoint.y + dy;
+      point.x = this.FixedPoint.x + dx;
+      point.y = this.FixedPoint.y + dy;
     }
     if (this.fixedPointType == 'bottom-right') {
       height = this.startHeight! + dy;
@@ -121,30 +136,32 @@ export class ResizableDirective {
     if (this.fixedPointType == 'bottom-left') {
       height = this.startHeight! + dy;
       width = this.startWidth! - dx;
-      point.x = this.fixedPoint.x - dx;
+      point.x = this.FixedPoint.x + dx;
     }
     if (this.fixedPointType == 'top-right') {
       height = this.startHeight! - dy;
       width = this.startWidth! + dx;
-      point.y = this.fixedPoint.y - dy;
+      point.y = this.FixedPoint.y + dy;
     }
 
     // step 4: render
-    if(point.x)
+    if(point.x == undefined)
       {
-        this.el.nativeElement.style.left = point.x + 'px'; 
+        point.x = this.FixedPoint.x;
       }
-    if(point.y)
-      {
-        this.el.nativeElement.style.top = point.y + 'px'; 
+    if(point.y == undefined)
+      { 
+        point.y = this.FixedPoint.y;
       }
-    if(width)
+ 
+    if(width == undefined)
       {
-        this.el.nativeElement.style.width = width + 'px'; 
+        width  = this.startWidth;
       }
-    if(height)
+    if(height == undefined)
       {
-        this.el.nativeElement.style.height = height + 'px'; 
-      }   
+        height = this.startHeight;
+      }
+      this.onResizableMove.emit({point, height, width}); 
   }
 }
