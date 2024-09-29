@@ -63,13 +63,14 @@ closeAll() {
     let windowDto = new WindowDto();
     windowDto.id = this.generateId();
     windowDto.title = title;
-    windowDto.width = "1200px";
-    windowDto.height = "900px";
+    windowDto.width = "900px";
+    windowDto.height = "600px";
     windowDto.left = 0;
     windowDto.top = 0;
     windowDto.zIndex = 0;
     windowDto.url = url;
     windowDto.taskbarSort = windowDto.id;
+    windowDto.position = { x: (windowDto.id-1)*20, y: (windowDto.id-1)*20 };
 
     // step 2: 添加到windowDtos
     this.windowDtos.next([...this.windowDtos.value, windowDto]);

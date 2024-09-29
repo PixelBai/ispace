@@ -16,7 +16,7 @@ cdkOverlayOrigin
   [cdkConnectedOverlayOrigin]="trigger"
   [cdkConnectedOverlayOpen]="isOpen"
 > 
-<div class="pannel" >
+<div class="pannel" (contextmenu)="$event.preventDefault()" >
 <!-- 用户区 --> 
 <div class="user-area" (contextmenu)="$event.preventDefault()">
   <span class="spacer"></span>
