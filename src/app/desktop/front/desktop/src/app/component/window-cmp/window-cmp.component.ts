@@ -5,11 +5,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CdkMenuModule } from '@angular/cdk/menu';
 
 @Component({
   selector: 'app-window-cmp',
   standalone: true,
-  imports: [CommonModule,CdkDragHandle,CdkDrag,MatToolbarModule,MatButtonModule, MatIconModule],
+  imports: [CommonModule,CdkDragHandle,CdkDrag,MatToolbarModule,MatButtonModule, MatIconModule,CdkMenuModule],
   templateUrl: './window-cmp.component.html',
   styleUrl: './window-cmp.component.sass',
   changeDetection: ChangeDetectionStrategy.OnPush

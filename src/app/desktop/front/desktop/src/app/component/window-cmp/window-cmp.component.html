@@ -1,7 +1,7 @@
 <div class="wccbody" #body>
 
     <!-- 头部 -->
-    <mat-toolbar class="header" (contextmenu)="$event.preventDefault()">
+    <mat-toolbar class="header"  [cdkContextMenuTriggerFor]="header_menu"> 
             <span cdkDragHandle class="spacer">{{title}}</span> 
             <button mat-icon-button (click)="sizeMin.emit(id)">
                 <mat-icon aria-hidden="false" aria-label="" fontIcon="minimize"></mat-icon>
@@ -16,7 +16,7 @@
             </button>
     </mat-toolbar> 
     <!-- 工具栏 -->
-    <mat-toolbar class="tool-bar" (contextmenu)="$event.preventDefault()">
+    <mat-toolbar class="tool-bar" *ngIf="false" (contextmenu)="$event.preventDefault()">
         <button mat-icon-button *ngIf="false" (click)="back()">
             <mat-icon aria-hidden="false" aria-label="" fontIcon="arrow_back"></mat-icon>
         </button>
@@ -38,3 +38,9 @@
     </div>
 
 </div>
+
+<ng-template #header_menu>
+    <div class="menu" cdkMenu>  
+      <button class="menu-item"  cdkMenuItem (click)="refresh()"  >刷新</button>     
+     </div>
+</ng-template>
