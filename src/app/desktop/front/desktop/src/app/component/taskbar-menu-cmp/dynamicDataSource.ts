@@ -59,16 +59,21 @@ export class DynamicDataSource implements DataSource<DynamicFlatNode> {
         return;
         }
       node.isLoading = true;
+
+      // 子项重新加载
+      // 子项清空
+      let count = 0;
+      for (
+        let i = index + 1;
+        i < this.data.length && this.data[i].level > node.level;
+        i++, count++
+      ) {}
+      if (count > 0) {
+      this.data.splice(index + 1, count);
+      }
+      // 子项加载
       if (expand) { 
         this.data.splice(index + 1, 0, ...nodes);
-      } else {
-        let count = 0;
-        for (
-          let i = index + 1;
-          i < this.data.length && this.data[i].level > node.level;
-          i++, count++
-        ) {}
-        this.data.splice(index + 1, count);
       }
 
       // notify the change
