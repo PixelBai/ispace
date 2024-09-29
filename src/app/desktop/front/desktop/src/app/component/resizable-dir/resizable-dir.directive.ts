@@ -171,7 +171,7 @@ export class ResizableDirective {
         height = this.ResizableMinHeight;
         point.y = this.ResizableFixedPoint.y;
       }
-      if(width! < this.ResizableMinWidth ) ``
+      if(width! < this.ResizableMinWidth )
       {
         width = this.ResizableMinWidth;
         point.x = this.ResizableFixedPoint.x;
