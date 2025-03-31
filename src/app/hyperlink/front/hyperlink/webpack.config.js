@@ -36,5 +36,5 @@ module.exports = {
     clean: true, // 清理/dist目录，确保不会有旧文件残留（Webpack 5+）  
   },  
   mode: 'development', // 或 'production' 根据需要 
-  watch: true, 
+  watch: false, 
 };

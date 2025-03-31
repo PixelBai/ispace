@@ -22,5 +22,5 @@ module.exports = {
     globalObject: 'this',
   },
   mode: 'production', // 或 'development' 根据需要
-  watch: true, 
+  watch: false, 
 };
