@@ -51,7 +51,7 @@ export class DriveEnginService {
       operation.id = 1;
       operation.name = "资源管理器打开"; 
       operation.mode = 1;
-      operation.entry = "http://127.0.0.1/app/resource-manager/#/home?path=";
+      operation.entry = "/app/resource-manager/#/home?path=";
       driver.operation.push(operation);
     // 驱动-操作： 资源管理器打开
       let operation1 = new DriverOperationDto();
@@ -59,7 +59,7 @@ export class DriveEnginService {
       operation1.id = 2;
       operation1.name = "属性"; 
       operation1.mode = 2;
-      operation1.entry = "http://127.0.0.1/app/resource-manager/#/property?path=";
+      operation1.entry = "/app/resource-manager/#/property?path=";
       driver.operation.push(operation1);
 
     // 驱动-加入
@@ -95,7 +95,7 @@ export class DriveEnginService {
       operation2.id = 1;
       operation2.name = "打开"; 
       operation2.mode = 3;
-      operation2.entry = "http://127.0.0.1/app/text-editor/#/home?path=";
+      operation2.entry = "/app/text-editor/#/home?path=";
       driver2.operation.push(operation2); 
     opt.drivers.push(driver2);
    // 映射
@@ -129,7 +129,7 @@ export class DriveEnginService {
       operation3.id = 1;
       operation3.name = "打开"; 
       operation3.mode = 4;
-      operation3.entry = "http://127.0.0.1/app/hyperlink/index.html?path=";
+      operation3.entry = "/app/hyperlink/index.html?path=";
       driver3.operation.push(operation3); 
     opt.drivers.push(driver3);
    // 映射
