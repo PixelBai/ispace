@@ -1,3 +1,3 @@
 package gv
 
-const BasePath = "/home/alei"
+const BasePath = "/home/pix"
