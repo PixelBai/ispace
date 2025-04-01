@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Desc: Nginx 服务初始化脚本
 # 检查 Nginx 进程是否存在
 pgrep nginx
